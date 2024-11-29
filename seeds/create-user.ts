@@ -8,6 +8,6 @@ export async function seed(knex: Knex): Promise<void> {
     let password = await hashPassword("admin")
     // Inserts seed entries
     await knex("user").insert([
-        { id: 1, username: "Admin", password: password }
+        { id: 1, username: "Admin", password: password, is_admin:true }
     ]);
 };
