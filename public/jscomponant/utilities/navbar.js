@@ -15,42 +15,28 @@ const navBar = (login) => {
             </li>
             <li class="nav-item dropdown" data-user>
               <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Chemical
+                Jobs
               </a>
               <ul class="dropdown-menu text-bg-primary">
-                <li><a class="dropdown-item text-light" href="/reagent">Reagent</a></li>
-                <li><a class="dropdown-item text-light" href="/reference_materials">Reference Material</a></li>
+                <li><a class="dropdown-item text-light" href="/job_details">Job Details</a></li>
+                <li><a class="dropdown-item text-light" href="/schedule">Schedule</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown" data-user>
               <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Equipment
+                Equipments
               </a>
               <ul class="dropdown-menu text-bg-primary">
                 <li><a class="dropdown-item text-light" href="/equipment">Equipment List</a></li>
-                <li><a class="dropdown-item text-light" href="/calibration_period">Calibration Period</a></li>
+                <li><a class="dropdown-item text-light" href="/calibration">Calibration</a></li>
+                <li><a class="dropdown-item text-light" href="/history">History</a></li>
               </ul>
             </li>
-            <li class="nav-item dropdown" data-user>
-              <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Service
-              </a>
-              <ul class="dropdown-menu text-bg-primary">
-                <li><a class="dropdown-item text-light" href="/sample_info">Sample Record</a></li>
-                <li><a class="dropdown-item text-light" href="/testing_item">Testing Item</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown" data-user>
-              <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Supplier
-              </a>
-              <ul class="dropdown-menu text-bg-primary">
-                <li><a class="dropdown-item text-light" href="/suppliers">Supplier List</a></li>
-                <li><a class="dropdown-item text-light" href="/orders">Purchase Order</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="/clients">Clients</a>
             </li>
             <li class="nav-item admin_hide">
-              <a class="nav-link text-light" href="/admin">User Management</a>
+              <a class="nav-link text-light" href="/users">Users</a>
             </li>
           </ul>
           <div class="d-flex">

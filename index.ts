@@ -1,8 +1,23 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import path from 'path';
+import expressSession from 'express-session'
 
 const app = express()
+
+app.use(
+  expressSession({
+    secret: 'Bad_project',
+    resave: true,
+    saveUninitialized: true,
+  }),
+)
+
+declare module 'express-session' {
+  interface SessionData {
+    name?: string
+  }
+}
 
 app.use(express.urlencoded({ extended: true }));
 
