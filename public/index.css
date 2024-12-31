@@ -1,0 +1,21 @@
+* {
+	font-family: "Times New Roman", "Times", "serif";
+}
+
+body {
+	box-sizing: border-box;
+	margin: 0;
+	height: 100%;
+}
+
+#mainContent {
+	position: relative;
+	height: 100vh;
+	background-image: url(./image/iaq_bg.jpeg);
+	background-size: cover;
+	background-color: #88D1FC;
+}
+
+.hide {
+	display: none;
+}

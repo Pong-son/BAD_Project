@@ -15,10 +15,10 @@ const navBar = (login) => {
             </li>
             <li class="nav-item dropdown" data-user>
               <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Jobs
+                Job
               </a>
               <ul class="dropdown-menu text-bg-primary">
-                <li><a class="dropdown-item text-light" href="/job_details">Job Details</a></li>
+                <li><a class="dropdown-item text-light" href="/job_detail">Job Details</a></li>
                 <li><a class="dropdown-item text-light" href="/schedule">Schedule</a></li>
               </ul>
             </li>
@@ -28,15 +28,15 @@ const navBar = (login) => {
               </a>
               <ul class="dropdown-menu text-bg-primary">
                 <li><a class="dropdown-item text-light" href="/equipment">Equipment List</a></li>
-                <li><a class="dropdown-item text-light" href="/calibration">Calibration</a></li>
+                <li><a class="dropdown-item text-light" href="/parameter">Parameter</a></li>
                 <li><a class="dropdown-item text-light" href="/history">History</a></li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="/clients">Clients</a>
+              <a class="nav-link text-light" href="/client">Client</a>
             </li>
             <li class="nav-item admin_hide">
-              <a class="nav-link text-light" href="/users">Users</a>
+              <a class="nav-link text-light" href="/account">Account</a>
             </li>
           </ul>
           <div class="d-flex">

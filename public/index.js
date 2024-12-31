@@ -1,7 +1,13 @@
-import { navBar } from './jscomponant/utilities/navbar.js'
 import { checkLogin } from './jscomponant/utilities/login.js'
+import { loadAccountTable } from './jscomponant/account.js'
+
+let path = window.location.pathname
 
 window.onload = () => {
-  navBar()
   checkLogin()
+
+  if( path === '/account') {
+    loadAccountTable()
+  }
+
 }

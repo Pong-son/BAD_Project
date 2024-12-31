@@ -1,4 +1,3 @@
-import { getData } from './get_data.js'
 import { navBar } from './navbar.js'
 
 let login;
@@ -23,6 +22,7 @@ document
 		const form = event.target
 		let userName = form.userName.value
 		let passWord = form.passWord.value
+		console.log(userName,passWord)
 
 		const res = await fetch('/login', {
 			method: 'POST',
@@ -35,6 +35,7 @@ document
 			})
 		})
 		const result = await res.json()
+		console.log(result)
 		if (result === 'admin') {
 			window.sessionStorage.setItem('username',userName)
 			window.sessionStorage.setItem('admin','admin')
@@ -61,7 +62,9 @@ const loginBtn = async () => {
 }
 
 const checkLogin = async () => {
-	login = await getData(`isuser`)
+	let result = await fetch('/islogin')
+	login = await result.json()
+	console.log(login)
 	navBar(login)
   if(login){
 		document.querySelector('#loginBtn').textContent = "Logout"
