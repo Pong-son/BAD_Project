@@ -35,39 +35,30 @@ const addAccountRoute = async (req: express.Request, res: express.Response) => {
 		let hashPassWord = await hashPassword(req.body.password)
 		hashPassWord
 		await accountService.addAccount(req.body.username, req.body.email,hashPassWord)
+		res.json('Added')
 	} catch (err) {
 		console.log(err)
+		return
 	}
-	res.json('Added')
 }
 
 const updateAccountRoute = async (req: express.Request, res: express.Response) => {
 	try {
-		await accountService.updateAccount(Number(req.params.id),req.body.username, req.body.email)
+		if (req.body.changePW){
+			let hashPassWord = await hashPassword(req.body.password)
+			hashPassWord
+			await accountService.updateAccountPW(Number(req.params.id), hashPassWord)
+			res.json('Changed')
+		} else if (req.body.upGrade) {
+			await accountService.updateAccountAdmin(Number(req.params.id), req.body.is_admin)
+			res.json('Upgraded')
+		} else {
+			await accountService.updateAccount(Number(req.params.id),req.body.username, req.body.email)
+			res.json('Edited')
+		}
 	} catch (err) {
 		console.log(err)
 	}
-	res.json('Edited')
-}
-
-const updatePWRoute = async (req: express.Request, res: express.Response) => {
-	try {
-		let hashPassWord = await hashPassword(req.body.newPW)
-		hashPassWord
-		await accountService.updateAccountPW(Number(req.params.id), hashPassWord)
-	} catch (err) {
-		console.log(err)
-	}
-	res.json('Changed')
-}
-
-const updateAdminRoute = async (req: express.Request, res: express.Response) => {
-	try {
-		await accountService.updateAccountAdmin(Number(req.params.id), req.body.is_admin)
-	} catch (err) {
-		console.log(err)
-	}
-	res.json('Upgraded')
 }
 
 const delAccountRoute = async (req: express.Request, res: express.Response) => {
@@ -83,7 +74,5 @@ accountRoute.get('/accountList', getAccountRoute)
 accountRoute.delete('/accountList:id', delAccountRoute)
 accountRoute.post('/accountList', addAccountRoute)
 accountRoute.put('/accountList:id', updateAccountRoute)
-accountRoute.put('/accountListChange:id', updatePWRoute)
-accountRoute.put('/accountListUpgrade:id', updateAdminRoute)
 
 export { accountRoute, getAccountRoute, delAccountRoute, addAccountRoute, updateAccountRoute }

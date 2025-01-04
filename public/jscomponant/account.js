@@ -106,6 +106,7 @@ document
 		})
 		const result = await res.json()
 
+    alert(result)
 		document.querySelector('#rUserName').value = ''
 		document.querySelector('#rPassWord').value = ''
 		document.querySelector('#cfmRPassWord').value = ''
@@ -117,20 +118,18 @@ document
 document
 	.querySelector('#changePwForm')
 	?.addEventListener('submit', async (event) => {
-		event.preventDefault() // To prevent the form from submitting synchronously
+		event.preventDefault()
 		const form = event.target
     
 		let newPassWord = form.newPassword.value
-
-    const res = await fetch(`/accountListChange${form.id_change_pw.value}`, {
+    const res = await fetch(`/accountList${form.id_change_pw.value}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        changePw: true,
-        id: form.id_change_pw.value,
-        password:newPassWord
+        changePW: true,
+        password: newPassWord
       })
     })
     const result = await res.json()
@@ -312,9 +311,8 @@ const loadAccountTable = async () => {
       }
       // controller for the and delete btn
       document.querySelectorAll('[data-change]')?.forEach(change => {
-        console.log('change')
         change.addEventListener('click', (e) => {
-          document.querySelector('#id_change_pw').textContent = e.target.getAttribute('data-change')
+          document.querySelector('#id_change_pw').value = e.target.getAttribute('data-change')
         })
       })
   
@@ -322,13 +320,14 @@ const loadAccountTable = async () => {
         upgrade.addEventListener('click', async (e) => {
           const targetId = e.target.getAttribute('data-upgrade')
   
+          console.log(targetId)
           const res = await fetch(`/accountList${targetId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              id: targetId,
+              upGrade:true,
               is_admin:true
             })
           })
