@@ -16,6 +16,10 @@ body {
 	background-color: #88D1FC;
 }
 
+#pageController {
+	display: flex;
+}
+
 .hide {
 	display: none;
 }
