@@ -1,10 +1,13 @@
 export let orderBy = 'id'
 export let orderDirection = true
 export let sortedData = []
+export let oldOrderBy
+export let newOrderBy
 
-export const sorting = (data) => {
-  let oldOrderBy = orderBy
-  let newOrderBy = document.querySelector('').value
+export const sorting = (data,target) => {
+  oldOrderBy = orderBy
+  newOrderBy = target
+  document.querySelector(`[data-arrow=${orderBy}]`).textContent = ''
   if(oldOrderBy === newOrderBy) {
     orderDirection = !orderDirection
   } else {
@@ -12,10 +15,14 @@ export const sorting = (data) => {
     orderDirection = true
   }
   if (orderDirection) {
-    sortedData = data.sort((a,b) => a[orderBy].localeCompare(b[orderBy]))
-
+    // ascending
+    sortedData = data.sort((a,b) => (a[orderBy].toString()).localeCompare(b[orderBy].toString()))
+    document.querySelector(`[data-arrow=${target}]`).textContent = 'arrow_downward'
   } else {
-    sortedData = data.sort((b,a) => a[orderBy].localeCompare(b[orderBy]))
+    // descending
+    sortedData = data.sort((b,a) => (a[orderBy].toString()).localeCompare(b[orderBy].toString()))
+    document.querySelector(`[data-arrow=${target}]`).textContent = 'arrow_upward'
   }
+  orderBy = target
   return sortedData
 }

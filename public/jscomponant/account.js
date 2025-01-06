@@ -1,5 +1,6 @@
 import { pagination, paginationConroller, check_page_status } from './utilities/pagination.js'
 import { searchFtn } from './utilities/search.js';
+import { sorting, orderBy } from './utilities/sorting.js'
 
 let table = document.querySelector('#account_table');
 let accountData;
@@ -194,7 +195,7 @@ const loadAccountTable = () => {
       })
       document.querySelectorAll('[data-cancel]')?.forEach(cancel => {
         cancel.addEventListener('click', (e) => {
-          const target = e.target.getAttribute('data-cancel')
+          let target = e.target.getAttribute('data-cancel')
           document.querySelector(`[data-username="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-email="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
@@ -202,10 +203,6 @@ const loadAccountTable = () => {
           document.querySelector(`[data-edit="${target}"]`).classList.remove('hide')
         })
       })
-
-
-      
-      // search_ftn(data)
     }
   } catch (e) {
     console.log(e)
@@ -226,7 +223,6 @@ const getAccountData = async () => {
 
 let path = window.location.pathname
 if(path === '/account') {
-  console.log('render once')
   getAccountData()
   document.querySelectorAll('.form-control').forEach(item => {
     item.addEventListener('change',() => {
@@ -403,7 +399,16 @@ document.querySelector('#cfmNewpw_visibility')?.addEventListener('click',() => {
   }
 })
 
-
+document.querySelectorAll('[data-th]')?.forEach(sort => {
+  sort.addEventListener('click', (e) => {
+    e.stopPropagation()
+    let target = e.target.getAttribute('data-th')
+    let data = JSON.parse(sessionStorage.getItem('accountData'))
+    let sortedData = sorting(data,target)
+    sessionStorage.setItem('accountData',JSON.stringify(sortedData))
+    loadAccountTable()
+  })
+})
 
 const delFtn = async (e) => {
   await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {

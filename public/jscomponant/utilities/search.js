@@ -15,7 +15,6 @@ export const searchFtn = (data) => {
 }
 
 document.querySelector('#searchItem')?.addEventListener('input',()=> {
-  let data = JSON.parse(sessionStorage.getItem('accountData'))
   loadAccountTable()
 })
   
