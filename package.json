@@ -2,7 +2,7 @@
   "name": "bad_project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts",
     "test": "jest"
@@ -10,11 +10,15 @@
   "author": "Pong-son <lelouchui127@yahoo.com.hk>",
   "license": "ISC",
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/list": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "express-session": "^1.18.0",
-    "fullcalendar-scheduler": "^6.1.15",
+    "fullcalendar": "^6.1.15",
     "knex": "^3.1.0",
     "pg": "^8.13.1"
   },

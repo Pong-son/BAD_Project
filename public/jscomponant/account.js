@@ -1,6 +1,6 @@
 import { pagination, paginationConroller, check_page_status } from './utilities/pagination.js'
 import { searchFtn } from './utilities/search.js';
-import { sorting, orderBy } from './utilities/sorting.js'
+import { sorting } from './utilities/sorting.js'
 
 let table = document.querySelector('#account_table');
 let accountData;
@@ -221,6 +221,34 @@ const getAccountData = async () => {
   }
 }
 
+const delFtn = async (e) => {
+  await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {
+    method: 'DELETE'
+  })
+
+  getAccountData()
+}
+
+const editFtn = async (e) => {
+  const currentTarget = e.target.getAttribute('data-done')
+  
+  const username = document.querySelector(`[data-username="${currentTarget}"]`).value
+  const email = document.querySelector(`[data-email="${currentTarget}"]`).value
+
+  await fetch(`/accountList${e.target.getAttribute('data-done')}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id:currentTarget,
+      username: username,
+      email: email
+    })
+  })
+  getAccountData()
+}
+
 let path = window.location.pathname
 if(path === '/account') {
   getAccountData()
@@ -293,150 +321,125 @@ if(path === '/account') {
     document.querySelector('#warn_notice_change_pw').textContent = ''
     document.querySelector('#submit_btn_change_pw').setAttribute('disabled','')
   })
-}
-
-// add new data
-document
-	.querySelector('#regisForm')
-	?.addEventListener('submit', async (event) => {
-		event.preventDefault() // To prevent the form from submitting synchronously
-		const form = event.target
-		let rUserName = form.rUserName.value
-    let email = form.email.value
-		let rPassWord = form.rPassWord.value
-
-		const res = await fetch('/accountList', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username: rUserName,
-        email:email,
-				password: rPassWord
-			})
-		})
-		const result = await res.json()
-
-    alert(result)
-		document.querySelector('#rUserName').value = ''
-		document.querySelector('#rPassWord').value = ''
-		document.querySelector('#cfmRPassWord').value = ''
-
-    getAccountData()
-	})
-
-// for change password
-document
-	.querySelector('#changePwForm')
-	?.addEventListener('submit', async (event) => {
-		event.preventDefault()
-		const form = event.target
-    
-		let newPassWord = form.newPassword.value
-    const res = await fetch(`/accountList${form.id_change_pw.value}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        changePW: true,
-        password: newPassWord
-      })
-    })
-    const result = await res.json()
-
-    document.querySelector('#id_change_pw').value = ''
-    document.querySelector('#newPassword').value = ''
-    document.querySelector('#cfmNewPassword').value = ''
-	})
-
-document.querySelector('#rpw_visibility')?.addEventListener('click',() => {
-  let pw = document.querySelector('#rPassWord')
-  console.log(pw.type)
-  if(pw.type === "password") {
-    document.querySelector('#rpw_visibility').textContent = 'visibility_off'
-    pw.type = "text"
-  } else {
-    document.querySelector('#rpw_visibility').textContent = 'visibility'
-    pw.type = "password"
-  }
-})
-
-document.querySelector('#cfmRpw_visibility')?.addEventListener('click',() => {
-  let pw = document.querySelector('#cfmRPassWord')
-  console.log(pw.type)
-  if(pw.type === "password") {
-    document.querySelector('#cfmRpw_visibility').textContent = 'visibility_off'
-    pw.type = "text"
-  } else {
-    document.querySelector('#cfmRpw_visibility').textContent = 'visibility'
-    pw.type = "password"
-  }
-})
-
-document.querySelector('#newpw_visibility')?.addEventListener('click',() => {
-  let pw = document.querySelector('#newPassword')
-  console.log(pw.type)
-  if(pw.type === "password") {
-    document.querySelector('#newpw_visibility').textContent = 'visibility_off'
-    pw.type = "text"
-  } else {
-    document.querySelector('#newpw_visibility').textContent = 'visibility'
-    pw.type = "password"
-  }
-})
-
-document.querySelector('#cfmNewpw_visibility')?.addEventListener('click',() => {
-  let pw = document.querySelector('#cfmNewPassword')
-  console.log(pw.type)
-  if(pw.type === "password") {
-    document.querySelector('#cfmNewpw_visibility').textContent = 'visibility_off'
-    pw.type = "text"
-  } else {
-    document.querySelector('#cfmNewpw_visibility').textContent = 'visibility'
-    pw.type = "password"
-  }
-})
-
-document.querySelectorAll('[data-th]')?.forEach(sort => {
-  sort.addEventListener('click', (e) => {
-    e.stopPropagation()
-    let target = e.target.getAttribute('data-th')
-    let data = JSON.parse(sessionStorage.getItem('accountData'))
-    let sortedData = sorting(data,target)
-    sessionStorage.setItem('accountData',JSON.stringify(sortedData))
-    loadAccountTable()
-  })
-})
-
-const delFtn = async (e) => {
-  await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-
-  getAccountData()
-}
-
-const editFtn = async (e) => {
-  const currentTarget = e.target.getAttribute('data-done')
   
-  const username = document.querySelector(`[data-username="${currentTarget}"]`).value
-  const email = document.querySelector(`[data-email="${currentTarget}"]`).value
-
-  await fetch(`/accountList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id:currentTarget,
-      username: username,
-      email: email
+  // add new data
+  document
+    .querySelector('#regisForm')
+    ?.addEventListener('submit', async (event) => {
+      event.preventDefault() // To prevent the form from submitting synchronously
+      const form = event.target
+      let rUserName = form.rUserName.value
+      let email = form.email.value
+      let rPassWord = form.rPassWord.value
+  
+      const res = await fetch('/accountList', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: rUserName,
+          email:email,
+          password: rPassWord
+        })
+      })
+      const result = await res.json()
+  
+      alert(result)
+      document.querySelector('#rUserName').value = ''
+      document.querySelector('#rPassWord').value = ''
+      document.querySelector('#cfmRPassWord').value = ''
+  
+      getAccountData()
+    })
+  
+  // for change password
+  document
+    .querySelector('#changePwForm')
+    ?.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      const form = event.target
+      
+      let newPassWord = form.newPassword.value
+      const res = await fetch(`/accountList${form.id_change_pw.value}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          changePW: true,
+          password: newPassWord
+        })
+      })
+      const result = await res.json()
+  
+      document.querySelector('#id_change_pw').value = ''
+      document.querySelector('#newPassword').value = ''
+      document.querySelector('#cfmNewPassword').value = ''
+    })
+  
+  document.querySelector('#rpw_visibility')?.addEventListener('click',() => {
+    let pw = document.querySelector('#rPassWord')
+    console.log(pw.type)
+    if(pw.type === "password") {
+      document.querySelector('#rpw_visibility').textContent = 'visibility_off'
+      pw.type = "text"
+    } else {
+      document.querySelector('#rpw_visibility').textContent = 'visibility'
+      pw.type = "password"
+    }
+  })
+  
+  document.querySelector('#cfmRpw_visibility')?.addEventListener('click',() => {
+    let pw = document.querySelector('#cfmRPassWord')
+    console.log(pw.type)
+    if(pw.type === "password") {
+      document.querySelector('#cfmRpw_visibility').textContent = 'visibility_off'
+      pw.type = "text"
+    } else {
+      document.querySelector('#cfmRpw_visibility').textContent = 'visibility'
+      pw.type = "password"
+    }
+  })
+  
+  document.querySelector('#newpw_visibility')?.addEventListener('click',() => {
+    let pw = document.querySelector('#newPassword')
+    console.log(pw.type)
+    if(pw.type === "password") {
+      document.querySelector('#newpw_visibility').textContent = 'visibility_off'
+      pw.type = "text"
+    } else {
+      document.querySelector('#newpw_visibility').textContent = 'visibility'
+      pw.type = "password"
+    }
+  })
+  
+  document.querySelector('#cfmNewpw_visibility')?.addEventListener('click',() => {
+    let pw = document.querySelector('#cfmNewPassword')
+    console.log(pw.type)
+    if(pw.type === "password") {
+      document.querySelector('#cfmNewpw_visibility').textContent = 'visibility_off'
+      pw.type = "text"
+    } else {
+      document.querySelector('#cfmNewpw_visibility').textContent = 'visibility'
+      pw.type = "password"
+    }
+  })
+  
+  document.querySelectorAll('[data-th]')?.forEach(sort => {
+    sort.addEventListener('click', (e) => {
+      e.stopPropagation()
+      let target = e.target.getAttribute('data-th')
+      let data = JSON.parse(sessionStorage.getItem('accountData'))
+      let sortedData = sorting(data,target)
+      sessionStorage.setItem('accountData',JSON.stringify(sortedData))
+      loadAccountTable()
     })
   })
-  getAccountData()
 }
+
+
+
 
 export { loadAccountTable }
 

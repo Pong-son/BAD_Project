@@ -1,7 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { isLoggedIn, isAdmin } from './secure/secure';
-import { accountRoute } from './routes/accountRoute'
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -13,9 +12,29 @@ const knexConfig = require("./knexfile");
 const configMode = process.env.NODE_ENV || "development";
 export const knex = Knex(knexConfig[configMode]);
 
-
+import { AccountController } from './controller/AccountController'; 
 import { AccountService } from './service/AccountService'
 export const accountService = new AccountService(knex);
+export const accountController = new AccountController(accountService);
+import { accountRoute } from './routes/accountRoute'
+
+import { ParameterController } from './controller/ParameterController';
+import { ParameterService } from './service/ParameterService'
+export const parameterService = new ParameterService(knex);
+export const parameterController = new ParameterController(parameterService);
+import { parameterRoute } from './routes/parameterRoute'
+
+import { EquipmentController } from './controller/EquipmentController';
+import { EquipmentService } from './service/EquipmentService'
+export const equipmentService = new EquipmentService(knex);
+export const equipmentController = new EquipmentController(equipmentService);
+import { equipmentRoute } from './routes/equipmentRoute'
+
+import { ClientController } from './controller/ClientController';
+import { ClientService } from './service/ClientService'
+export const clientService = new ClientService(knex);
+export const clientController = new ClientController(clientService);
+import { clientRoute } from './routes/clientRoute'; 
 
 import { LoginController } from './controller/LoginController'; 
 import { LoginService } from './service/LoginService'
@@ -63,9 +82,33 @@ app.get('/islogin',(req: Request, res: Response) => {
 	res.json(req.session.user)
 })
 
+app.use(isLoggedIn)
+
+app.use('/', parameterRoute)
+
+app.use('/', equipmentRoute)
+
+app.use('/', clientRoute)
+
 app.use('/', accountRoute)
 
-app.use(isLoggedIn, isAdmin)
+app.get('/schedule', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'schedule.html'))
+})
+
+app.get('/parameter', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'parameter.html'))
+})
+
+app.get('/equipment', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'equipment.html'))
+})
+
+app.get('/client', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'client.html'))
+})
+
+app.use(isAdmin)
 
 app.get('/account', (req: Request, res: Response) => {
 	res.sendFile(path.resolve('public/protected', 'account.html'))

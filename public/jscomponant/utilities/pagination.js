@@ -46,7 +46,6 @@ export const paginationConroller = (data) => {
       currentPage = page
       loadAccountTable()
     })
-    return currentPage
   })
 }
 
@@ -55,8 +54,8 @@ export const check_page_status = () => {
   let preBtn = document.querySelector('[aria-label="Previous"]')
   let nextBtn = document.querySelector('[aria-label="Next"]')
   document.querySelector(`[data-page="${currentPage}"]`)?.classList.add('disabled')
-  currentPage === 1?preBtn.classList.add('disabled'):preBtn.classList.remove('disabled')
-  currentPage === totalPage?nextBtn.classList.add('disabled'):nextBtn.classList.remove('disabled')
+  currentPage <= 1?preBtn.classList.add('disabled'):preBtn.classList.remove('disabled')
+  currentPage >= totalPage?nextBtn.classList.add('disabled'):nextBtn.classList.remove('disabled')
 }
 
 document.querySelector('#itemPerPage')?.addEventListener('input', () => {
