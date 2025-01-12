@@ -1,4 +1,4 @@
-import { loadAccountTable } from '../account.js'
+import { loadTable } from './loadTable.js'
 
 export let currentPage = 1
 export let totalPage = 1
@@ -44,7 +44,7 @@ export const paginationConroller = (data) => {
     page.addEventListener('click',async e => {
       const page = e.target.getAttribute('data-page')
       currentPage = page
-      loadAccountTable()
+      loadTable()
     })
   })
 }
@@ -62,17 +62,17 @@ document.querySelector('#itemPerPage')?.addEventListener('input', () => {
   itemPerPage = Number(document.querySelector('#itemPerPage').value)
   document.querySelector('#itemPerPage').blur()
   currentPage = 1
-  loadAccountTable()
+  loadTable()
 })
 
 document.querySelector('[data-pre]')?.addEventListener('click',() => {
   currentPage = Number(currentPage) - 1
-  loadAccountTable()
+  loadTable()
   return currentPage
 })
 
 document.querySelector('[aria-label="Next"]')?.addEventListener('click',() => {
   currentPage = Number(currentPage) + 1
-  loadAccountTable()
+  loadTable()
   return currentPage
 })

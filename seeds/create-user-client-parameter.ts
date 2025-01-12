@@ -5,6 +5,7 @@ export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
     await knex("account").del();
     await knex("client").del();
+    await knex("equipment").del();
     await knex("parameter").del();
 
     let password = await hashPassword("admin")
@@ -23,5 +24,10 @@ export async function seed(knex: Knex): Promise<void> {
     await knex("parameter").insert([
         { parameter: 'Carbon Dioxide', calibration_period: 24},
         { parameter: 'Humidity', calibration_period: 12}
+    ]);
+
+    await knex("equipment").insert([
+        { name: 'Equipment A', brand: 'Brand A', model:'Model-1', parameter_id: knex('parameter').select('id').where('parameter','Carbon Dioxide'), calibration_date: '2024-12-27 00:00:00', expiry_date: '2026-12-26 00:00:00'},
+        { name: 'Equipment B', brand: 'Brand B', model:'Model-2', parameter_id: knex('parameter').select('id').where('parameter','Humidity'), calibration_date: '2025-01-05 00:00:00', expiry_date: '2026-01-04 00:00:00'}
     ]);
 };

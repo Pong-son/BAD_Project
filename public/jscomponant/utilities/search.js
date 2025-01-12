@@ -1,4 +1,4 @@
-import { loadAccountTable } from '../account.js'
+import { loadTable } from "./loadTable.js"
 
 export const searchFtn = (data) => {
   let searchInput = document.querySelector('#searchItem').value.toString().toLowerCase()
@@ -14,11 +14,12 @@ export const searchFtn = (data) => {
   return filterData
 }
 
+
 document.querySelector('#searchItem')?.addEventListener('input',()=> {
-  loadAccountTable()
+  loadTable()
 })
   
-  document.querySelector('#refreshBtn')?.addEventListener('click', () => {
-    document.querySelector('#searchItem').value = ''
-    loadAccountTable()
-  })
+document.querySelector('#refreshBtn')?.addEventListener('click', () => {
+  document.querySelector('#searchItem').value = ''
+  loadTable()
+})

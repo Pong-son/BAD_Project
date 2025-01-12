@@ -22,7 +22,6 @@ document
 		const form = event.target
 		let userName = form.userName.value
 		let passWord = form.passWord.value
-		console.log(userName,passWord)
 
 		const res = await fetch('/login', {
 			method: 'POST',
@@ -64,7 +63,6 @@ const loginBtn = async () => {
 const checkLogin = async () => {
 	let result = await fetch('/islogin')
 	login = await result.json()
-	console.log(login)
 	navBar(login)
   if(login){
 		document.querySelector('#loginBtn').textContent = "Logout"

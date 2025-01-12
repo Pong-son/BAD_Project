@@ -38,26 +38,26 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="addClientFrom">
+              <form id="addEquipmentFrom">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="companyName">Company Name</label>
-                  <input type="text" class="form-control" id="companyName" data_form="companyName">
+                  <label class="input-group-text" for="equipmentName">Equipment Name</label>
+                  <input type="text" class="form-control" id="equipmentName" data_form="equipmentName">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="contact">Contact</label>
-                  <input type="text" class="form-control" id="contact" data_form="contact">
+                  <label class="input-group-text" for="brand">Brand</label>
+                  <input type="text" class="form-control" id="brand" data_form="brand">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="email">E-mail</label>
-                  <input type="text" class="form-control" id="email" data_form="email">
+                  <label class="input-group-text" for="model">Model</label>
+                  <input type="text" class="form-control" id="model" data_form="model">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="address">Address</label>
-                  <input type="text" class="form-control" id="address" data_form="address">
+                  <label class="input-group-text" for="parameter">Parameter</label>
+                  <input type="text" class="form-control" id="parameter" data_form="parameter">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="phoneNo">Phone No.</label>
-                  <input type="text" class="form-control" id="phoneNo" data_form="phoneNo">
+                  <label class="input-group-text" for="calibrationDate">Calibration Date</label>
+                  <input type="text" class="form-control" id="calibrationDate" data_form="calibrationDate">
                 </div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
@@ -75,16 +75,17 @@
           <thead>
             <tr>
               <th scope="col" data-th="id"><span data-th="id">id</span><span class="material-symbols-outlined" data-th="id" data-arrow="id">arrow_downward</span></th>
-              <th scope="col" data-th="company-name"><span data-th="company-name">Company Name</span><span class="material-symbols-outlined" data-th="company-name" data-arrow="company-name"></span></th>
-              <th scope="col" data-th="contact"><span data-th="contact">Contact</span><span class="material-symbols-outlined" data-th="contact" data-arrow="contact"></span></th>
-              <th scope="col" data-th="email"><span data-th="email">E-mail</span><span class="material-symbols-outlined" data-th="email" data-arrow="email"></span></th>
-              <th scope="col" data-th="address"><span data-th="address">Address</span><span class="material-symbols-outlined" data-th="address" data-arrow="address"></span></th>
-              <th scope="col" data-th="phone-no"><span data-th="phone-no">Phone No.</span><span class="material-symbols-outlined" data-th="phone-no" data-arrow="phone-no"></span></th>
+              <th scope="col" data-th="name"><span data-th="name">Name</span><span class="material-symbols-outlined" data-th="name" data-arrow="name"></span></th>
+              <th scope="col" data-th="brand"><span data-th="brand">Brand</span><span class="material-symbols-outlined" data-th="brand" data-arrow="brand"></span></th>
+              <th scope="col" data-th="model"><span data-th="model">Model</span><span class="material-symbols-outlined" data-th="model" data-arrow="model"></span></th>
+              <th scope="col" data-th="parameter"><span data-th="parameter">Parameter</span><span class="material-symbols-outlined" data-th="parameter" data-arrow="parameter"></span></th>
+              <th scope="col" data-th="calibration_date"><span data-th="calibration_date">Calibration Date</span><span class="material-symbols-outlined" data-th="calibration_date" data-arrow="calibration_date"></span></th>
+              <th scope="col" data-th="expiry_date"><span data-th="expiry_date">Expiry Date</span><span class="material-symbols-outlined" data-th="expiry_date" data-arrow="expiry_date"></span></th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider" id="client_table"></tbody>
+          <tbody class="table-group-divider" id="equipment_table"></tbody>
         </table>
       </div>
       <div style="display:flex; position: relative; bottom: 0px; ">

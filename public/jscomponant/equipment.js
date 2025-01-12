@@ -2,14 +2,15 @@ import { pagination, paginationConroller, check_page_status } from './utilities/
 import { searchFtn } from './utilities/search.js';
 import { sorting } from './utilities/sorting.js'
 
-let table = document.querySelector('#client_table');
+let table = document.querySelector('#equipment_table');
 let equipmentData;
 
 const loadEquipmentTable = () => {
   try {
-    if (window.location.pathname === '/client') {
+    if (window.location.pathname === '/equipment') {
       let data = JSON.parse(sessionStorage.getItem('equipmentData'))
-
+      let parameterData = JSON.parse(sessionStorage.getItem('parameterData'))
+      console.log(data)
       let searchInput = document.querySelector('#searchItem').value
       if (searchInput) {
         data = searchFtn(data)
@@ -47,74 +48,93 @@ const loadEquipmentTable = () => {
         trTag.appendChild(thTag)
         table.appendChild(trTag)
       } else {
+        console.log(parameterData)
         table.textContent = ''
-        treatedData.forEach( client => {
+        treatedData.forEach( equipment => {
           let trTag = document.createElement('tr')
 
-          trTag.id = client.id
+          trTag.id = equipment.id
 
-          let clientIdTag = document.createElement('th')
-          clientIdTag.setAttribute('scope','row')
-          clientIdTag.textContent = client.id
-          trTag.appendChild(clientIdTag)
+          let equipmentIdTag = document.createElement('th')
+          equipmentIdTag.setAttribute('scope','row')
+          equipmentIdTag.textContent = equipment.id
+          trTag.appendChild(equipmentIdTag)
 
-          let companyNameTag = document.createElement('td')
-          let companyName = document.createElement('input')
-          companyName.setAttribute('disabled','')
-          companyName.setAttribute('type', 'text')
-          companyName.setAttribute('data-company-name', client.id)
-          companyName.value = client.company_name
-          companyNameTag.appendChild(companyName)
-          trTag.appendChild(companyNameTag)
+          let nameTag = document.createElement('td')
+          let name = document.createElement('input')
+          name.setAttribute('disabled','')
+          name.setAttribute('type', 'text')
+          name.setAttribute('data-name', equipment.id)
+          name.value = equipment.name
+          nameTag.appendChild(name)
+          trTag.appendChild(nameTag)
 
-          let contactTag = document.createElement('td')
-          let contact = document.createElement('input')
-          contact.setAttribute('disabled','')
-          contact.setAttribute('type', 'text')
-          contact.setAttribute('data-contact', client.id)
-          contact.value = client.contact
-          contactTag.appendChild(contact)
-          trTag.appendChild(contactTag)
+          let brandTag = document.createElement('td')
+          let brand = document.createElement('input')
+          brand.setAttribute('disabled','')
+          brand.setAttribute('type', 'text')
+          brand.setAttribute('data-brand', equipment.id)
+          brand.value = equipment.brand
+          brandTag.appendChild(brand)
+          trTag.appendChild(brandTag)
 
-          let emailTag = document.createElement('td')
-          let email = document.createElement('input')
-          email.setAttribute('disabled','')
-          email.setAttribute('type', 'text')
-          email.setAttribute('data-email', client.id)
-          email.value = client.email
-          emailTag.appendChild(email)
-          trTag.appendChild(emailTag)
+          let modelTag = document.createElement('td')
+          let model = document.createElement('input')
+          model.setAttribute('disabled','')
+          model.setAttribute('type', 'text')
+          model.setAttribute('data-model', equipment.id)
+          model.value = equipment.model
+          modelTag.appendChild(model)
+          trTag.appendChild(modelTag)
 
-          let addressTag = document.createElement('td')
-          let address = document.createElement('input')
-          address.setAttribute('disabled','')
-          address.setAttribute('type', 'text')
-          address.setAttribute('data-address', client.id)
-          address.value = client.address
-          addressTag.appendChild(address)
-          trTag.appendChild(addressTag)
+          let parameterTag = document.createElement('td')
+          let parameterSelect = document.createElement('select')
+          parameterSelect.setAttribute('data-parameter', equipment.id)
+          parameterSelect.setAttribute('disabled','')
+          for (let i = 0; i < parameterData.length; i++) {
+            console.log(parameterData[i])
+            let parameter = document.createElement('option')
+            parameter.value = parameterData[i].parameter
+            parameter.textContent = parameterData[i].parameter
+            if(parameterData[i].parameter === equipment.parameter) {
+              parameter.setAttribute('selected', '')
+            }
+            parameter.setAttribute('data-parameter', equipment.id)
+            parameterSelect.appendChild(parameter)
+          }
+          parameterTag.appendChild(parameterSelect)
+          trTag.appendChild(parameterTag)
 
-          let phoneNoTag = document.createElement('td')
-          let phoneNo = document.createElement('input')
-          phoneNo.setAttribute('disabled','')
-          phoneNo.setAttribute('type', 'text')
-          phoneNo.setAttribute('data-phone-no', client.id)
-          phoneNo.value = client.phone_no
-          phoneNoTag.appendChild(phoneNo)
-          trTag.appendChild(phoneNoTag)
+          let calibrationDateTag = document.createElement('td')
+          let calibrationDate = document.createElement('input')
+          calibrationDate.setAttribute('disabled','')
+          calibrationDate.setAttribute('type', 'date')
+          calibrationDate.setAttribute('data-calibration-date', equipment.id)
+          calibrationDate.value = equipment.calibration_date
+          calibrationDateTag.appendChild(calibrationDate)
+          trTag.appendChild(calibrationDateTag)
+
+          let expiryDateTag = document.createElement('td')
+          let expiryDate = document.createElement('input')
+          expiryDate.setAttribute('disabled','')
+          expiryDate.setAttribute('type', 'date')
+          expiryDate.setAttribute('data-expiry-date', equipment.id)
+          expiryDate.value = equipment.expiry_date
+          expiryDateTag.appendChild(expiryDate)
+          trTag.appendChild(expiryDateTag)
 
           let editTag = document.createElement('td')
           let edit = document.createElement('button')
-          edit.setAttribute('data-edit', client.id)
+          edit.setAttribute('data-edit', equipment.id)
           edit.textContent = 'Edit'
           editTag.appendChild(edit)
           let done = document.createElement('button')
-          done.setAttribute('data-done', client.id)
+          done.setAttribute('data-done', equipment.id)
           done.setAttribute('class','hide')
           done.textContent = 'Done'
           editTag.appendChild(done)
           let cancel = document.createElement('button')
-          cancel.setAttribute('data-cancel', client.id)
+          cancel.setAttribute('data-cancel', equipment.id)
           cancel.setAttribute('class','hide')
           cancel.textContent = 'Cancel'
           editTag.appendChild(cancel)
@@ -122,7 +142,7 @@ const loadEquipmentTable = () => {
 
           let delTag = document.createElement('td')
           let del = document.createElement('button')
-          del.setAttribute('data-delete', client.id)
+          del.setAttribute('data-delete', equipment.id)
           del.textContent = 'Delete'
           delTag.appendChild(del)
           trTag.appendChild(delTag)
@@ -134,16 +154,16 @@ const loadEquipmentTable = () => {
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
         edit.addEventListener('click', (e) => {
           const target = e.target.getAttribute('data-edit')
-          document.querySelector(`[data-company-name="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-contact="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-email="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-address="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-phone-no="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-name="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-brand="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-model="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-parameter="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-calibration-date="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-done="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.add('hide')
         })
-    })
+      })
       document.querySelectorAll('[data-delete]')?.forEach(del => {
         del.addEventListener('click', (e) => {
           delFtn(e)
@@ -153,11 +173,11 @@ const loadEquipmentTable = () => {
         done.addEventListener('click', (e) => {
           editFtn(e)
           const target = e.target.getAttribute('data-done')
-          document.querySelector(`[data-company-name="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-contact="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-email="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-address="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-phone-no="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.remove('hide')
@@ -166,11 +186,11 @@ const loadEquipmentTable = () => {
       document.querySelectorAll('[data-cancel]')?.forEach(cancel => {
         cancel.addEventListener('click', (e) => {
           let target = e.target.getAttribute('data-cancel')
-          document.querySelector(`[data-company-name="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-contact="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-email="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-address="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-phone-no="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.remove('hide')
@@ -184,7 +204,7 @@ const loadEquipmentTable = () => {
 
 const getequipmentData = async () => {
   try {
-    let data = await fetch('/clientList')
+    let data = await fetch('/equipmentList')
     equipmentData = await data.json()
     sessionStorage.setItem('equipmentData',JSON.stringify(equipmentData))
     loadEquipmentTable()
@@ -193,8 +213,20 @@ const getequipmentData = async () => {
   }
 }
 
+const getparameterData = async () => {
+  try {
+    if(!JSON.parse(sessionStorage.getItem('parameterData'))) {
+      let data = await fetch('/parameterList')
+      parameterData = await data.json()
+      sessionStorage.setItem('parameterData',JSON.stringify(parameterData))
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const delFtn = async (e) => {
-  await fetch(`/clientList${e.target.getAttribute('data-delete')}`, {
+  await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
 
@@ -204,74 +236,75 @@ const delFtn = async (e) => {
 const editFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-done')
 
-  const companyName = document.querySelector(`[data-company-name="${currentTarget}"]`).value
-  const address = document.querySelector(`[data-address="${currentTarget}"]`).value
-  const contact = document.querySelector(`[data-contact="${currentTarget}"]`).value
-  const phoneNo = document.querySelector(`[data-phone-no="${currentTarget}"]`).value
-  const email = document.querySelector(`[data-email="${currentTarget}"]`).value
+  const name = document.querySelector(`[data-name="${currentTarget}"]`).value
+  const brand = document.querySelector(`[data-brand="${currentTarget}"]`).value
+  const model = document.querySelector(`[data-model="${currentTarget}"]`).value
+  const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
+  const calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
 
-  await fetch(`/clientList${e.target.getAttribute('data-done')}`, {
+  await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       id:currentTarget,
-      companyName: companyName,
-      address: address,
-      contact: contact, 
-      phoneNo: phoneNo, 
-      email: email
+      name: name,
+      brand: brand,
+      model: model, 
+      parameter: parameter, 
+      calibrationDate: calibrationDate
     })
   })
   getequipmentData()
 }
 
 let path = window.location.pathname
-if(path === '/client') {
+if(path === '/equipment') {
   getequipmentData()
+  getparameterData()
 
   document.querySelector('#reset_btn').addEventListener('click', () => {
-    document.querySelector('#companyName').value = ''
-    document.querySelector('#address').value = ''
-    document.querySelector('#contact').value = ''
-    document.querySelector('#phoneNo').value = ''
-    document.querySelector('#email').value = ''
+    document.querySelector('#name').value = ''
+    document.querySelector('#brand').value = ''
+    document.querySelector('#model').value = ''
+    document.querySelector('#parameter').value = ''
+    document.querySelector('#calibrationDate').value = ''
   })
   
   // add new data
   document
-    .querySelector('#addClientFrom')
+    .querySelector('#addEquipmentFrom')
     ?.addEventListener('submit', async (event) => {
       event.preventDefault() // To prevent the form from submitting synchronously
       const form = event.target
-      let companyName = form.companyName.value
-      let address = form.address.value
-      let contact = form.contact.value
-      let phoneNo = form.phoneNo.value
-      let email = form.email.value
+      let name = form.name.value
+      let brand = form.brand.value
+      let model = form.model.value
+      let parameter = form.parameter.value
+      let calibrationDate = form.calibrationDate.value
   
-      const res = await fetch('/clientList', {
+      const res = await fetch('/equipmentList', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          companyName: companyName,
-          address: address,
-          contact: contact, 
-          phoneNo: phoneNo, 
-          email: email
+          name: name,
+          brand: brand,
+          model: model, 
+          parameter: parameter, 
+          calibrationDate: calibrationDate
         })
       })
       const result = await res.json()
   
       alert(result)
-      document.querySelector('#companyName').value = ''
-      document.querySelector('#address').value = ''
-      document.querySelector('#contact').value = ''
-      document.querySelector('#phoneNo').value = ''
-      document.querySelector('#email').value = ''
+      document.querySelector('#name').value = ''
+      document.querySelector('#brand').value = ''
+      document.querySelector('#model').value = ''
+      document.querySelector('#parameter').value = ''
+      document.querySelector('#calibrationDate').value = ''
   
       getequipmentData()
       loadEquipmentTable()

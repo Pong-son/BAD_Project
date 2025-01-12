@@ -11,7 +11,9 @@ const loadClientTable = () => {
       let data = JSON.parse(sessionStorage.getItem('clientData'))
 
       let searchInput = document.querySelector('#searchItem').value
+      console.log(searchInput)
       if (searchInput) {
+        console.log('correcct')
         data = searchFtn(data)
       }
       

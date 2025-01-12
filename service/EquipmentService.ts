@@ -4,7 +4,7 @@ export class EquipmentService {
   constructor(private knex: Knex){}
 
   async getEquipment() {
-    return await this.knex.select('id','name','brand','').from("equipment");
+    return await this.knex('equipment').join('parameter','equipment.parameter_id','parameter.id').select('equipment.id', 'equipment.name', 'equipment.brand', 'equipment.model', 'parameter.parameter', 'equipment.calibration_date', 'equipment.expiry_date');
   }
 
   async addEquipment(name:string, brand:string, model:string, parameter:string, calibrationDate:Date) {
