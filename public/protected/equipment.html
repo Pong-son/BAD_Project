@@ -40,8 +40,8 @@
             <div class="modal-body">
               <form id="addEquipmentFrom">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="equipmentName">Equipment Name</label>
-                  <input type="text" class="form-control" id="equipmentName" data_form="equipmentName">
+                  <label class="input-group-text" for="name">Equipment Name</label>
+                  <input type="text" class="form-control" id="name" data_form="name">
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="brand">Brand</label>
@@ -53,11 +53,11 @@
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="parameter">Parameter</label>
-                  <input type="text" class="form-control" id="parameter" data_form="parameter">
+                  <select class="form-control" id="parameter" data_form="parameter"></select>
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="calibrationDate">Calibration Date</label>
-                  <input type="text" class="form-control" id="calibrationDate" data_form="calibrationDate">
+                  <input type="date" class="form-control" id="calibrationDate" data_form="calibrationDate">
                 </div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
