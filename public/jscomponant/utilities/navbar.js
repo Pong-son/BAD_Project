@@ -179,6 +179,7 @@ const navBar = async (login) => {
     divTab.appendChild(aTab)
     divTab.appendChild(navDivTab)
     navTab.appendChild(divTab)
+    document.querySelector('#navBar').textContent = ''
     document.querySelector('#navBar').appendChild(navTab)
   } else {
     firstLiTab.appendChild(firstATab)
@@ -189,6 +190,7 @@ const navBar = async (login) => {
     divTab.appendChild(aTab)
     divTab.appendChild(navDivTab)
     navTab.appendChild(divTab)
+    document.querySelector('#navBar').textContent = ''
     document.querySelector('#navBar').appendChild(navTab)
   }
 

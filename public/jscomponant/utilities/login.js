@@ -79,26 +79,49 @@ const checkLogin = async () => {
 	}
 	let path = window.location.pathname
 	if(path === '/'  && !login) {
-		let content = `
-			<div class='home_content_without_login'>
-				<form action="/login" method="post" id="mainLoginForm">
-					<div class="input-group mb-3">
-						<span class="input-group-text">Username</span>
-						<input type="text" name="main_userName" id="main_userName" class="form-control" aria-label="username"/>
-					</div>
-					<div class="input-group mb-3"">
-						<span class="input-group-text">Password</span>
-						<input type="password" name="main_passWord" id="main_passWord" class="form-control" aria-label="Password"/>
-						<span class="input-group-text material-symbols-outlined" id="main_pw_visibility">
-								visibility
-						</span>
-					</div>
-					<br />
-					<button type="submit" data-bs-dismiss="modal">Login</button>
-				</form>
-			</div>`
+		// document.querySelector('#home_content').textContent = ''
+
+		// let divTab = document.createElement('div')
+		// divTab.classList.add('home_content_without_login')
+
+		// let formTab = document.createElement('form')
+		// formTab.setAttribute('action', '/login')
+		// formTab.setAttribute('method', 'post')
+		// formTab.setAttribute('id', 'mainLoginForm')
+
+
+		// let brTab  = document.createElement('br')
+
+		// let btnTab = document.createElement('button')
+		// btnTab.setAttribute('type', 'submit')
+		// btnTab.setAttribute('data-bs-dismiss', 'modal')
+		// btnTab.textContent = 'Login'
+
+		// formTab.appendChild()
+		// formTab.appendChild()
+		// formTab.appendChild(brTab)
+		// formTab.appendChild(btnTab)
+		// divTab.appendChild(formTab)
+		// let content = 
+		// 	<div class='home_content_without_login'>
+		// 		<form action="/login" method="post" id="mainLoginForm">
+		// 			<div class="input-group mb-3">
+		// 				<span class="input-group-text">Username</span>
+		// 				<input type="text" name="main_userName" id="main_userName" class="form-control" aria-label="username"/>
+		// 			</div>
+		// 			<div class="input-group mb-3"">
+		// 				<span class="input-group-text">Password</span>
+		// 				<input type="password" name="main_passWord" id="main_passWord" class="form-control" aria-label="Password"/>
+		// 				<span class="input-group-text material-symbols-outlined" id="main_pw_visibility">
+		// 						visibility
+		// 				</span>
+		// 			</div>
+		// 			<br />
+		// 			<button type="submit" data-bs-dismiss="modal">Login</button>
+		// 		</form>
+		// 	</div>
 			
-			document.querySelector('#home_content').innerHTML = content
+		// 	document.querySelector('#home_content').innerHTML = content
 
 			document.querySelector('#main_pw_visibility').addEventListener('click',() => {
 				let pw = document.querySelector('#main_passWord')

@@ -46,6 +46,23 @@
       </div>
     </div>
     <div id="home_content" style="height: 90%; position: relative;">
+      <div class='home_content_without_login'>
+				<form action="/login" method="post" id="mainLoginForm">
+					<div class="input-group mb-3">
+						<span class="input-group-text">Username</span>
+						<input type="text" name="main_userName" id="main_userName" class="form-control" aria-label="username"/>
+					</div>
+					<div class="input-group mb-3"">
+						<span class="input-group-text">Password</span>
+						<input type="password" name="main_passWord" id="main_passWord" class="form-control" aria-label="Password"/>
+						<span class="input-group-text material-symbols-outlined" id="main_pw_visibility">
+								visibility
+						</span>
+					</div>
+					<br />
+					<button type="submit" data-bs-dismiss="modal">Login</button>
+				</form>
+			</div>
     </div>
   </div>
   <script
