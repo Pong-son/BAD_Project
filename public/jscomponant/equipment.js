@@ -268,6 +268,28 @@ const editFtn = async (e) => {
   const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
   const calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
 
+  let oldCalibrationDate
+  let data = JSON.parse(sessionStorage.getItem('equipmentData'))
+  let filterData = data.filter(item => {
+    console.log(Number(item.id) === Number(currentTarget))
+    return Number(item.id) === Number(currentTarget)
+  })
+
+  if(filterData.length !== 0){
+    oldCalibrationDate = filterData[0].calibration_date
+    await fetch('/historyList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: filterData[0].id, 
+        calibrationDate: oldCalibrationDate,
+        expiryDate: filterData[0].expiry_date
+      })
+    })
+  }
+
   await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
     method: 'PUT',
     headers: {

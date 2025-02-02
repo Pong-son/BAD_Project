@@ -30,6 +30,12 @@ export const equipmentService = new EquipmentService(knex);
 export const equipmentController = new EquipmentController(equipmentService);
 import { equipmentRoute } from './routes/equipmentRoute'
 
+import { HistoryController } from './controller/HistoryController';
+import { HistoryService } from './service/HistoryService'
+export const historyService = new HistoryService(knex);
+export const historyController = new HistoryController(historyService);
+import { historyRoute } from './routes/historyRoute'
+
 import { ClientController } from './controller/ClientController';
 import { ClientService } from './service/ClientService'
 export const clientService = new ClientService(knex);
@@ -88,6 +94,8 @@ app.use('/', parameterRoute)
 
 app.use('/', equipmentRoute)
 
+app.use('/', historyRoute)
+
 app.use('/', clientRoute)
 
 app.use('/', accountRoute)
@@ -102,6 +110,10 @@ app.get('/parameter', (req: Request, res: Response) => {
 
 app.get('/equipment', (req: Request, res: Response) => {
 	res.sendFile(path.resolve('public/protected', 'equipment.html'))
+})
+
+app.get('/history', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'history.html'))
 })
 
 app.get('/client', (req: Request, res: Response) => {
