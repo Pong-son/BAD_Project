@@ -10,7 +10,7 @@ const loadEquipmentTable = () => {
     if (window.location.pathname === '/equipment') {
       let data = JSON.parse(sessionStorage.getItem('equipmentData'))
       let parameterData = JSON.parse(sessionStorage.getItem('parameterData'))
-      console.log(data)
+      console.log(data, parameterData)
       let searchInput = document.querySelector('#searchItem').value
       if (searchInput) {
         data = searchFtn(data)
@@ -48,7 +48,6 @@ const loadEquipmentTable = () => {
         trTag.appendChild(thTag)
         table.appendChild(trTag)
       } else {
-        console.log(parameterData)
         table.textContent = ''
         treatedData.forEach( equipment => {
           let trTag = document.createElement('tr')
@@ -92,7 +91,6 @@ const loadEquipmentTable = () => {
           parameterSelect.setAttribute('data-parameter', equipment.id)
           parameterSelect.setAttribute('disabled','')
           for (let i = 0; i < parameterData.length; i++) {
-            console.log(parameterData[i])
             let parameter = document.createElement('option')
             parameter.value = parameterData[i].parameter
             parameter.textContent = parameterData[i].parameter
@@ -105,21 +103,35 @@ const loadEquipmentTable = () => {
           parameterTag.appendChild(parameterSelect)
           trTag.appendChild(parameterTag)
 
+          let calDate = new Date(equipment.calibration_date).getDate()
+          calDate < 10? calDate = '0'+calDate:calDate
+          let calMonth = new Date(equipment.calibration_date).getMonth()+1
+          calMonth < 10? calMonth = '0'+calMonth:calMonth
+          let calYear = new Date(equipment.calibration_date).getFullYear()
+          let calDateData = `${calYear}-${calMonth}-${calDate}`
+  
           let calibrationDateTag = document.createElement('td')
           let calibrationDate = document.createElement('input')
           calibrationDate.setAttribute('disabled','')
           calibrationDate.setAttribute('type', 'date')
           calibrationDate.setAttribute('data-calibration-date', equipment.id)
-          calibrationDate.value = equipment.calibration_date
+          calibrationDate.value = calDateData
           calibrationDateTag.appendChild(calibrationDate)
           trTag.appendChild(calibrationDateTag)
+
+          let exp_date = new Date(equipment.expiry_date).getDate()
+          exp_date < 10? exp_date = '0'+exp_date:exp_date
+          let expMonth = new Date(equipment.expiry_date).getMonth()+1
+          expMonth < 10? expMonth = '0'+expMonth:expMonth
+          let expYear = new Date(equipment.expiry_date).getFullYear()
+          let expiryDateData = `${expYear}-${expMonth}-${exp_date}`
 
           let expiryDateTag = document.createElement('td')
           let expiryDate = document.createElement('input')
           expiryDate.setAttribute('disabled','')
           expiryDate.setAttribute('type', 'date')
           expiryDate.setAttribute('data-expiry-date', equipment.id)
-          expiryDate.value = equipment.expiry_date
+          expiryDate.value = expiryDateData
           expiryDateTag.appendChild(expiryDate)
           trTag.appendChild(expiryDateTag)
 
@@ -150,6 +162,20 @@ const loadEquipmentTable = () => {
           table.appendChild(trTag)
         })
       }
+      let newParameter = document.querySelector('#parameter')
+      newParameter.innerText = ''
+      for (let i = 0; i <= parameterData.length; i++) {
+        let parameter = document.createElement('option')
+        if(i === 0) {
+          parameter.value = ''
+          parameter.textContent = 'Choose one parameter'
+        } else {
+          parameter.value = parameterData[i-1].parameter
+          parameter.textContent = parameterData[i-1].parameter
+        }
+        newParameter.appendChild(parameter)
+      }
+
       // controller for the and delete btn
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
         edit.addEventListener('click', (e) => {
@@ -217,7 +243,7 @@ const getparameterData = async () => {
   try {
     if(!JSON.parse(sessionStorage.getItem('parameterData'))) {
       let data = await fetch('/parameterList')
-      parameterData = await data.json()
+      let parameterData = await data.json()
       sessionStorage.setItem('parameterData',JSON.stringify(parameterData))
     }
   } catch (e) {
