@@ -48,6 +48,12 @@ export const noticeBoardService = new NoticeBoardService(knex);
 export const noticeBoardController = new NoticeBoardController(noticeBoardService);
 import { noticeBoardRoute } from './routes/noticeBoardRoute'; 
 
+import { JobController } from './controller/JobController';
+import { JobService } from './service/JobService'
+export const jobService = new JobService(knex);
+export const jobController = new JobController(jobService);
+import { jobRoute } from './routes/jobRoute'; 
+
 import { LoginController } from './controller/LoginController'; 
 import { LoginService } from './service/LoginService'
 export const loginService = new LoginService(knex);
@@ -106,6 +112,8 @@ app.use('/', clientRoute)
 
 app.use('/', noticeBoardRoute)
 
+app.use('/', jobRoute)
+
 app.use('/', accountRoute)
 
 app.get('/schedule', (req: Request, res: Response) => {
@@ -126,6 +134,10 @@ app.get('/history', (req: Request, res: Response) => {
 
 app.get('/client', (req: Request, res: Response) => {
 	res.sendFile(path.resolve('public/protected', 'client.html'))
+})
+
+app.get('/job', (req: Request, res: Response) => {
+	res.sendFile(path.resolve('public/protected', 'job.html'))
 })
 
 app.use(isAdmin)
