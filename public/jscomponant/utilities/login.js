@@ -67,6 +67,10 @@ const checkLogin = async () => {
   if(login){
 		document.querySelector('#loginBtn').textContent = "Logout"
 		document.querySelector('#loginBtn').removeAttribute('data-bs-toggle')
+		if (window.location.pathname === '/') {
+			document.querySelector('.home_content_without_login').classList.add('hide')
+			document.querySelector('.table-responsive-md').classList.remove('hide')
+		}
 		if (window.sessionStorage.getItem('username') && window.sessionStorage.getItem('admin')) {
 			// document.querySelector('[data-admin]').classList.add('disabled')
 			document.querySelectorAll('.admin_hide').forEach(admin => {
@@ -76,6 +80,10 @@ const checkLogin = async () => {
 	} else {
 		document.querySelector('#loginBtn').textContent = "Login"
 		document.querySelector('#loginBtn').setAttribute('data-bs-toggle',"modal")
+		if (window.location.pathname === '/') {
+			document.querySelector('.home_content_without_login').classList.remove('hide')
+			document.querySelector('.table-responsive-md').classList.add('hide')
+		}
 	}
 	let path = window.location.pathname
 	if(path === '/'  && !login) {
@@ -169,4 +177,4 @@ const checkLogin = async () => {
 	}
 }
 
-export { checkLogin, loginBtn }
+export { checkLogin, loginBtn, login }

@@ -46,7 +46,7 @@
       </div>
     </div>
     <div id="home_content" style="height: 90%; position: relative;">
-      <div class='home_content_without_login'>
+      <div class='home_content_without_login hide'>
 				<form action="/login" method="post" id="mainLoginForm">
 					<div class="input-group mb-3">
 						<span class="input-group-text">Username</span>
@@ -63,6 +63,52 @@
 					<button type="submit" data-bs-dismiss="modal">Login</button>
 				</form>
 			</div>
+      <div class="row">
+        <!-- <div id="page_title">
+          <div id="search_bar" class="d-flex" role="search">
+            <div class="input-group">
+              <input id="searchItem" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button id="refreshBtn" class="btn btn-success" style="display: flex; align-items: center;">
+                <span class="material-symbols-outlined" style="color:'white';">refresh</span>
+              </button>
+            </div>
+          </div>
+        </div> -->
+        <div class="table-responsive-md hide">
+          <table class="table table-bordered table-hover table-striped" >
+            <thead>
+              <tr>
+                <th scope="col" data-th="id"><span data-th="id">id</span><span class="material-symbols-outlined" data-th="id" data-arrow="id">arrow_downward</span></th>
+                <th scope="col" data-th="title"><span data-th="title">Title</span><span class="material-symbols-outlined" data-th="title" data-arrow="title"></span></th>
+                <th scope="col" data-th="content"><span data-th="content">Content</span><span class="material-symbols-outlined" data-th="content" data-arrow="content"></span></th>
+                <th scope="col">Finish?</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="noticeBoardTable"></tbody>
+          </table>
+        </div>
+        <!-- <div style="display:flex; position: relative; bottom: 0px; ">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" aria-label="Previous" data-pre>
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <span id="pageController"></span>
+              <li class="page-item">
+                <a class="page-link" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="input-group" style="height: 37.6px; margin-left: 25px; max-width: 230px;">
+            <span class="input-group-text" >Show on each page</span>
+            <input class="form-control" style="height: 37.6px;"  type="number" name="itemPerPage" id="itemPerPage" value="10" min="1" max="100">
+          </div>
+        </div> -->
+      </div>
     </div>
   </div>
   <script

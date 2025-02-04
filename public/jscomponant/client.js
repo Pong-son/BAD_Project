@@ -2,7 +2,7 @@ import { pagination, paginationConroller, check_page_status } from './utilities/
 import { searchFtn } from './utilities/search.js';
 import { sorting } from './utilities/sorting.js'
 
-let table = document.querySelector('#client_table');
+let table = document.querySelector('#clientTable');
 let clientData;
 
 const loadClientTable = () => {

@@ -18,7 +18,6 @@ export class ParameterService {
     return await this.knex("parameter").update({
       parameter:parameter,
       calibration_period:calibrationPeriod,
-
     }).where("id",id);
   }
 

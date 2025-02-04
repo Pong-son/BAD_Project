@@ -42,6 +42,12 @@ export const clientService = new ClientService(knex);
 export const clientController = new ClientController(clientService);
 import { clientRoute } from './routes/clientRoute'; 
 
+import { NoticeBoardController } from './controller/NoticeBoardController';
+import { NoticeBoardService } from './service/NoticeBoardService'
+export const noticeBoardService = new NoticeBoardService(knex);
+export const noticeBoardController = new NoticeBoardController(noticeBoardService);
+import { noticeBoardRoute } from './routes/noticeBoardRoute'; 
+
 import { LoginController } from './controller/LoginController'; 
 import { LoginService } from './service/LoginService'
 export const loginService = new LoginService(knex);
@@ -97,6 +103,8 @@ app.use('/', equipmentRoute)
 app.use('/', historyRoute)
 
 app.use('/', clientRoute)
+
+app.use('/', noticeBoardRoute)
 
 app.use('/', accountRoute)
 
