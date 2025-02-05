@@ -9,8 +9,8 @@ const loadJobTable = () => {
   try {
     if (window.location.pathname === '/job') {
       let data = JSON.parse(sessionStorage.getItem('jobData'))
-      let parameterData = JSON.parse(sessionStorage.getItem('parameterData'))
-      console.log(data, parameterData)
+      let clientData = JSON.parse(sessionStorage.getItem('clientData'))
+      console.log(data, clientData)
       let searchInput = document.querySelector('#searchItem').value
       if (searchInput) {
         data = searchFtn(data)
@@ -59,81 +59,97 @@ const loadJobTable = () => {
           jobIdTag.textContent = job.id
           trTag.appendChild(jobIdTag)
 
-          let nameTag = document.createElement('td')
-          let name = document.createElement('input')
-          name.setAttribute('disabled','')
-          name.setAttribute('type', 'text')
-          name.setAttribute('data-name', job.id)
-          name.value = job.name
-          nameTag.appendChild(name)
-          trTag.appendChild(nameTag)
-
-          let brandTag = document.createElement('td')
-          let brand = document.createElement('input')
-          brand.setAttribute('disabled','')
-          brand.setAttribute('type', 'text')
-          brand.setAttribute('data-brand', job.id)
-          brand.value = job.brand
-          brandTag.appendChild(brand)
-          trTag.appendChild(brandTag)
-
-          let modelTag = document.createElement('td')
-          let model = document.createElement('input')
-          model.setAttribute('disabled','')
-          model.setAttribute('type', 'text')
-          model.setAttribute('data-model', job.id)
-          model.value = job.model
-          modelTag.appendChild(model)
-          trTag.appendChild(modelTag)
-
-          let parameterTag = document.createElement('td')
-          let parameterSelect = document.createElement('select')
-          parameterSelect.setAttribute('data-parameter', job.id)
-          parameterSelect.setAttribute('disabled','')
-          for (let i = 0; i < parameterData.length; i++) {
-            let parameter = document.createElement('option')
-            parameter.value = parameterData[i].parameter
-            parameter.textContent = parameterData[i].parameter
-            if(parameterData[i].parameter === job.parameter) {
-              parameter.setAttribute('selected', '')
+          let clientTag = document.createElement('td')
+          let clientSelect = document.createElement('select')
+          clientSelect.setAttribute('data-client', job.id)
+          clientSelect.setAttribute('disabled','')
+          for (let i = 0; i < clientData.length; i++) {
+            let client = document.createElement('option')
+            client.value = clientData[i].client
+            client.textContent = clientData[i].client
+            if(clientData[i].client === job.client) {
+              client.setAttribute('selected', '')
             }
-            parameter.setAttribute('data-parameter', job.id)
-            parameterSelect.appendChild(parameter)
+            client.setAttribute('data-client', job.id)
+            clientSelect.appendChild(client)
           }
-          parameterTag.appendChild(parameterSelect)
-          trTag.appendChild(parameterTag)
+          clientTag.appendChild(clientSelect)
+          trTag.appendChild(clientTag)
 
-          let calDate = new Date(job.calibration_date).getDate()
-          calDate < 10? calDate = '0'+calDate:calDate
-          let calMonth = new Date(job.calibration_date).getMonth()+1
-          calMonth < 10? calMonth = '0'+calMonth:calMonth
-          let calYear = new Date(job.calibration_date).getFullYear()
-          let calDateData = `${calYear}-${calMonth}-${calDate}`
+          let locationTag = document.createElement('td')
+          let location = document.createElement('input')
+          location.setAttribute('disabled','')
+          location.setAttribute('type', 'text')
+          location.setAttribute('data-location', job.id)
+          location.value = job.location
+          locationTag.appendChild(location)
+          trTag.appendChild(locationTag)
+
+          let wtDate = new Date(job.walkthrough_date).getDate()
+          wtDate < 10? wtDate = '0'+wtDate:wtDate
+          let wtMonth = new Date(job.walkthrough_date).getMonth()+1
+          wtMonth < 10? wtMonth = '0'+wtMonth:wtMonth
+          let wtYear = new Date(job.walkthrough_date).getFullYear()
+          let wtDateData = `${wtYear}-${wtMonth}-${wtDate}`
   
-          let calibrationDateTag = document.createElement('td')
-          let calibrationDate = document.createElement('input')
-          calibrationDate.setAttribute('disabled','')
-          calibrationDate.setAttribute('type', 'date')
-          calibrationDate.setAttribute('data-calibration-date', job.id)
-          calibrationDate.value = calDateData
-          calibrationDateTag.appendChild(calibrationDate)
-          trTag.appendChild(calibrationDateTag)
+          let walkthroughDateTag = document.createElement('td')
+          let walkthroughDate = document.createElement('input')
+          walkthroughDate.setAttribute('disabled','')
+          walkthroughDate.setAttribute('type', 'date')
+          walkthroughDate.setAttribute('data-walkthrough-date', job.id)
+          walkthroughDate.value = wtDateData
+          walkthroughDateTag.appendChild(walkthroughDate)
+          trTag.appendChild(walkthroughDateTag)
 
-          let exp_date = new Date(job.expiry_date).getDate()
-          exp_date < 10? exp_date = '0'+exp_date:exp_date
-          let expMonth = new Date(job.expiry_date).getMonth()+1
-          expMonth < 10? expMonth = '0'+expMonth:expMonth
-          let expYear = new Date(job.expiry_date).getFullYear()
-          let expiryDateData = `${expYear}-${expMonth}-${exp_date}`
+          let startDate = new Date(job.sampling_start_date).getDate()
+          startDate < 10? startDate = '0'+startDate:startDate
+          let startMonth = new Date(job.sampling_start_date).getMonth()+1
+          startMonth < 10? startMonth = '0'+startMonth:startMonth
+          let startYear = new Date(job.sampling_start_date).getFullYear()
+          let startDateData = `${startYear}-${startMonth}-${startDate}`
 
-          let expiryDateTag = document.createElement('td')
-          let expiryDate = document.createElement('input')
-          expiryDate.setAttribute('disabled','')
-          expiryDate.setAttribute('type', 'date')
-          expiryDate.setAttribute('data-expiry-date', job.id)
-          expiryDate.value = expiryDateData
-          expiryDateTag.appendChild(expiryDate)
-          trTag.appendChild(expiryDateTag)
+          let startDateTag = document.createElement('td')
+          let start = document.createElement('input')
+          start.classList.add('hide')
+          start.setAttribute('type', 'date')
+          start.setAttribute('data-start-date', job.id)
+          start.value = startDateData
+          startDateTag.appendChild(start)
+          trTag.appendChild(startDateTag)
+
+          let endDate = new Date(job.sampling_end_date).getDate()
+          endDate < 10? endDate = '0'+endDate:endDate
+          let endMonth = new Date(job.sampling_end_date).getMonth()+1
+          endMonth < 10? endMonth = '0'+endMonth:endMonth
+          let endYear = new Date(job.sampling_end_date).getFullYear()
+          let endDateData = `${endYear}-${endMonth}-${endDate}`
+
+          let endDateTag = document.createElement('td')
+          let end = document.createElement('input')
+          end.classList.add('hide')
+          end.setAttribute('type', 'date')
+          end.setAttribute('data-end-date', job.id)
+          end.value = endDateData
+          endDateTag.appendChild(end)
+          trTag.appendChild(endDateTag)
+
+          let samplingPeriodTag = document.createElement('td')
+          let samplingPeriod = document.createElement('input')
+          samplingPeriod.setAttribute('disabled','')
+          samplingPeriod.setAttribute('type', 'text')
+          samplingPeriod.setAttribute('data-sampling-period', job.id)
+          samplingPeriod.value = `${startDateData} - ${endDateData}`
+          samplingPeriodTag.appendChild(samplingPeriod)
+          trTag.appendChild(samplingPeriodTag)
+
+          let totalPointTag = document.createElement('td')
+          let totalPoint = document.createElement('input')
+          totalPoint.setAttribute('disabled','')
+          totalPoint.setAttribute('type', 'number')
+          totalPoint.setAttribute('data-total-point', job.id)
+          totalPoint.value = job.totalPoint
+          totalPointTag.appendChild(totalPoint)
+          trTag.appendChild(totalPointTag)
 
           let editTag = document.createElement('td')
           let edit = document.createElement('button')
@@ -162,29 +178,31 @@ const loadJobTable = () => {
           table.appendChild(trTag)
         })
       }
-      let newParameter = document.querySelector('#parameter')
-      newParameter.innerText = ''
-      for (let i = 0; i <= parameterData.length; i++) {
-        let parameter = document.createElement('option')
+      let newClient = document.querySelector('#client')
+      newClient.innerText = ''
+      for (let i = 0; i <= clientData.length; i++) {
+        let client = document.createElement('option')
         if(i === 0) {
-          parameter.value = ''
-          parameter.textContent = 'Choose one parameter'
+          client.value = ''
+          client.textContent = 'Choose one client'
         } else {
-          parameter.value = parameterData[i-1].parameter
-          parameter.textContent = parameterData[i-1].parameter
+          client.value = clientData[i-1].client
+          client.textContent = clientData[i-1].client
         }
-        newParameter.appendChild(parameter)
+        newClient.appendChild(client)
       }
 
       // controller for the and delete btn
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
         edit.addEventListener('click', (e) => {
           const target = e.target.getAttribute('data-edit')
-          document.querySelector(`[data-name="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-brand="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-model="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-parameter="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-calibration-date="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-client="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-location="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-walkthrough-date="${target}"]`).removeAttribute("disabled")
+          document.querySelector(`[data-sampling-period="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-start-date="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-end-date="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-total-point="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-done="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.add('hide')
@@ -199,11 +217,13 @@ const loadJobTable = () => {
         done.addEventListener('click', (e) => {
           editFtn(e)
           const target = e.target.getAttribute('data-done')
-          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-client="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-location="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-walkthrough-date="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-sampling-period="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-start-date="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-end-date="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-total-point="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.remove('hide')
@@ -212,11 +232,13 @@ const loadJobTable = () => {
       document.querySelectorAll('[data-cancel]')?.forEach(cancel => {
         cancel.addEventListener('click', (e) => {
           let target = e.target.getAttribute('data-cancel')
-          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-client="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-location="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-walkthrough-date="${target}"]`).setAttribute("disabled","")
+          document.querySelector(`[data-sampling-period="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-start-date="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-end-date="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-total-point="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-edit="${target}"]`).classList.remove('hide')
@@ -239,12 +261,12 @@ const getjobData = async () => {
   }
 }
 
-const getparameterData = async () => {
+const getClientData = async () => {
   try {
-    if(!JSON.parse(sessionStorage.getItem('parameterData'))) {
-      let data = await fetch('/parameterList')
-      let parameterData = await data.json()
-      sessionStorage.setItem('parameterData',JSON.stringify(parameterData))
+    if(!JSON.parse(sessionStorage.getItem('clientData'))) {
+      let data = await fetch('/clientList')
+      let clientData = await data.json()
+      sessionStorage.setItem('clientData',JSON.stringify(clientData))
     }
   } catch (e) {
     console.log(e)
@@ -262,33 +284,12 @@ const delFtn = async (e) => {
 const editFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-done')
 
-  const name = document.querySelector(`[data-name="${currentTarget}"]`).value
-  const brand = document.querySelector(`[data-brand="${currentTarget}"]`).value
-  const model = document.querySelector(`[data-model="${currentTarget}"]`).value
-  const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
-  const calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
-
-  let oldCalibrationDate
-  let data = JSON.parse(sessionStorage.getItem('jobData'))
-  let filterData = data.filter(item => {
-    console.log(Number(item.id) === Number(currentTarget))
-    return Number(item.id) === Number(currentTarget)
-  })
-
-  if(filterData.length !== 0){
-    oldCalibrationDate = filterData[0].calibration_date
-    await fetch('/historyList', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: filterData[0].id, 
-        calibrationDate: oldCalibrationDate,
-        expiryDate: filterData[0].expiry_date
-      })
-    })
-  }
+  const client = document.querySelector(`[data-client="${currentTarget}"]`).value
+  const location = document.querySelector(`[data-location="${currentTarget}"]`).value
+  const walkthroughDate = document.querySelector(`[data-walkthrough-date="${currentTarget}"]`).value
+  const startDate = document.querySelector(`[data-start-date="${currentTarget}"]`).value
+  const endDate = document.querySelector(`[data-end-date="${currentTarget}"]`).value
+  const totalPoint = document.querySelector(`[data-total-point="${currentTarget}"]`).value
 
   await fetch(`/jobList${e.target.getAttribute('data-done')}`, {
     method: 'PUT',
@@ -297,11 +298,12 @@ const editFtn = async (e) => {
     },
     body: JSON.stringify({
       id:currentTarget,
-      name: name,
-      brand: brand,
-      model: model, 
-      parameter: parameter, 
-      calibrationDate: calibrationDate
+      client: client,
+      location: location,
+      walkthroughDate: walkthroughDate, 
+      startDate: startDate, 
+      endDate: endDate, 
+      totalPoint: totalPoint
     })
   })
   getjobData()
@@ -310,14 +312,14 @@ const editFtn = async (e) => {
 let path = window.location.pathname
 if(path === '/job') {
   getjobData()
-  getparameterData()
+  getClientData()
 
   document.querySelector('#reset_btn').addEventListener('click', () => {
-    document.querySelector('#name').value = ''
-    document.querySelector('#brand').value = ''
-    document.querySelector('#model').value = ''
-    document.querySelector('#parameter').value = ''
-    document.querySelector('#calibrationDate').value = ''
+    document.querySelector('#client').value = ''
+    document.querySelector('#location').value = ''
+    document.querySelector('#walkthrouhgDate').value = ''
+    document.querySelector('#samplingPeriod').value = ''
+    document.querySelector('#totalPoint').value = ''
   })
   
   // add new data
@@ -326,11 +328,11 @@ if(path === '/job') {
     ?.addEventListener('submit', async (event) => {
       event.preventDefault() // To prevent the form from submitting synchronously
       const form = event.target
-      let name = form.name.value
-      let brand = form.brand.value
-      let model = form.model.value
-      let parameter = form.parameter.value
-      let calibrationDate = form.calibrationDate.value
+      let client = form.client.value
+      let location = form.location.value
+      let walkthrouhgDate = form.walkthrouhgDate.value
+      let samplingPeriod = form.samplingPeriod.value
+      let totalPoint = form.totalPoint.value
   
       const res = await fetch('/jobList', {
         method: 'POST',
@@ -338,21 +340,20 @@ if(path === '/job') {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name,
-          brand: brand,
-          model: model, 
-          parameter: parameter, 
-          calibrationDate: calibrationDate
+          client: client,
+          location: location,
+          walkthrouhgDate: walkthrouhgDate, 
+          samplingPeriod: samplingPeriod, 
+          totalPoint: totalPoint
         })
       })
       const result = await res.json()
-  
-      alert(result)
-      document.querySelector('#name').value = ''
-      document.querySelector('#brand').value = ''
-      document.querySelector('#model').value = ''
-      document.querySelector('#parameter').value = ''
-      document.querySelector('#calibrationDate').value = ''
+ 
+      document.querySelector('#client').value = ''
+      document.querySelector('#location').value = ''
+      document.querySelector('#walkthrouhgDate').value = ''
+      document.querySelector('#samplingPeriod').value = ''
+      document.querySelector('#totalPoint').value = ''
   
       getjobData()
       loadJobTable()

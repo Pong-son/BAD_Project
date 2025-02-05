@@ -61,7 +61,6 @@ const navBar = async (login) => {
   secondATab.classList.add('nav-link')
   secondATab.classList.add('dropdown-toggle')
   secondATab.classList.add('text-light')
-  secondATab.setAttribute('href', '/job')
   secondATab.setAttribute('role', 'button')
   secondATab.setAttribute('data-bs-toggle', 'dropdown')
   secondATab.setAttribute('aria-expanded', 'false')
@@ -76,7 +75,7 @@ const navBar = async (login) => {
   let jobATab = document.createElement('a')
   jobATab.classList.add('dropdown-item')
   jobATab.classList.add('text-light')
-  jobATab.setAttribute('href', '/job_detail')
+  jobATab.setAttribute('href', '/job')
   jobATab.textContent = 'Job Details'
 
   let scheduleLiTab = document.createElement('li')
