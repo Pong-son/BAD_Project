@@ -89,7 +89,7 @@ const loadEquipmentTable = () => {
           let parameterTag = document.createElement('td')
           let parameterSelect = document.createElement('select')
           parameterSelect.setAttribute('data-parameter', equipment.id)
-          parameterSelect.setAttribute('disabled','')
+          parameterSelect.setAttribute('disabled' ,'')
           for (let i = 0; i < parameterData.length; i++) {
             let parameter = document.createElement('option')
             parameter.value = parameterData[i].parameter
@@ -228,7 +228,7 @@ const loadEquipmentTable = () => {
   }
 }
 
-const getequipmentData = async () => {
+const getEquipmentData = async () => {
   try {
     let data = await fetch('/equipmentList')
     equipmentData = await data.json()
@@ -256,7 +256,7 @@ const delFtn = async (e) => {
     method: 'DELETE'
   })
 
-  getequipmentData()
+  getEquipmentData()
 }
 
 const editFtn = async (e) => {
@@ -304,12 +304,12 @@ const editFtn = async (e) => {
       calibrationDate: calibrationDate
     })
   })
-  getequipmentData()
+  getEquipmentData()
 }
 
 let path = window.location.pathname
 if(path === '/equipment') {
-  getequipmentData()
+  getEquipmentData()
   getparameterData()
 
   document.querySelector('#reset_btn').addEventListener('click', () => {
@@ -354,7 +354,7 @@ if(path === '/equipment') {
       document.querySelector('#parameter').value = ''
       document.querySelector('#calibrationDate').value = ''
   
-      getequipmentData()
+      getEquipmentData()
       loadEquipmentTable()
     })
   

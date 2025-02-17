@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <!-- form for create new user -->
+      <!-- form for create new job -->
       <div class="modal fade" tabindex="-1" id="jobModal" aria-labelledby="jobModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -41,23 +41,31 @@
               <form id="addJobFrom">
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="client">Client</label>
-                  <input type="text" class="form-control" id="client" data_form="client">
+                  <select class="form-control" id="client" data_form="client"></select>
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="location">Location</label>
                   <input type="text" class="form-control" id="location" data_form="location">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="walkthroughDate">Walkthrough Date</label>
-                  <input type="text" class="form-control" id="walkthroughDate" data_form="walkthroughDate">
+                  <label class="input-group-text" for="jobReceiveDate">Job Receive Date</label>
+                  <input type="date" class="form-control" id="jobReceiveDate" data_form="jobReceiveDate">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="samplingPeriod">Sampling Period</label>
-                  <select class="form-control" id="samplingPeriod" data_form="samplingPeriod"></select>
+                  <label class="input-group-text" for="walkthroughDate">Walkthrough Date</label>
+                  <input type="date" class="form-control" id="walkthroughDate" data_form="walkthroughDate" required>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="startDate">Start Date</label>
+                  <input type="date" class="form-control" id="startDate" data_form="startDate"></input>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="endDate">End Date</label>
+                  <input type="date" class="form-control" id="endDate" data_form="endDate"></input>
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="totalPoint">Total Point</label>
-                  <select class="form-control" id="totalPoint" data_form="totalPoint"></select>
+                  <input type="number" class="form-control" id="totalPoint" data_form="totalPoint"></input>
                 </div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
@@ -70,7 +78,120 @@
           </div>
         </div>
       </div>
+      <!-- form for create new point -->
+      <div class="modal fade" tabindex="-1" id="newPointModal" aria-labelledby="newPointModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-light" id="newPointModalLabel">New Sampling Point</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addPointFrom" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="point">Point</label>
+                  <input type="text" class="form-control" id="point" data_form="point"></input>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="description">Description</label>
+                  <input type="text" class="form-control" id="description" data_form="description">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="samplingDate">Sampling Date</label>
+                  <input type="date" class="form-control" id="samplingDate" data_form="samplingDate">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="co2Result">CO2 (in ppm)</label>
+                  <input type="number" class="form-control" id="co2Result" data_form="co2Result">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="co2Equipment">CO2 Equipment No.</label>
+                  <select class="form-control" id="co2Equipment" data_form="co2Equipment"></select>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="pm10Result">PM10 (in ug/m3)</label>
+                  <input type="number" class="form-control" id="pm10Result" data_form="pm10Result">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="pm10Equipment">PM10 Equipment No.</label>
+                  <select class="form-control" id="pm10Equipment" data_form="pm10Equipment"></select>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="rhResult">Humidity (in %)</label>
+                  <input type="number" class="form-control" id="rhResult" step="0.1" data_form="rhResult">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="rhEquipment">Humidity Equipment No.</label>
+                  <select class="form-control" id="rhEquipment" data_form="rhEquipment"></select>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="photo">Photo</label>
+                  <input type="file" class="form-control" id="photo" data_form="photo">
+                </div>
+                <br />
+                <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                <button type="reset" id="reset_btn" class="btn btn-primary">Reset</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#resultTableModal">Return</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="photoModal" aria-labelledby="photoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-light" id="photoModalLabel">Photo Review</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <img id="photoReview" alt="photo" width="100%" height="100%">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="table-responsive-md">
+        <div class="modal fade" tabindex="-1" id="resultTableModal" aria-labelledby="resultTableModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header bg-primary">
+                <h5 class="modal-title text-light" id="resultTableModalLabel"></h5><h5 class="modal-title text-light">&nbspResult Table</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newPointModal">
+                  Add new point
+                </button>
+                <table id="resultTables" class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" data-th="id"><span data-th="id">id</span><span class="material-symbols-outlined" data-th="id" data-arrow="id">arrow_downward</span></th>
+                      <th scope="col" data-th="pointNo"><span data-th="pointNo">Point No.</span><span class="material-symbols-outlined" data-th="pointNo" data-arrow="pointNo"></span></th>
+                      <th scope="col" data-th="description"><span data-th="description">Description</span><span class="material-symbols-outlined" data-th="samplingDate" data-arrow="samplingDate"></span></th>
+                      <th scope="col" data-th="samplingDate"><span data-th="samplingDate">Sampling Date</span><span class="material-symbols-outlined" data-th="description" data-arrow="description"></span></th>
+                      <th scope="col" data-th="co2Result"><span data-th="co2Result">CO2 (ppm)</span><span class="material-symbols-outlined" data-th="co2Result" data-arrow="co2Result"></span></th>
+                      <th scope="col" data-th="pm10Result"><span data-th="pm10Result">PM10 (ug/m3)</span><span class="material-symbols-outlined" data-th="pm10Result" data-arrow="pm10Result"></span></th>
+                      <th scope="col" data-th="rhResult"><span data-th="humidityResult">Humidity (%)</span><span class="material-symbols-outlined" data-th="humidityResult" data-arrow="humidityResult"></span></th>
+                      <th scope="col" data-th="photo"><span data-th="photo">Photo</span><span class="material-symbols-outlined" data-th="photo" data-arrow="photo"></span></th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider" id="resultTable"></tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <table class="table table-bordered table-hover table-striped" >
           <thead>
             <tr>

@@ -1,4 +1,5 @@
 import { loadClientTable } from '../client.js'
+import { loadJobTable } from '../job.js'
 import { loadEquipmentTable } from '../equipment.js'
 import { loadHistoryTable } from '../history.js'
 import { loadAccountTable } from '../account.js'
@@ -17,6 +18,9 @@ export const loadTable = () => {
   }
   if( path === '/client') {
     loadClientTable()
+  }
+  if( path === '/job') {
+    loadJobTable()
   }
   if( path === '/equipment') {
     loadEquipmentTable()

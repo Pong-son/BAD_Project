@@ -6,6 +6,7 @@ dotenv.config()
 
 import path from 'path';
 import expressSession from 'express-session'
+import { loadModels } from './utilities/faceDetection'; 
 
 import Knex from "knex";
 const knexConfig = require("./knexfile");
@@ -54,6 +55,18 @@ export const jobService = new JobService(knex);
 export const jobController = new JobController(jobService);
 import { jobRoute } from './routes/jobRoute'; 
 
+import { ResultTableController } from './controller/ResultTableController';
+import { ResultTableService } from './service/ResultTableService'
+export const resultTableService = new ResultTableService(knex);
+export const resultTableController = new ResultTableController(resultTableService);
+import { resultTableRoute } from './routes/resultTableRoute'; 
+
+import { ReportController } from './controller/ReportController';
+import { ReportService } from './service/ReportService'
+export const reportService = new ReportService(knex);
+export const reportController = new ReportController(reportService);
+import { reportRoute } from './routes/reportRoute'; 
+
 import { LoginController } from './controller/LoginController'; 
 import { LoginService } from './service/LoginService'
 export const loginService = new LoginService(knex);
@@ -62,6 +75,8 @@ export const loginController = new LoginController(loginService)
 import { loginRoute } from './routes/loginRoute'
 
 const app = express()
+
+loadModels()
 
 app.use(
   expressSession({
@@ -113,6 +128,10 @@ app.use('/', clientRoute)
 app.use('/', noticeBoardRoute)
 
 app.use('/', jobRoute)
+
+app.use('/', resultTableRoute)
+
+app.use('/', reportRoute)
 
 app.use('/', accountRoute)
 
