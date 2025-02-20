@@ -1,14 +1,42 @@
-let addEvents = [
-  { // this object will be "parsed" into an Event Object
-    title: 'The Title', // a property!
-    start: '2025-01-05', // a property!
-    end: '2025-01-17' // a property! ** see important note below about 'end' **
-  },{
-    title: 'testing', // a property!
-    start: '2025-01-03', // a property!
-    end: '2025-01-03'
+let jobData
+let addEvents = []
+
+const getSchedule = async () => {
+    try {
+      let data = await fetch('/jobList')
+      jobData = await data.json()
+      sessionStorage.setItem('jobData',JSON.stringify(jobData))
+      console.log('get')
+    } catch (e) {
+      console.log(e)
+    }
+}
+
+const loadSchedule = () => {
+  if (window.location.pathname === '/schedule') {
+    let data = JSON.parse(sessionStorage.getItem('jobData'))
+    addEvents = []
+    data.forEach(job => {
+      let event = {}
+      event.title = job.location
+      event.start = job.sampling_end_date
+      event.end = job.sampling_start_date
+      addEvents.push(event)
+    });
   }
-]
+}
+
+// addEvents = [
+//   { // this object will be "parsed" into an Event Object
+//     title: 'The Title', // a property!
+//     start: '2025-01-05', // a property!
+//     end: '2025-01-17' // a property! ** see important note below about 'end' **
+//   },{
+//     title: 'testing', // a property!
+//     start: '2025-01-03', // a property!
+//     end: '2025-01-03'
+//   }
+// ]
 
 const addEvent = () => {
   console.log('update your database')
@@ -27,19 +55,26 @@ document.addEventListener('DOMContentLoaded', function() {
       addEventBtn: {
         text: 'add event...',
         click: function() {
-          var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-          var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-          if (!isNaN(date.valueOf())) { // valid?
+          addEvents.forEach(event => {
             calendar.addEvent({
-              title: 'dynamic event',
-              start: date,
-              allDay: true
-            });
-            addEvent()
-            alert('Great. Now, update your database...');
-          } else {
-            alert('Invalid date.');
-          }
+              title: event.title,
+            start: event.start,
+            allDay: true
+            })
+          })
+          // var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+          // var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+          // if (!isNaN(date.valueOf())) { // valid?
+          //   calendar.addEvent({
+          //     title: 'dynamic event',
+          //     start: date,
+          //     allDay: true
+          //   });
+          //   addEvent()
+          //   alert('Great. Now, update your database...');
+          // } else {
+          //   alert('Invalid date.');
+          // }
         }
       }
     },
@@ -58,3 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   calendar.render();
 });
+let path = window.location.pathname
+if(path === '/schedule') {
+  getSchedule()
+  loadSchedule()
+}

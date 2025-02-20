@@ -1,6 +1,6 @@
 import { loginBtn } from './login.js'
 
-const navBar = async (login) => {
+const navBar = (login) => {
   let navTab = document.createElement('nav')
   navTab.classList.add('navbar')
   navTab.classList.add('navbar-expand-lg')
@@ -14,6 +14,19 @@ const navBar = async (login) => {
   aTab.classList.add('text-light')
   aTab.setAttribute('href','/')
   aTab.textContent = 'E & M'
+
+  let navBarToggleBtn = document.createElement('button')
+  navBarToggleBtn.classList.add('navbar-toggler')
+  navBarToggleBtn.classList.add('bg-primary')
+  navBarToggleBtn.setAttribute('data-bs-toggle','collapse')
+  navBarToggleBtn.setAttribute('data-bs-target','#navbarSupportedContent')
+  navBarToggleBtn.setAttribute('aria-controls','navbarSupportedContent')
+  navBarToggleBtn.setAttribute('aria-expanded','false')
+  navBarToggleBtn.setAttribute('aria-label','Toggle navigation')
+
+  let navBarToggleSpan = document.createElement('span')
+  navBarToggleBtn.classList.add('navbar-toggler-icon')
+  navBarToggleBtn.appendChild(navBarToggleSpan)
 
   let navDivTab = document.createElement('div')
   navDivTab.classList.add('collapse')
@@ -176,6 +189,7 @@ const navBar = async (login) => {
     navDivTab.appendChild(ulTab)
     navDivTab.appendChild(btnDivTab)
     divTab.appendChild(aTab)
+    divTab.appendChild(navBarToggleBtn)
     divTab.appendChild(navDivTab)
     navTab.appendChild(divTab)
     document.querySelector('#navBar').textContent = ''
@@ -187,13 +201,14 @@ const navBar = async (login) => {
     navDivTab.appendChild(ulTab)
     navDivTab.appendChild(btnDivTab)
     divTab.appendChild(aTab)
+    divTab.appendChild(navBarToggleBtn)
     divTab.appendChild(navDivTab)
     navTab.appendChild(divTab)
     document.querySelector('#navBar').textContent = ''
     document.querySelector('#navBar').appendChild(navTab)
   }
 
-  loginBtn()
+  loginBtn(login)
 }
 
 export { navBar }

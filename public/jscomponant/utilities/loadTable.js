@@ -5,30 +5,31 @@ import { loadHistoryTable } from '../history.js'
 import { loadAccountTable } from '../account.js'
 import { loadParameterTable } from '../parameter.js'
 import { loadNoticeBoardTable } from '../noticeBoard.js'
-import { login } from './login.js'
 
 let path = window.location.pathname
 
-export const loadTable = () => {
-  if( path === '/account') {
-    loadAccountTable()
-  }
-  if( path === '/parameter') {
-    loadParameterTable()
-  }
-  if( path === '/client') {
-    loadClientTable()
-  }
-  if( path === '/job') {
-    loadJobTable()
-  }
-  if( path === '/equipment') {
-    loadEquipmentTable()
-  }
-  if( path === '/history') {
-    loadHistoryTable()
-  }
-  if( path === '/' && login) {
-    loadNoticeBoardTable()
+export const loadTable = (login) => {
+  if(login){
+    if( path === '/account') {
+      loadAccountTable()
+    }
+    if( path === '/parameter') {
+      loadParameterTable()
+    }
+    if( path === '/client') {
+      loadClientTable()
+    }
+    if( path === '/job') {
+      loadJobTable()
+    }
+    if( path === '/equipment') {
+      loadEquipmentTable()
+    }
+    if( path === '/history') {
+      loadHistoryTable()
+    }
+    if( path === '/') {
+      loadNoticeBoardTable()
+    }
   }
 }

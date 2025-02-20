@@ -1,4 +1,5 @@
 import { loadTable } from "./loadTable.js"
+import { login } from './login.js'
 
 export const searchFtn = (data) => {
   let searchInput = document.querySelector('#searchItem').value.toString().toLowerCase()
@@ -16,10 +17,10 @@ export const searchFtn = (data) => {
 
 
 document.querySelector('#searchItem')?.addEventListener('input',()=> {
-  loadTable()
+  loadTable(login)
 })
   
 document.querySelector('#refreshBtn')?.addEventListener('click', () => {
   document.querySelector('#searchItem').value = ''
-  loadTable()
+  loadTable(login)
 })

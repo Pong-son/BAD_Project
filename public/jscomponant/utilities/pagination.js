@@ -1,5 +1,5 @@
 import { loadTable } from './loadTable.js'
-
+import { login } from './login.js'
 export let currentPage = 1
 export let totalPage = 1
 export let itemPerPage = 10
@@ -44,7 +44,7 @@ export const paginationConroller = (data) => {
     page.addEventListener('click',async e => {
       const page = e.target.getAttribute('data-page')
       currentPage = page
-      loadTable()
+      loadTable(login)
     })
   })
 }
@@ -62,17 +62,17 @@ document.querySelector('#itemPerPage')?.addEventListener('input', () => {
   itemPerPage = Number(document.querySelector('#itemPerPage').value)
   document.querySelector('#itemPerPage').blur()
   currentPage = 1
-  loadTable()
+  loadTable(login)
 })
 
 document.querySelector('[data-pre]')?.addEventListener('click',() => {
   currentPage = Number(currentPage) - 1
-  loadTable()
+  loadTable(login)
   return currentPage
 })
 
 document.querySelector('[aria-label="Next"]')?.addEventListener('click',() => {
   currentPage = Number(currentPage) + 1
-  loadTable()
+  loadTable(login)
   return currentPage
 })

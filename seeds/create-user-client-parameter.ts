@@ -4,13 +4,21 @@ import { hashPassword } from '../utilities/hash'
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
     await knex("account").del();
+    await knex.raw('ALTER SEQUENCE account_id_seq RESTART WITH 1')
     await knex("result").del();
+    await knex.raw('ALTER SEQUENCE result_id_seq RESTART WITH 1')
     await knex("job").del();
+    await knex.raw('ALTER SEQUENCE job_id_seq RESTART WITH 1')
     await knex("client").del();
+    await knex.raw('ALTER SEQUENCE client_id_seq RESTART WITH 1')
     await knex("history").del();
+    await knex.raw('ALTER SEQUENCE history_id_seq RESTART WITH 1')
     await knex("equipment").del();
+    await knex.raw('ALTER SEQUENCE equipment_id_seq RESTART WITH 1')
     await knex("parameter").del();
+    await knex.raw('ALTER SEQUENCE parameter_id_seq RESTART WITH 1')
     await knex("notice_board").del();
+    await knex.raw('ALTER SEQUENCE notice_board_id_seq RESTART WITH 1')
 
     let password = await hashPassword("Admin")
     let password2 = await hashPassword("qwer1234")

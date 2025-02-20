@@ -30,11 +30,16 @@ export class LoginController {
     }
   }
 
-  getLogout = async (req: express.Request, res: express.Response) => {
+  getLogout = (req: express.Request, res: express.Response) => {
     try {
-      req.session.user = ''
-      
-      res.redirect('./')
+      req.session.destroy((err) => {
+        if(err) {
+          console.log('failed')
+        } else {
+          console.log('logout')
+          res.redirect('./')
+        }
+      })
     } catch (e) {
       console.log(e)
     }

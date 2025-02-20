@@ -156,7 +156,65 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive-md">
+      <div class="modal fade" tabindex="-1" id="reportModal" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-light" id="reportModalLabel">Report Review</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <div><h3>Report</h3></div>
+                <div>
+                  <span>Client Name:</span>
+                  <span id="reportClient"></span>
+                </div>
+                <div>
+                  <div>Client Info:</div>
+                  <div id="reportClientInfo"></div>
+                </div>
+                <div>
+                  <span>Sampling Location:</span>
+                  <span id="reportlocation"></span>
+                </div>
+                <div>
+                  <span>Walkthrough Date:</span>
+                  <span id="reportWTDate"></span>
+                </div>
+                <div>
+                  <span>Sampling Period:</span>
+                  <span id="reportSamplingPeriod"></span>
+                </div>
+                <div>
+                  <span>Total Sampling Point:</span>
+                  <span id="reportTotalPoint"></span>
+                </div>
+                <div>
+                  <div>Result Table:</div>
+                  <div id="resultResultTablr">Result Table:</div>
+                </div>
+                <div>
+                  <div>Photo:</div>
+                  <div id="reportPhoto"></div>
+                </div>
+                <div>
+                  <span>Report Issue Date:</span>
+                  <span id="reportIssueDate"></span>
+                </div>
+              </div>
+              <div>
+                <button id="exportWord">Export Word</button>
+                <button id="exportPDF">Export PDF</button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
         <div class="modal fade" tabindex="-1" id="resultTableModal" aria-labelledby="resultTableModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">

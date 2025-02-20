@@ -181,6 +181,8 @@ const loadJobTable = () => {
           let reportTag = document.createElement('td')
           let report = document.createElement('button')
           report.setAttribute('data-report', job.id)
+          report.setAttribute('data-bs-toggle', 'modal')
+          report.setAttribute('data-bs-target', '#reportModal')
           report.textContent = 'Review'
           reportTag.appendChild(report)
           trTag.appendChild(reportTag)
@@ -231,6 +233,13 @@ const loadJobTable = () => {
           detailFtn(e)
         })
       })
+
+      document.querySelectorAll('[data-report]')?.forEach(report => {
+        report.addEventListener('click', e => {
+          reportFtn(e)
+        })
+      })
+
       // controller for the and delete btn
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
         edit.addEventListener('click', (e) => {
@@ -587,6 +596,7 @@ const loadResultTable = () => {
   }
 }
 
+// for get data from database
 const getJobData = async () => {
   try {
     let data = await fetch('/jobList')
@@ -597,7 +607,6 @@ const getJobData = async () => {
     console.log(e)
   }
 }
-
 const getClientData = async () => {
   try {
     if(!JSON.parse(sessionStorage.getItem('clientData'))) {
@@ -609,7 +618,6 @@ const getClientData = async () => {
     console.log(e)
   }
 }
-
 const getResultData = async (jobId) => {
   try {
     let data = await fetch(`/resultTableList${jobId}`)
@@ -619,7 +627,6 @@ const getResultData = async (jobId) => {
     console.log(e)
   }
 }
-
 const getEquipmentData = async () => {
   try {
     let data = await fetch('/equipmentList')
@@ -630,17 +637,7 @@ const getEquipmentData = async () => {
   }
 }
 
-const detailFtn = async (e) => {
-  const currentTarget = e.target.getAttribute('data-detail')
-  const location = document.querySelector(`[data-location="${currentTarget}"]`).value
-  document.querySelector('#resultTableModalLabel').textContent = location
-  targetJobId = currentTarget
-  targetJobName = location
-  console.log(targetJobName)
-  await getResultData(targetJobId)
-  loadResultTable()
-}
-
+// function for job table
 const delFtn = async (e) => {
   await fetch(`/jobList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
@@ -648,7 +645,6 @@ const delFtn = async (e) => {
 
   getJobData()
 }
-
 const editFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-done')
 
@@ -675,7 +671,24 @@ const editFtn = async (e) => {
   })
   getJobData()
 }
+const detailFtn = async (e) => {
+  const currentTarget = e.target.getAttribute('data-detail')
+  const location = document.querySelector(`[data-location="${currentTarget}"]`).value
+  document.querySelector('#resultTableModalLabel').textContent = location
+  targetJobId = currentTarget
+  targetJobName = location
+  console.log(targetJobName)
+  await getResultData(targetJobId)
+  loadResultTable()
+}
+const reportFtn = async (e) => {
+  const currentTarget = e.target.getAttribute('data-report')
+  const location = document.querySelector(`[data-location="${currentTarget}"]`).value
+  document.querySelector('#reportModalLabel').textContent = `Report Review (For ${location} [Job Id: ${currentTarget}]`
+  targetJobId = currentTarget
+}
 
+// function for result table
 const resultDelFtn = async (e) => {
   await fetch(`/resultTableList${e.target.getAttribute('data-result-delete')}`, {
     method: 'DELETE'
@@ -683,7 +696,6 @@ const resultDelFtn = async (e) => {
 
   getJobData()
 }
-
 const resultEditFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-result-done')
 
@@ -696,7 +708,6 @@ const resultEditFtn = async (e) => {
   const pm10Equipment = document.querySelector(`[data-pm10-equipment-select="${currentTarget}"]`).value
   const rhResult = document.querySelector(`[data-rh-result="${currentTarget}"]`).value
   const rhEquipment = document.querySelector(`[data-rh-equipment-select="${currentTarget}"]`).value
-
 
   await fetch(`/resultTableList${e.target.getAttribute('data-result-done')}`, {
     method: 'PUT',
@@ -717,7 +728,6 @@ const resultEditFtn = async (e) => {
   })
   getJobData()
 }
-
 const photoReviewFtn = async (e) => {
   try{
     e.target.getAttribute('data-photo')
@@ -732,6 +742,33 @@ const photoReviewFtn = async (e) => {
     console.log(err)
   }
 }
+const photoReuploadFtn = async (e) => {
+  try {
+    let result = await fetch('/printReporttype=pdf')
+    await result.json()
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+// for export report
+const exportWord = async (e) => {
+  try {
+    let result = await fetch(`/printReport/word/${targetJobId}`)
+    await result.json()
+  } catch (e) {
+    console.log(e)
+  }
+}
+const exportPDF = async () => {
+  try {
+    let result = await fetch(`/printReport/pdf/${targetJobId}`)
+    await result.json()
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 
 let path = window.location.pathname
 if(path === '/job') {
@@ -829,6 +866,14 @@ if(path === '/job') {
       sessionStorage.setItem('jobData',JSON.stringify(sortedData))
       loadJobTable()
     })
+  })
+
+  document.querySelector('#exportWord').addEventListener('click', () => {
+    exportWord()
+  })
+
+  document.querySelector('#exportPDF').addEventListener('click', () => {
+    exportPDF()
   })
 }
 

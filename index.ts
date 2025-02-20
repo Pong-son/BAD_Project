@@ -76,8 +76,6 @@ import { loginRoute } from './routes/loginRoute'
 
 const app = express()
 
-loadModels()
-
 app.use(
   expressSession({
     secret: 'bad_project',
@@ -90,8 +88,15 @@ declare module 'express-session' {
   interface SessionData {
 		user?: string
 		is_admin?: boolean
-		// darkTheme?:boolean
+		loadModel?: boolean
   }
+}
+
+let loadModel = false
+if(!loadModel){
+	loadModels()
+} else {
+	loadModel = true
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -105,17 +110,11 @@ app.use(express.static('public'))
 app.use('/', loginRoute)
 
 app.get('/', function (req: Request, res: Response) {
+	console.log(req.session.user)
 	res.sendFile(path.resolve('index.html'))
 })
 
-app.get('/islogin',(req: Request, res: Response) => {
-	if (!req.session.user) {
-		req.session.user = ''
-	}
-	res.json(req.session.user)
-})
-
-app.use(isLoggedIn)
+app.use(isLoggedIn, express.static('/protected'))
 
 app.use('/', parameterRoute)
 
@@ -133,9 +132,8 @@ app.use('/', resultTableRoute)
 
 app.use('/', reportRoute)
 
-app.use('/', accountRoute)
-
 app.get('/schedule', (req: Request, res: Response) => {
+	console.log('當前檔案所在的目錄：', __dirname);
 	res.sendFile(path.resolve('public/protected', 'schedule.html'))
 })
 
@@ -159,7 +157,7 @@ app.get('/job', (req: Request, res: Response) => {
 	res.sendFile(path.resolve('public/protected', 'job.html'))
 })
 
-app.use(isAdmin)
+app.use('/', isAdmin, accountRoute)
 
 app.get('/account', (req: Request, res: Response) => {
 	res.sendFile(path.resolve('public/protected', 'account.html'))

@@ -1,8 +1,7 @@
 import { navBar } from './navbar.js'
 
-let login;
-let loginName = window.sessionStorage.getItem('username');
-loginName?login = true: login = false;
+let login = window.sessionStorage.getItem('username');
+console.log('testing',login)
 
 document.querySelector('#pw_visibility')?.addEventListener('click',() => {
 	let pw = document.querySelector('#passWord')
@@ -49,20 +48,18 @@ document
 		location.reload()
 	})
 
-const loginBtn = async () => {
+const loginBtn = async (login) => {
 	document.querySelector('#loginBtn')?.addEventListener('click', async () => {
 		if(login) {
 			window.sessionStorage.clear()
-			const res = await fetch('/logout')
 			login = false
+			const res = await fetch('/logout')
 		}
-		checkLogin()
 	})
 }
 
-const checkLogin = async () => {
-	let result = await fetch('/islogin')
-	login = await result.json()
+const checkLogin = async (login) => {
+	console.log(login)
 	navBar(login)
   if(login){
 		document.querySelector('#loginBtn').textContent = "Logout"
@@ -145,6 +142,7 @@ const checkLogin = async () => {
 		document
 			.querySelector('#mainLoginForm')
 			.addEventListener('submit', async (event) => {
+				console.log('try to login')
 				event.preventDefault() // To prevent the form from submitting synchronously
 				const form = event.target
 				let userName = form.main_userName.value
@@ -161,6 +159,7 @@ const checkLogin = async () => {
 					})
 				})
 				const result = await res.json()
+				console.log(result)
 				if (result === 'admin') {
 					window.sessionStorage.setItem('username',userName)
 					window.sessionStorage.setItem('admin','admin')
@@ -171,7 +170,7 @@ const checkLogin = async () => {
 				}
 				document.querySelector('#userName').value = ''
 				document.querySelector('#passWord').value = ''
-				checkLogin()
+				checkLogin(login)
 				location.reload()
 			})
 	}

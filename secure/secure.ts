@@ -5,7 +5,7 @@ export const isLoggedIn = (
 	res: express.Response,
 	next: express.NextFunction
 	) => {
-		if (req.session?.user) {
+		if (req.session.user) {
 			next()
 	} else {
 		res.redirect('./')
@@ -17,7 +17,7 @@ export const isAdmin = (
 	res: express.Response,
 	next: express.NextFunction
 	) => {
-		if (req.session?.is_admin) {
+		if (req.session.is_admin) {
 			next()
 	} else {
 		res.redirect('./')
