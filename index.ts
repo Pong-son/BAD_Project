@@ -61,6 +61,12 @@ export const resultTableService = new ResultTableService(knex);
 export const resultTableController = new ResultTableController(resultTableService);
 import { resultTableRoute } from './routes/resultTableRoute'; 
 
+import { PhotoUploadController } from './controller/PhotoUploadController';
+import { PhotoUploadService } from './service/PhotoUploadService'
+export const photoUploadService = new PhotoUploadService(knex);
+export const photoUploadController = new PhotoUploadController(photoUploadService);
+import { photoUploadRoute } from './routes/photoUploadRoute'; 
+
 import { ReportController } from './controller/ReportController';
 import { ReportService } from './service/ReportService'
 export const reportService = new ReportService(knex);
@@ -129,6 +135,8 @@ app.use('/', noticeBoardRoute)
 app.use('/', jobRoute)
 
 app.use('/', resultTableRoute)
+
+app.use('/', photoUploadRoute)
 
 app.use('/', reportRoute)
 

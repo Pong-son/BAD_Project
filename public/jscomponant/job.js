@@ -6,6 +6,7 @@ let table = document.querySelector('#jobTable');
 let resultTable = document.querySelector('#resultTable');
 let targetJobId;
 let targetJobName;
+let targetPointId;
 let jobData;
 let equipmentData;
 
@@ -730,10 +731,10 @@ const resultEditFtn = async (e) => {
 }
 const photoReviewFtn = async (e) => {
   try{
-    e.target.getAttribute('data-photo')
+    targetPointId = e.target.getAttribute('data-photo')
     let data = JSON.parse(sessionStorage.getItem('resultTableData'))
     let target = data.filter(pointData => {
-      if(Number(pointData.id) === Number(e.target.getAttribute('data-photo'))) {
+      if(Number(pointData.id) === Number(targetPointId)) {
         return true
       }
     })
@@ -744,8 +745,25 @@ const photoReviewFtn = async (e) => {
 }
 const photoReuploadFtn = async (e) => {
   try {
-    let result = await fetch('/printReporttype=pdf')
-    await result.json()
+    document
+      .querySelector('#reuploadPhotoFrom')
+      ?.addEventListener('submit', async (event) => {
+        event.preventDefault() // To prevent the form from submitting synchronously
+        const form = event.target
+        const formData = new FormData()
+
+        if (form.reuploadPhoto.files[0] !== undefined) {
+          formData.append('photo', form.reuploadPhoto.files[0])
+          const res = await fetch(`/photoUploadList/${targetPointId}/${targetJobName}`, {
+            method: 'PUT',
+            body: formData
+          })
+          const result = await res.json()
+        } else {
+          return
+        }
+        document.querySelector('#reuploadPhoto').value = ''
+      })
   } catch (e) {
     console.log(e)
   }
@@ -874,6 +892,11 @@ if(path === '/job') {
 
   document.querySelector('#exportPDF').addEventListener('click', () => {
     exportPDF()
+  })
+
+  document.querySelector('#reuploadSubmitBtn').addEventListener('click', () => {
+    console.log(targetPointId)
+    photoReuploadFtn()
   })
 }
 

@@ -1,7 +1,10 @@
-import { checkLogin, login } from './jscomponant/utilities/login.js'
+import { checkLogin } from './jscomponant/utilities/login.js'
 import { loadTable } from './jscomponant/utilities/loadTable.js'
 
-window.onload = () => {
+window.onload = async () => {
+  let result = await fetch('/login')
+  let login = await result.json()
+
   checkLogin(login)
   loadTable(login)
 }

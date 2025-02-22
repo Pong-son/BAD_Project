@@ -151,6 +151,7 @@
               <img id="photoReview" alt="photo" width="100%" height="100%">
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#reuploadPhotoModal">Reupload</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
@@ -209,6 +210,32 @@
               </div>
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+            <!-- Reupload Photo -->
+      <div class="modal fade" tabindex="-1" id="reuploadPhotoModal" aria-labelledby="reuploadPhotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-light" id="reuploadPhotoModalLabel">New Photo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="reuploadPhotoFrom" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="reuploadPhoto">New Photo</label>
+                  <input type="file" class="form-control" id="reuploadPhoto" data_form="reuploadPhoto">
+                </div>
+                <br />
+                <button type="reset" id="reset_btn" class="btn btn-primary">Reset</button>
+                <button type="submit" id="reuploadSubmitBtn" class="btn btn-primary" data-bs-dismiss="modal">Upload</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#photoModal">Return</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>

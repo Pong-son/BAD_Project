@@ -19,12 +19,6 @@ export const faceDetection = async (filePath:string, fileName:string, newFileNam
     const ctx = canvasElement.getContext('2d');
     ctx.drawImage(input, 0, 0);
 
-    // const detections = await faceapi.detectAllFaces(input)
-    // const detection = await faceapi.detectSingleFace(input)
-  
-    // const detections1 = await faceapi.detectAllFaces(input, new faceapi.SsdMobilenetv1Options())
-    // const detections2 = await faceapi.detectAllFaces(input, new faceapi.TinyFaceDetectorOptions())
-  
     const results = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceDescriptors()
 
     results.forEach(result => {

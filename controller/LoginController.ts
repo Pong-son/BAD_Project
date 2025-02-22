@@ -30,6 +30,18 @@ export class LoginController {
     }
   }
 
+  getLogin = (req: express.Request, res: express.Response) => {
+    try {
+      if(req.session.user) {
+        res.json(true)
+      } else {
+        res.json(false)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   getLogout = (req: express.Request, res: express.Response) => {
     try {
       req.session.destroy((err) => {

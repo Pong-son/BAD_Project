@@ -39,3 +39,17 @@ body {
 	height: 80%;
 
 }
+
+.home_content_without_login {
+	border-radius: 25px;
+	background-color: rgb(138, 43, 226, .5);
+	width: 35%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#mainLoginForm {
+	margin: 3rem 1.5rem 3rem 1.5rem;
+}
