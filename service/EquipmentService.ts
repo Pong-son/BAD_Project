@@ -19,6 +19,16 @@ export class EquipmentService {
             finish:false
           }).into('notice_board');
         }
+      } else if (dateDifference < 0) {
+        let items = await this.knex.select('title','finish').from('notice_board').where({'title':item.name,'finish':false});
+        if(items) {
+          await this.knex('notice_board').where('title',item.name).del();
+          await this.knex.insert({
+            title: item.name,
+            content: `Expired! Calibrate Immediately!`,
+            finish:false
+          }).into('notice_board');
+        }
       }
     })
     return await this.knex('equipment').join('parameter','equipment.parameter_id','parameter.id').select('equipment.id', 'equipment.name', 'equipment.brand', 'equipment.model', 'parameter.parameter', 'equipment.calibration_date', 'equipment.expiry_date');

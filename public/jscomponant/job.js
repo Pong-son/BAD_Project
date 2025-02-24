@@ -305,12 +305,8 @@ const loadResultTable = () => {
       let data = JSON.parse(sessionStorage.getItem('resultTableData'))
       let equipmentData = JSON.parse(sessionStorage.getItem('equipmentData'))
 
-      paginationConroller(data)
-      let treatedData = pagination(data)
-      check_page_status()
-
       // generate table
-      if(treatedData?.length === undefined || treatedData?.length === 0 ) {
+      if(data?.length === undefined || data?.length === 0 ) {
         let trTag = document.createElement('tr')
         let thTag = document.createElement('th')
 
@@ -325,7 +321,7 @@ const loadResultTable = () => {
         resultTable.appendChild(trTag)
       } else {
         resultTable.textContent = ''
-        treatedData.forEach( result => {
+        data.forEach( result => {
           let trTag = document.createElement('tr')
 
           trTag.id = result.id
@@ -738,12 +734,12 @@ const photoReviewFtn = async (e) => {
         return true
       }
     })
-    document.querySelector('#photoReview').setAttribute('src',`../treatedphoto/${target[0].processed_photo}`)
+    document.querySelector('#photoReview').setAttribute('src',`../treatedPhoto/${target[0].processed_photo}`)
   } catch (err) {
     console.log(err)
   }
 }
-const photoReuploadFtn = async (e) => {
+const photoReuploadFtn = async () => {
   try {
     document
       .querySelector('#reuploadPhotoFrom')
@@ -858,7 +854,7 @@ if(path === '/job') {
       if (form.photo.files[0] !== undefined) {
         formData.append('photo', form.photo.files[0])
       }
-      const res = await fetch(`/resultTableList?jobName=${targetJobName}&point=${form.point.value}`, {
+      const res = await fetch(`/resultTableList/${form.point.value}/${targetJobName}`, {
         method: 'POST',
         body: formData
       })
@@ -895,7 +891,6 @@ if(path === '/job') {
   })
 
   document.querySelector('#reuploadSubmitBtn').addEventListener('click', () => {
-    console.log(targetPointId)
     photoReuploadFtn()
   })
 }

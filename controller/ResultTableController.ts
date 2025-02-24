@@ -36,7 +36,6 @@ export class ResultTableController {
     try {
       if(files) {
         newFileName = await faceDetection(photo.filepath, photo.newFilename, newFileName)
-        console.log(newFileName)
         await this.resultTableService.addResultTable(Number(fields.jobId), fields.point, fields.description, fields.samplingDate, Number(fields.co2Result), fields.co2Equipment, Number(fields.pm10Result), fields.pm10Equipment, Number(fields.rhResult), fields.rhEquipment, photo.newFilename, newFileName)
         res.json('Added')
       }

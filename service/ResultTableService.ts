@@ -4,7 +4,7 @@ export class ResultTableService {
   constructor(private knex: Knex){}
 
   async getResultTable(jobId:number) {
-    return await this.knex('result').select('id', 'point_no', 'description', 'sampling_date', 'carbon_dioxide' , 'co2_equipment_id' ,'pm10', 'pm10_equipment_id', 'humidity', 'rh_equipment_id', 'photo', 'processed_photo').where('job_id',jobId);
+    return await this.knex('result').select('id', 'point_no', 'description', 'sampling_date', 'carbon_dioxide' , 'co2_equipment_id' ,'pm10', 'pm10_equipment_id', 'humidity', 'rh_equipment_id', 'photo', 'processed_photo').where('job_id',jobId).orderBy('point_no', 'asc');
   }
 
   async addResultTable(jobId:number, point:string|string[], description:string|string[], samplingDate:string|string[], co2Result:number, co2Equipment:string|string[], pm10Result:number, pm10Equipment:string|string[], rhResult:number, rhEquipment:string|string[], photo:string|string[], newPhoto:string|string[]) {
@@ -34,9 +34,7 @@ export class ResultTableService {
       pm10: pm10Result,
       pm10_equipment_id: pm10Equipment,
       humidity: rhResult,
-      rh_equipment_id: rhEquipment,
-      photo: 'test',
-      processed_photo: 'test'
+      rh_equipment_id: rhEquipment
     }).where('id',id);
   }
 

@@ -4,7 +4,7 @@ export class NoticeBoardService {
   constructor(private knex: Knex){}
 
   async getNoticeBoard() {
-    return await this.knex.select('id','title','content','finish').from("notice_board");
+    return await this.knex.select('id','title','content','finish').from("notice_board").where("finish",false);
   }
 
   async addNoticeBoard(title:string, content:string) {

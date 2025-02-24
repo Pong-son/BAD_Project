@@ -18,7 +18,7 @@ export class PhotoUploadController {
       if(files) {
         newFileName = await faceDetection(photo.filepath, photo.newFilename, newFileName)
         
-        await this.photoUploadService.updatePhotoUpload(Number(req.params.id), photo.newFilename, newFileName)
+        await this.photoUploadService.updatePhotoUpload(Number(req.params.pointId), photo.newFilename, newFileName)
       }
       res.json('Edited')
     } catch (err) {

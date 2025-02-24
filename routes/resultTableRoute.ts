@@ -5,5 +5,5 @@ export const resultTableRoute = express.Router()
 
 resultTableRoute.get('/resultTableList:jobId', resultTableController.getResultTable)
 resultTableRoute.delete('/resultTableList:id', resultTableController.delResultTable)
-resultTableRoute.post('/resultTableList', resultTableController.addResultTable)
+resultTableRoute.post('/resultTableList/:pointId/:jobName', resultTableController.addResultTable)
 resultTableRoute.put('/resultTableList:id', resultTableController.updateResultTable)

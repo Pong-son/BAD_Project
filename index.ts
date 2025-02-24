@@ -141,7 +141,6 @@ app.use('/', photoUploadRoute)
 app.use('/', reportRoute)
 
 app.get('/schedule', (req: Request, res: Response) => {
-	console.log('當前檔案所在的目錄：', __dirname);
 	res.sendFile(path.resolve('public/protected', 'schedule.html'))
 })
 

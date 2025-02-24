@@ -16,7 +16,7 @@ export function parseForm(req: express.Request) {
     filename: (originalName, originalExt, part, form) => {
       let timestamp = Date.now()
       let ext = part.mimetype?.split('/').pop()
-      return `${req.query.jobName}-${req.query.pointId}-${timestamp}.${ext}`
+      return `${req.params.jobName}-${req.params.pointId}-${timestamp}.${ext}`
     },
   })
 

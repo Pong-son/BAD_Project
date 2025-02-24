@@ -25,6 +25,7 @@
     "fullcalendar": "^6.1.15",
     "jsdom": "^26.0.0",
     "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "knex": "^3.1.0",
     "pg": "^8.13.1"
   },

@@ -105,7 +105,6 @@ const finishFtn = async (e) => {
 
 let path = window.location.pathname
 if(path === '/' && login) {
-  console.log(login)
   getnoticeBoardData()
   
   document.querySelectorAll('[data-th]')?.forEach(sort => {

@@ -16,7 +16,6 @@ export class EquipmentController {
       } else {
         data = equipmentList
       }
-      // res.json(pagination(data,page,limit))
       res.json(data)
     } catch (err) {
       console.log(err)

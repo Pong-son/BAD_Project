@@ -3,4 +3,4 @@ import { photoUploadController } from '..';
 
 export const photoUploadRoute = express.Router()
 
-photoUploadRoute.put('/photoUploadList/id/jobName', photoUploadController.updatePhotoUpload)
+photoUploadRoute.put('/photoUploadList/:pointId/:jobName', photoUploadController.updatePhotoUpload)
