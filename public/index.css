@@ -37,7 +37,10 @@ body {
 	background-color: black;
 	width: 90%;
 	height: 80%;
+}
 
+.fc-toolbar-title {
+	color: white;
 }
 
 .home_content_without_login {

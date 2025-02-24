@@ -153,7 +153,10 @@ const navBar = (login) => {
 
   let fifthLiTab = document.createElement('li')
   fifthLiTab.classList.add('nav-item')
-  fifthLiTab.classList.add('admin_hide')
+  let isAdmin = window.sessionStorage.getItem('admin')
+  if(!isAdmin){
+    fifthLiTab.classList.add('hide')
+  }
 
   let fifthATab = document.createElement('a')
   fifthATab.classList.add('nav-link')
