@@ -4,7 +4,7 @@ export class AccountService {
   constructor(private knex: Knex){}
 
   async getAccount() {
-    return await this.knex.select('id','username','email','is_admin').from("account");
+    return await this.knex.select('id','username','email','is_admin').from("account").orderBy('id','asc');
   }
 
   async addAccount(username:string, email:string, password:string) {

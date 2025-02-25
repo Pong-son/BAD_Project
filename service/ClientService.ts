@@ -4,7 +4,7 @@ export class ClientService {
   constructor(private knex: Knex){}
 
   async getClient() {
-    return await this.knex.select('id','company_name','address', 'contact', 'phone_no', 'email').from("client");
+    return await this.knex.select('id','company_name','address', 'contact', 'phone_no', 'email').from("client").orderBy('id','asc');
   }
 
   async addClient(companyName:string, address:string, contact:string, phoneNo:string, email:string) {

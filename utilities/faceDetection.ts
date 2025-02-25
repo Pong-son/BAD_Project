@@ -47,8 +47,8 @@ export const faceDetection = async (filePath:string, fileName:string, newFileNam
 
     newFileName = `treated_${fileName}`
     return newFileName
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
     return newFileName = ''
   }
 

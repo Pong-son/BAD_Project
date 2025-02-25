@@ -46,9 +46,10 @@ export class ClientController {
   delClient = async (req: express.Request, res: express.Response) => {
     try {
       await this.clientService.delClient(Number(req.params.id))
+      res.json('Deleted')
     } catch (err) {
       console.log(err)
+      res.json('This client still in used in other table!')
     }
-    res.json('Deleted')
   }
 }

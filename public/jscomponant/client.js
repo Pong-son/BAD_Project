@@ -13,7 +13,6 @@ const loadClientTable = () => {
       let searchInput = document.querySelector('#searchItem').value
       console.log(searchInput)
       if (searchInput) {
-        console.log('correcct')
         data = searchFtn(data)
       }
       
@@ -179,8 +178,8 @@ const loadClientTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -190,16 +189,17 @@ const getClientData = async () => {
     clientData = await data.json()
     sessionStorage.setItem('clientData',JSON.stringify(clientData))
     loadClientTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
 const delFtn = async (e) => {
-  await fetch(`/clientList${e.target.getAttribute('data-delete')}`, {
+  const res = await fetch(`/clientList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
-
+  const result = await res.json()
+  alert(result)
   getClientData()
 }
 

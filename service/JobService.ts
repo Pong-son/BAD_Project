@@ -7,7 +7,7 @@ export class JobService {
     return await this.knex('job').join('client','job.client_id','client.id').select('job.id', 'client.company_name', 'job.location', 'job.walkthrough_date', 'job.sampling_start_date', 'job.sampling_end_date', 'job.no_of_sampling_point');
   }
 
-  async addJob(client:string, location:string, jobReceiveDate: Date, walkthroughDate:Date, startDate:string, endDate:Date, totalPoint: number) {
+  async addJob(client:string, location:string, jobReceiveDate: Date, walkthroughDate:Date|null, startDate:string|null, endDate:Date|null, totalPoint: number|null) {
     return await this.knex.insert({
       client_id: this.knex('client').select('id').where('company_name',client),
       location: location,

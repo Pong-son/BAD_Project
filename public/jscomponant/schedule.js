@@ -7,8 +7,8 @@ const getSchedule = async () => {
       jobData = await data.json()
       sessionStorage.setItem('jobData',JSON.stringify(jobData))
       console.log('get')
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      console.log(err)
     }
 }
 
@@ -24,7 +24,7 @@ const loadSchedule = () => {
       let startYear = new Date(job.sampling_start_date).getFullYear()
       let startDateData = `${startYear}-${startMonth}-${startDate}`
 
-      let endDate = new Date(job.sampling_end_date).getDate()
+      let endDate = new Date(job.sampling_end_date).getDate()+1
       endDate < 10? endDate = '0'+endDate:endDate
       let endMonth = new Date(job.sampling_end_date).getMonth()+1
       endMonth < 10? endMonth = '0'+endMonth:endMonth
@@ -35,6 +35,7 @@ const loadSchedule = () => {
       event.title = job.location
       event.start = startDateData
       event.end = endDateData
+      event.allDay = true
       addEvents.push(event)
       console.log(addEvents)
     });
@@ -45,25 +46,30 @@ const addEvent = () => {
   console.log('update your database')
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+const loadCalendar = () => {
+  console.log('loadCalendar')
   console.log(addEvents)
-  const calendarEl = document.getElementById('calendar');
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'title',
-      right: 'today prev,next'
-    },
-    events: addEvents,
-    eventColor: '#378006',
-    eventBackgroundColor: 'darkblue',
-    eventBorderColor:'black',
-    eventTextColor: 'white'
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'title',
+        right: 'today prev,next'
+      },
+      events: addEvents,
+      eventColor: '#378006',
+      eventBackgroundColor: 'darkblue',
+      eventBorderColor:'black',
+      eventTextColor: 'white'
+    });
+    calendar.render();
   });
-  calendar.render();
-});
+}
 let path = window.location.pathname
 if(path === '/schedule') {
   getSchedule()
   loadSchedule()
+  loadCalendar()
+  
 }

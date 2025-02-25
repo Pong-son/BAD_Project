@@ -117,8 +117,8 @@ const loadHistoryTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -128,8 +128,8 @@ const gethistoryData = async () => {
     historyData = await data.json()
     sessionStorage.setItem('historyData',JSON.stringify(historyData))
     loadHistoryTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 

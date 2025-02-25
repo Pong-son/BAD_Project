@@ -294,8 +294,8 @@ const loadJobTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -588,8 +588,8 @@ const loadResultTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -600,8 +600,8 @@ const getJobData = async () => {
     jobData = await data.json()
     sessionStorage.setItem('jobData',JSON.stringify(jobData))
     loadJobTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 const getClientData = async () => {
@@ -611,8 +611,8 @@ const getClientData = async () => {
       let clientData = await data.json()
       sessionStorage.setItem('clientData',JSON.stringify(clientData))
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 const getResultData = async (jobId) => {
@@ -620,8 +620,9 @@ const getResultData = async (jobId) => {
     let data = await fetch(`/resultTableList${jobId}`)
     let resultTableData = await data.json()
     sessionStorage.setItem('resultTableData',JSON.stringify(resultTableData))
-  } catch (e) {
-    console.log(e)
+    loadResultTable()
+  } catch (err) {
+    console.log(err)
   }
 }
 const getEquipmentData = async () => {
@@ -629,8 +630,8 @@ const getEquipmentData = async () => {
     let data = await fetch('/equipmentList')
     equipmentData = await data.json()
     sessionStorage.setItem('equipmentData',JSON.stringify(equipmentData))
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -639,7 +640,6 @@ const delFtn = async (e) => {
   await fetch(`/jobList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
-
   getJobData()
 }
 const editFtn = async (e) => {
@@ -691,7 +691,7 @@ const resultDelFtn = async (e) => {
     method: 'DELETE'
   })
 
-  getJobData()
+  getResultData()
 }
 const resultEditFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-result-done')
@@ -760,8 +760,8 @@ const photoReuploadFtn = async () => {
         }
         document.querySelector('#reuploadPhoto').value = ''
       })
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -770,16 +770,16 @@ const exportWord = async (e) => {
   try {
     let result = await fetch(`/printReport/word/${targetJobId}`)
     await result.json()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 const exportPDF = async () => {
   try {
     let result = await fetch(`/printReport/pdf/${targetJobId}`)
     await result.json()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -796,12 +796,13 @@ if(path === '/job') {
     ?.addEventListener('submit', async (event) => {
       event.preventDefault() // To prevent the form from submitting synchronously
       const form = event.target
+      console.log(form.startDate.value)
       let client = form.client.value
       let location = form.location.value
       let jobReceiveDate = form.jobReceiveDate.value
-      let walkthroughDate = form.walkthroughDate.value
-      let startDate = form.startDate.value
-      let endDate = form.endDate.value
+      let walkthroughDate = form.walkthroughDate.value === ''?null:form.walkthroughDate.value
+      let startDate = form.startDate.value === ''?null:form.startDate.value
+      let endDate = form.endDate.value === ''?null:form.endDate.value
       let totalPoint = form.totalPoint.value
   
       const res = await fetch('/jobList', {

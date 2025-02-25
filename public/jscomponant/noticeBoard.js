@@ -74,8 +74,8 @@ const loadNoticeBoardTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -85,8 +85,8 @@ const getnoticeBoardData = async () => {
     noticeBoardData = await data.json()
     sessionStorage.setItem('noticeBoardData',JSON.stringify(noticeBoardData))
     loadNoticeBoardTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 

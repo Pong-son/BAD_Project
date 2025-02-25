@@ -25,8 +25,8 @@ export class LoginController {
       } else {
         res.json('done')
       }
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -37,8 +37,8 @@ export class LoginController {
       } else {
         res.json(false)
       }
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -52,8 +52,8 @@ export class LoginController {
           res.redirect('./')
         }
       })
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      console.log(err)
     }
   }
 }

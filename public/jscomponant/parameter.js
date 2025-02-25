@@ -141,8 +141,8 @@ const loadParameterTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -150,19 +150,19 @@ const getParameterData = async () => {
   try {
     let data = await fetch('/parameterList')
     parameterData = await data.json()
-    console.log(parameterData)
     sessionStorage.setItem('parameterData',JSON.stringify(parameterData))
     loadParameterTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
 const delFtn = async (e) => {
-  await fetch(`/parameterList${e.target.getAttribute('data-delete')}`, {
+  const res = await fetch(`/parameterList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
-
+  const result = await res.json()
+  alert(result)
   getParameterData()
 }
 

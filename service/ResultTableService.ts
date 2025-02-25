@@ -39,6 +39,6 @@ export class ResultTableService {
   }
 
   async delResultTable(id:number) {
-    return await this.knex('result').where('id',id).del();
+    return await this.knex('result').where('id',id).returning('*').del();
   }
 }

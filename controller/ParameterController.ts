@@ -46,9 +46,10 @@ export class ParameterController {
   delParameter = async (req: express.Request, res: express.Response) => {
     try {
       await this.parameterService.delParameter(Number(req.params.id))
+      res.json('Deleted')
     } catch (err) {
       console.log(err)
+      res.json('This parameter is still in-used.')
     }
-    res.json('Deleted')
   }
 }

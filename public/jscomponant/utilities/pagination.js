@@ -51,6 +51,10 @@ export const paginationConroller = (data) => {
 
 
 export const check_page_status = () => {
+  let searchInput = document.querySelector('#searchItem').value
+  if(searchInput){
+    currentPage = 1
+  }
   let preBtn = document.querySelector('[aria-label="Previous"]')
   let nextBtn = document.querySelector('[aria-label="Next"]')
   document.querySelector(`[data-page="${currentPage}"]`)?.classList.add('disabled')

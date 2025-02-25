@@ -18,15 +18,6 @@ const loadAccountTable = () => {
       paginationConroller(data)
       let treatedData = pagination(data)
       check_page_status()
-      // check_page_status(data)
-      // search_ftn(data)
-
-      // if(search(accountData, sort_by_item, sort_by).length !== 0) {
-      //   data_in_table = search(accountData, sort_by_item, sort_by)
-      // } else if (sort_by_item) {
-      //   accountData = []
-      // } else {
-      //   ''
 
       // generate table
       if (searchInput !== '' && data.length === 0) {
@@ -107,6 +98,9 @@ const loadAccountTable = () => {
           let upgrade = document.createElement('button')
           upgrade.setAttribute('data-upgrade', user.id)
           upgrade.textContent = 'Upgrade'
+          if(user.is_admin){
+            upgrade.setAttribute('disabled','')
+          }
           upgradeTag.appendChild(upgrade)
           trTag.appendChild(upgradeTag)
 
@@ -147,7 +141,6 @@ const loadAccountTable = () => {
         upgrade.addEventListener('click', async (e) => {
           const targetId = e.target.getAttribute('data-upgrade')
   
-          console.log(targetId)
           const res = await fetch(`/accountList${targetId}`, {
             method: 'PUT',
             headers: {
@@ -158,7 +151,7 @@ const loadAccountTable = () => {
               is_admin:true
             })
           })
-          const result = await res.json()
+          await res.json()
       
           document.querySelector('#id_change_pw').textContent = ''
           document.querySelector('#newPassword').value = ''
@@ -204,8 +197,8 @@ const loadAccountTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -213,11 +206,10 @@ const getAccountData = async () => {
   try {
     let data = await fetch('/accountList')
     accountData = await data.json()
-    console.log(accountData)
     sessionStorage.setItem('accountData',JSON.stringify(accountData))
     loadAccountTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -225,7 +217,6 @@ const delFtn = async (e) => {
   await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
-
   getAccountData()
 }
 
@@ -326,7 +317,7 @@ if(path === '/account') {
   document
     .querySelector('#regisForm')
     ?.addEventListener('submit', async (event) => {
-      event.preventDefault() // To prevent the form from submitting synchronously
+      event.preventDefault()
       const form = event.target
       let rUserName = form.rUserName.value
       let email = form.email.value
@@ -373,6 +364,8 @@ if(path === '/account') {
       })
       const result = await res.json()
   
+      alert(result)
+  
       document.querySelector('#id_change_pw').value = ''
       document.querySelector('#newPassword').value = ''
       document.querySelector('#cfmNewPassword').value = ''
@@ -380,7 +373,6 @@ if(path === '/account') {
   
   document.querySelector('#rpw_visibility')?.addEventListener('click',() => {
     let pw = document.querySelector('#rPassWord')
-    console.log(pw.type)
     if(pw.type === "password") {
       document.querySelector('#rpw_visibility').textContent = 'visibility_off'
       pw.type = "text"
@@ -392,7 +384,6 @@ if(path === '/account') {
   
   document.querySelector('#cfmRpw_visibility')?.addEventListener('click',() => {
     let pw = document.querySelector('#cfmRPassWord')
-    console.log(pw.type)
     if(pw.type === "password") {
       document.querySelector('#cfmRpw_visibility').textContent = 'visibility_off'
       pw.type = "text"
@@ -404,7 +395,6 @@ if(path === '/account') {
   
   document.querySelector('#newpw_visibility')?.addEventListener('click',() => {
     let pw = document.querySelector('#newPassword')
-    console.log(pw.type)
     if(pw.type === "password") {
       document.querySelector('#newpw_visibility').textContent = 'visibility_off'
       pw.type = "text"
@@ -416,7 +406,6 @@ if(path === '/account') {
   
   document.querySelector('#cfmNewpw_visibility')?.addEventListener('click',() => {
     let pw = document.querySelector('#cfmNewPassword')
-    console.log(pw.type)
     if(pw.type === "password") {
       document.querySelector('#cfmNewpw_visibility').textContent = 'visibility_off'
       pw.type = "text"
@@ -438,9 +427,4 @@ if(path === '/account') {
   })
 }
 
-
-
-
 export { loadAccountTable }
-
-

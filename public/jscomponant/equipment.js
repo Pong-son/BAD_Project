@@ -180,10 +180,8 @@ const loadEquipmentTable = () => {
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
         edit.addEventListener('click', (e) => {
           const target = e.target.getAttribute('data-edit')
-          document.querySelector(`[data-name="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-brand="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-model="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-parameter="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-calibration-date="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-done="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.remove('hide')
@@ -199,10 +197,8 @@ const loadEquipmentTable = () => {
         done.addEventListener('click', (e) => {
           editFtn(e)
           const target = e.target.getAttribute('data-done')
-          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
@@ -212,10 +208,8 @@ const loadEquipmentTable = () => {
       document.querySelectorAll('[data-cancel]')?.forEach(cancel => {
         cancel.addEventListener('click', (e) => {
           let target = e.target.getAttribute('data-cancel')
-          document.querySelector(`[data-name="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-brand="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-model="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-parameter="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-calibration-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-cancel="${target}"]`).classList.add('hide')
@@ -223,8 +217,8 @@ const loadEquipmentTable = () => {
         })
       })
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -234,28 +228,29 @@ const getEquipmentData = async () => {
     equipmentData = await data.json()
     sessionStorage.setItem('equipmentData',JSON.stringify(equipmentData))
     loadEquipmentTable()
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
-const getparameterData = async () => {
+const getParameterData = async () => {
   try {
     if(!JSON.parse(sessionStorage.getItem('parameterData'))) {
       let data = await fetch('/parameterList')
       let parameterData = await data.json()
       sessionStorage.setItem('parameterData',JSON.stringify(parameterData))
     }
-  } catch (e) {
-    console.log(e)
+  } catch (err) {
+    console.log(err)
   }
 }
 
 const delFtn = async (e) => {
-  await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
+  const res = await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
     method: 'DELETE'
   })
-
+  const result = await res.json()
+  alert(result)
   getEquipmentData()
 }
 
@@ -268,26 +263,39 @@ const editFtn = async (e) => {
   const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
   const calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
 
-  let oldCalibrationDate
   let data = JSON.parse(sessionStorage.getItem('equipmentData'))
   let filterData = data.filter(item => {
-    console.log(Number(item.id) === Number(currentTarget))
     return Number(item.id) === Number(currentTarget)
   })
 
   if(filterData.length !== 0){
-    oldCalibrationDate = filterData[0].calibration_date
-    await fetch('/historyList', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: filterData[0].id, 
-        calibrationDate: oldCalibrationDate,
-        expiryDate: filterData[0].expiry_date
+    let calDate = new Date(filterData[0].calibration_date).getDate()
+    calDate < 10? calDate = '0'+calDate:calDate
+    let calMonth = new Date(filterData[0].calibration_date).getMonth()+1
+    calMonth < 10? calMonth = '0'+calMonth:calMonth
+    let calYear = new Date(filterData[0].calibration_date).getFullYear()
+    let oldCalDateData = `${calYear}-${calMonth}-${calDate}`
+
+    let exp_date = new Date(filterData[0].expiry_date).getDate()
+    exp_date < 10? exp_date = '0'+exp_date:exp_date
+    let expMonth = new Date(filterData[0].expiry_date).getMonth()+1
+    expMonth < 10? expMonth = '0'+expMonth:expMonth
+    let expYear = new Date(filterData[0].expiry_date).getFullYear()
+    let oldExpiryDateData = `${expYear}-${expMonth}-${exp_date}`
+    if(oldCalDateData !== calibrationDate) {
+      console.log('change')
+      await fetch('/historyList', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: filterData[0].id, 
+          calibrationDate: oldCalDateData,
+          expiryDate: oldExpiryDateData
+        })
       })
-    })
+    }
   }
 
   await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
@@ -310,7 +318,7 @@ const editFtn = async (e) => {
 let path = window.location.pathname
 if(path === '/equipment') {
   getEquipmentData()
-  getparameterData()
+  getParameterData()
 
   document.querySelector('#reset_btn').addEventListener('click', () => {
     document.querySelector('#name').value = ''

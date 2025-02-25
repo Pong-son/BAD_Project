@@ -54,9 +54,10 @@ export class JobController {
   delJob = async (req: express.Request, res: express.Response) => {
     try {
       await this.jobService.delJob(Number(req.params.id))
+      res.json('Deleted')
     } catch (err) {
       console.log(err)
+      res.json('Please delete all related results first')
     }
-    res.json('Deleted')
   }
 }

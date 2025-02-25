@@ -1,7 +1,6 @@
 import { navBar } from './navbar.js'
 
 let login = window.sessionStorage.getItem('username');
-console.log('testing',login)
 
 document.querySelector('#pw_visibility')?.addEventListener('click',() => {
 	let pw = document.querySelector('#passWord')
@@ -33,7 +32,6 @@ document
 			})
 		})
 		const result = await res.json()
-		console.log(result)
 		if (result === 'admin') {
 			window.sessionStorage.setItem('username',userName)
 			window.sessionStorage.setItem('admin','admin')
@@ -59,7 +57,6 @@ const loginBtn = async (login) => {
 }
 
 const checkLogin = async (login) => {
-	console.log(login)
 	navBar(login)
   if(login){
 		document.querySelector('#loginBtn').textContent = "Logout"
@@ -142,7 +139,6 @@ const checkLogin = async (login) => {
 		document
 			.querySelector('#mainLoginForm')
 			.addEventListener('submit', async (event) => {
-				console.log('try to login')
 				event.preventDefault() // To prevent the form from submitting synchronously
 				const form = event.target
 				let userName = form.main_userName.value
@@ -159,7 +155,6 @@ const checkLogin = async (login) => {
 					})
 				})
 				const result = await res.json()
-				console.log(result)
 				if (result === 'admin') {
 					window.sessionStorage.setItem('username',userName)
 					window.sessionStorage.setItem('admin','admin')
