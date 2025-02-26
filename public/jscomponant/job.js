@@ -741,14 +741,14 @@ const editFtn = async (e) => {
     return
   }
 }
-const detailFtn = async (e) => {
+const detailFtn = (e) => {
   const currentTarget = e.target.getAttribute('data-detail')
   const location = document.querySelector(`[data-location="${currentTarget}"]`).value
   document.querySelector('#resultTableModalLabel').textContent = location
   targetJobId = currentTarget
   targetJobName = location
   console.log(targetJobName)
-  await getResultData(targetJobId)
+  getResultData(targetJobId)
   loadResultTable()
 }
 const reportFtn = async (e) => {
@@ -882,7 +882,10 @@ if(path === '/job') {
     ?.addEventListener('submit', async (event) => {
       event.preventDefault() // To prevent the form from submitting synchronously
       const form = event.target
-      console.log(form.startDate.value)
+
+      if(form.client.value === '' | form.location.value === '' | form.jobReceiveDate.value) {
+        alert('client, location or job receive date can not be blank!')
+      }
       let client = form.client.value
       let location = form.location.value
       let jobReceiveDate = form.jobReceiveDate.value
