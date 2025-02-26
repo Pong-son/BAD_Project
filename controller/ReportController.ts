@@ -16,7 +16,7 @@ export class ReportController {
         exportPDF(reportList)
       }
       // res.json(pagination(data,page,limit))
-      res.json('Printed')
+      res.json('printed')
     } catch (err) {
       console.log(err)
       res.json([])

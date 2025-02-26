@@ -87,20 +87,25 @@ const getnoticeBoardData = async () => {
     loadNoticeBoardTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 const finishFtn = async (e) => {
-  await fetch(`/noticeBoardList${e.target.getAttribute('data-finish')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      doneBy: window.sessionStorage.getItem('username'),
+  try {
+    await fetch(`/noticeBoardList${e.target.getAttribute('data-finish')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        doneBy: window.sessionStorage.getItem('username'),
+      })
     })
-  })
-  getnoticeBoardData()
+    getnoticeBoardData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 let path = window.location.pathname

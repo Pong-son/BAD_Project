@@ -130,15 +130,20 @@ const gethistoryData = async () => {
     loadHistoryTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 const delFtn = async (e) => {
-  await fetch(`/historyList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
+  try {
+    await fetch(`/historyList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    gethistoryData()
+  } catch (err) {
+    console.log(err)
+  }
 
-  gethistoryData()
 }
 
 let path = window.location.pathname

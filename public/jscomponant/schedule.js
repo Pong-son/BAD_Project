@@ -9,6 +9,7 @@ const getSchedule = async () => {
       console.log('get')
     } catch (err) {
       console.log(err)
+      alert('Please refresh page')
     }
 }
 
@@ -37,18 +38,11 @@ const loadSchedule = () => {
       event.end = endDateData
       event.allDay = true
       addEvents.push(event)
-      console.log(addEvents)
     });
   }
 }
 
-const addEvent = () => {
-  console.log('update your database')
-}
-
 const loadCalendar = () => {
-  console.log('loadCalendar')
-  console.log(addEvents)
   document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const calendar = new FullCalendar.Calendar(calendarEl, {

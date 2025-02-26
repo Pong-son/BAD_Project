@@ -191,16 +191,21 @@ const getClientData = async () => {
     loadClientTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 const delFtn = async (e) => {
-  const res = await fetch(`/clientList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-  const result = await res.json()
-  alert(result)
-  getClientData()
+  try {
+    const res = await fetch(`/clientList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    const result = await res.json()
+    alert(result)
+    getClientData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const editFtn = async (e) => {
@@ -211,22 +216,26 @@ const editFtn = async (e) => {
   const contact = document.querySelector(`[data-contact="${currentTarget}"]`).value
   const phoneNo = document.querySelector(`[data-phone-no="${currentTarget}"]`).value
   const email = document.querySelector(`[data-email="${currentTarget}"]`).value
-
-  await fetch(`/clientList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id:currentTarget,
-      companyName: companyName,
-      address: address,
-      contact: contact, 
-      phoneNo: phoneNo, 
-      email: email
+  
+  try {
+    await fetch(`/clientList${e.target.getAttribute('data-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:currentTarget,
+        companyName: companyName,
+        address: address,
+        contact: contact, 
+        phoneNo: phoneNo, 
+        email: email
+      })
     })
-  })
-  getClientData()
+    getClientData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 let path = window.location.pathname
@@ -253,30 +262,35 @@ if(path === '/client') {
       let phoneNo = form.phoneNo.value
       let email = form.email.value
   
-      const res = await fetch('/clientList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          companyName: companyName,
-          address: address,
-          contact: contact, 
-          phoneNo: phoneNo, 
-          email: email
+      try {
+        const res = await fetch('/clientList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            companyName: companyName,
+            address: address,
+            contact: contact, 
+            phoneNo: phoneNo, 
+            email: email
+          })
         })
-      })
-      const result = await res.json()
-  
-      alert(result)
-      document.querySelector('#companyName').value = ''
-      document.querySelector('#address').value = ''
-      document.querySelector('#contact').value = ''
-      document.querySelector('#phoneNo').value = ''
-      document.querySelector('#email').value = ''
-  
-      getClientData()
-      loadClientTable()
+        const result = await res.json()
+    
+        alert(result)
+        document.querySelector('#companyName').value = ''
+        document.querySelector('#address').value = ''
+        document.querySelector('#contact').value = ''
+        document.querySelector('#phoneNo').value = ''
+        document.querySelector('#email').value = ''
+    
+        getClientData()
+        loadClientTable()
+      } catch (err) {
+        console.log(err)
+        alert('Please try again.')
+      }
     })
   
   document.querySelectorAll('[data-th]')?.forEach(sort => {

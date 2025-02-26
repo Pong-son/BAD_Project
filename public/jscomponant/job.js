@@ -367,15 +367,31 @@ const loadResultTable = () => {
 
           let co2Tag = document.createElement('td')
 
+          let co2ResultTag = document.createElement('div')
+          co2ResultTag.classList.add('input-group')
+          let co2ResultLabel = document.createElement('label')
+          co2ResultLabel.textContent = 'Result'
+          co2ResultLabel.setAttribute('data-co2-label', result.id)
+          co2ResultLabel.classList.add('input-group-text')
+          co2ResultTag.appendChild(co2ResultLabel)
+
           let co2Result = document.createElement('input')
           co2Result.setAttribute('disabled','')
           co2Result.setAttribute('type', 'number')
           co2Result.setAttribute('data-co2-result', result.id)
+          co2Result.classList.add('form-control')
           co2Result.value = result.carbon_dioxide
-          co2Tag.appendChild(co2Result)
+          co2ResultLabel.appendChild(co2Result)
+          co2Tag.appendChild(co2ResultTag)
+
+          let co2EquipmentTag = document.createElement('div')
+          co2EquipmentTag.setAttribute('data-co2-equipment-tag', result.id)
+          co2EquipmentTag.classList.add('hide')
+          let co2EquipmentLabelTag = document.createElement('label')
+          co2EquipmentLabelTag.textContent = 'Equipment No.:'
+          co2EquipmentTag.appendChild(co2EquipmentLabelTag)
 
           let co2EquipmentSelect = document.createElement('select')
-          co2EquipmentSelect.classList.add('hide')
           co2EquipmentSelect.setAttribute('data-co2-equipment-select', result.id)
           for (let i = 0; i < equipmentData.length; i++) {
             if(equipmentData[i].parameter === "Carbon Dioxide") {
@@ -389,20 +405,37 @@ const loadResultTable = () => {
               co2EquipmentSelect.appendChild(equipment)
             }
           }
-          co2Tag.appendChild(co2EquipmentSelect)
+          co2EquipmentLabelTag.appendChild(co2EquipmentSelect)
+          co2Tag.appendChild(co2EquipmentTag)
           trTag.appendChild(co2Tag)
 
           let pm10Tag = document.createElement('td')
+
+          let pm10ResultTag = document.createElement('div')
+          pm10ResultTag.classList.add('input-group')
+          let pm10ResultLabel = document.createElement('label')
+          pm10ResultLabel.textContent = 'Result'
+          pm10ResultLabel.setAttribute('data-pm10-label', result.id)
+          pm10ResultLabel.classList.add('input-group-text')
+          pm10ResultTag.appendChild(pm10ResultLabel)
 
           let pm10Result = document.createElement('input')
           pm10Result.setAttribute('disabled','')
           pm10Result.setAttribute('type', 'number')
           pm10Result.setAttribute('data-pm10-result', result.id)
+          pm10Result.classList.add('form-control')
           pm10Result.value = result.pm10
-          pm10Tag.appendChild(pm10Result)
+          pm10ResultLabel.appendChild(pm10Result)
+          pm10Tag.appendChild(pm10ResultTag)
+
+          let pm10EquipmentTag = document.createElement('div')
+          pm10EquipmentTag.setAttribute('data-pm10-equipment-tag', result.id)
+          pm10EquipmentTag.classList.add('hide')
+          let pm10EquipmentLabelTag = document.createElement('label')
+          pm10EquipmentLabelTag.textContent = 'Equipment No.:'
+          pm10EquipmentTag.appendChild(pm10EquipmentLabelTag)
 
           let pm10EquipmentSelect = document.createElement('select')
-          pm10EquipmentSelect.classList.add('hide')
           pm10EquipmentSelect.setAttribute('data-pm10-equipment-select', result.id)
           for (let i = 0; i < equipmentData.length; i++) {
             if(equipmentData[i].parameter === "PM10") {
@@ -416,20 +449,37 @@ const loadResultTable = () => {
               pm10EquipmentSelect.appendChild(equipment)
             }
           }
-          pm10Tag.appendChild(pm10EquipmentSelect)
+          pm10EquipmentTag.appendChild(pm10EquipmentSelect)
+          pm10Tag.appendChild(pm10EquipmentTag)
           trTag.appendChild(pm10Tag)
 
           let rhTag = document.createElement('td')
+
+          let rhResultTag = document.createElement('div')
+          rhResultTag.classList.add('input-group')
+          let rhResultLabel = document.createElement('label')
+          rhResultLabel.textContent = 'Result'
+          rhResultLabel.setAttribute('data-rh-label', result.id)
+          rhResultLabel.classList.add('input-group-text')
+          rhResultTag.appendChild(rhResultLabel)
 
           let rhResult = document.createElement('input')
           rhResult.setAttribute('disabled','')
           rhResult.setAttribute('type', 'number')
           rhResult.setAttribute('data-rh-result', result.id)
+          rhResult.classList.add('form-control')
           rhResult.value = result.humidity
-          rhTag.appendChild(rhResult)
+          rhResultLabel.appendChild(rhResult)
+          rhTag.appendChild(rhResultTag)
+
+          let rhEquipmentTag = document.createElement('div')
+          rhEquipmentTag.setAttribute('data-rh-equipment-tag', result.id)
+          rhEquipmentTag.classList.add('hide')
+          let rhEquipmentLabelTag = document.createElement('label')
+          rhEquipmentLabelTag.textContent = 'Equipment No.:'
+          rhEquipmentTag.appendChild(rhEquipmentLabelTag)
 
           let rhEquipmentSelect = document.createElement('select')
-          rhEquipmentSelect.classList.add('hide')
           rhEquipmentSelect.setAttribute('data-rh-equipment-select', result.id)
           for (let i = 0; i < equipmentData.length; i++) {
             if(equipmentData[i].parameter === "Humidity") {
@@ -443,7 +493,8 @@ const loadResultTable = () => {
               rhEquipmentSelect.appendChild(equipment)
             }
           }
-          rhTag.appendChild(rhEquipmentSelect)
+          rhEquipmentTag.appendChild(rhEquipmentSelect)
+          rhTag.appendChild(rhEquipmentTag)
           trTag.appendChild(rhTag)
 
           let photoTag = document.createElement('td')
@@ -537,11 +588,14 @@ const loadResultTable = () => {
           document.querySelector(`[data-description="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-sampling-date="${target}"]`).removeAttribute("disabled")
           document.querySelector(`[data-co2-result="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-co2-equipment-select="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-co2-label="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-co2-equipment-tag="${target}"]`).classList.remove("hide")
           document.querySelector(`[data-pm10-result="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-pm10-equipment-select="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-pm10-label="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-pm10-equipment-tag="${target}"]`).classList.remove("hide")
           document.querySelector(`[data-rh-result="${target}"]`).removeAttribute("disabled")
-          document.querySelector(`[data-rh-equipment-select="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-rh-label="${target}"]`).classList.remove("hide")
+          document.querySelector(`[data-rh-equipment-tag="${target}"]`).classList.remove("hide")
           document.querySelector(`[data-result-done="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-result-cancel="${target}"]`).classList.remove('hide')
           document.querySelector(`[data-result-edit="${target}"]`).classList.add('hide')
@@ -560,11 +614,14 @@ const loadResultTable = () => {
           document.querySelector(`[data-description="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-sampling-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-co2-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-co2-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-co2-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-co2-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-pm10-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-pm10-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-pm10-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-pm10-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-rh-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-rh-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-rh-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-rh-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-result-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-result-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-result-edit="${target}"]`).classList.remove('hide')
@@ -577,11 +634,14 @@ const loadResultTable = () => {
           document.querySelector(`[data-description="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-sampling-date="${target}"]`).setAttribute("disabled","")
           document.querySelector(`[data-co2-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-co2-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-co2-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-co2-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-pm10-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-pm10-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-pm10-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-pm10-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-rh-result="${target}"]`).setAttribute("disabled","")
-          document.querySelector(`[data-rh-equipment-select="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-rh-label="${target}"]`).classList.add("hide")
+          document.querySelector(`[data-rh-equipment-tag="${target}"]`).classList.add("hide")
           document.querySelector(`[data-result-done="${target}"]`).classList.add('hide')
           document.querySelector(`[data-result-cancel="${target}"]`).classList.add('hide')
           document.querySelector(`[data-result-edit="${target}"]`).classList.remove('hide')
@@ -602,6 +662,7 @@ const getJobData = async () => {
     loadJobTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 const getClientData = async () => {
@@ -613,6 +674,7 @@ const getClientData = async () => {
     }
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 const getResultData = async (jobId) => {
@@ -623,6 +685,7 @@ const getResultData = async (jobId) => {
     loadResultTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 const getEquipmentData = async () => {
@@ -632,15 +695,20 @@ const getEquipmentData = async () => {
     sessionStorage.setItem('equipmentData',JSON.stringify(equipmentData))
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 // function for job table
 const delFtn = async (e) => {
-  await fetch(`/jobList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-  getJobData()
+  try {
+    await fetch(`/jobList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    getJobData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 const editFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-done')
@@ -652,21 +720,26 @@ const editFtn = async (e) => {
   const endDate = document.querySelector(`[data-end-date="${currentTarget}"]`).value
   const totalPoint = document.querySelector(`[data-total-point="${currentTarget}"]`).value
 
-  await fetch(`/jobList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      client: client,
-      location: location,
-      walkthroughDate: walkthroughDate, 
-      startDate: startDate, 
-      endDate: endDate, 
-      totalPoint: totalPoint
+  try {
+    await fetch(`/jobList${e.target.getAttribute('data-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client: client,
+        location: location,
+        walkthroughDate: walkthroughDate, 
+        startDate: startDate, 
+        endDate: endDate, 
+        totalPoint: totalPoint
+      })
     })
-  })
-  getJobData()
+    getJobData()
+  } catch (err) {
+    console.log(err)
+    return
+  }
 }
 const detailFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-detail')
@@ -687,11 +760,14 @@ const reportFtn = async (e) => {
 
 // function for result table
 const resultDelFtn = async (e) => {
-  await fetch(`/resultTableList${e.target.getAttribute('data-result-delete')}`, {
-    method: 'DELETE'
-  })
-
-  getResultData()
+  try {
+    await fetch(`/resultTableList${e.target.getAttribute('data-result-delete')}`, {
+      method: 'DELETE'
+    })
+    getResultData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 const resultEditFtn = async (e) => {
   const currentTarget = e.target.getAttribute('data-result-done')
@@ -705,25 +781,29 @@ const resultEditFtn = async (e) => {
   const pm10Equipment = document.querySelector(`[data-pm10-equipment-select="${currentTarget}"]`).value
   const rhResult = document.querySelector(`[data-rh-result="${currentTarget}"]`).value
   const rhEquipment = document.querySelector(`[data-rh-equipment-select="${currentTarget}"]`).value
-
-  await fetch(`/resultTableList${e.target.getAttribute('data-result-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      pointNo: pointNo,
-      description: description,
-      samplingDate: samplingDate, 
-      co2Result: co2Result, 
-      co2Equipment: co2Equipment, 
-      pm10Result: pm10Result, 
-      pm10Equipment: pm10Equipment, 
-      rhResult: rhResult, 
-      rhEquipment: rhEquipment
+  try {
+    await fetch(`/resultTableList${e.target.getAttribute('data-result-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        pointNo: pointNo,
+        description: description,
+        samplingDate: samplingDate, 
+        co2Result: co2Result, 
+        co2Equipment: co2Equipment, 
+        pm10Result: pm10Result, 
+        pm10Equipment: pm10Equipment, 
+        rhResult: rhResult, 
+        rhEquipment: rhEquipment
+      })
     })
-  })
-  getJobData()
+    getJobData()
+  } catch (err) {
+    console.log(err)
+  }
+
 }
 const photoReviewFtn = async (e) => {
   try{
@@ -768,16 +848,22 @@ const photoReuploadFtn = async () => {
 // for export report
 const exportWord = async (e) => {
   try {
-    let result = await fetch(`/printReport/word/${targetJobId}`)
-    await result.json()
+    const res = await fetch(`/printReport/word/${targetJobId}`)
+    const result = await res.json()
+    if(result === 'printed') {
+      alert('Report has been printed')
+    }
   } catch (err) {
     console.log(err)
   }
 }
 const exportPDF = async () => {
   try {
-    let result = await fetch(`/printReport/pdf/${targetJobId}`)
-    await result.json()
+    const res = await fetch(`/printReport/pdf/${targetJobId}`)
+    const result = await res.json()
+    if(result === 'printed') {
+      alert('Report has been printed')
+    }
   } catch (err) {
     console.log(err)
   }
@@ -805,23 +891,28 @@ if(path === '/job') {
       let endDate = form.endDate.value === ''?null:form.endDate.value
       let totalPoint = form.totalPoint.value
   
-      const res = await fetch('/jobList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          client: client,
-          location: location,
-          jobReceiveDate: jobReceiveDate,
-          walkthroughDate: walkthroughDate, 
-          startDate: startDate,
-          endDate: endDate,
-          totalPoint: totalPoint
+      try{
+        const res = await fetch('/jobList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            client: client,
+            location: location,
+            jobReceiveDate: jobReceiveDate,
+            walkthroughDate: walkthroughDate, 
+            startDate: startDate,
+            endDate: endDate,
+            totalPoint: totalPoint
+          })
         })
-      })
-      const result = await res.json()
- 
+        const result = await res.json()
+
+      } catch (err) {
+        console.log('Can not add new job')
+      }
+
       document.querySelector('#client').value = ''
       document.querySelector('#location').value = ''
       document.querySelector('#jobReceiveDate').value = ''
@@ -840,7 +931,12 @@ if(path === '/job') {
     ?.addEventListener('submit', async (event) => {
       event.preventDefault() // To prevent the form from submitting synchronously
       const form = event.target
-      console.log(form.point.value)
+
+      if(form.point.value === '' | form.description.value ==='' | form.samplingDate.value ==='' | form.co2Result.value ==='' | form.co2Equipment.value ==='' | form.pm10Result.value ==='' | form.pm10Equipment.value ==='' | form.rhResult.value ==='' | form.rhEquipment.value ==='') {
+        alert('Please fill all the information')
+        return
+      }
+      console.log('test')
       const formData = new FormData()
       formData.append('jobId', targetJobId)
       formData.append('point', form.point.value)
@@ -855,11 +951,16 @@ if(path === '/job') {
       if (form.photo.files[0] !== undefined) {
         formData.append('photo', form.photo.files[0])
       }
-      const res = await fetch(`/resultTableList/${form.point.value}/${targetJobName}`, {
-        method: 'POST',
-        body: formData
-      })
-      const result = await res.json()
+      try{
+        const res = await fetch(`/resultTableList/${form.point.value}/${targetJobName}`, {
+          method: 'POST',
+          body: formData
+        })
+        const result = await res.json()
+
+      } catch (err) {
+        console.log('Can not add new point')
+      }
  
       document.querySelector('#point').value = ''
       document.querySelector('#description').value = ''

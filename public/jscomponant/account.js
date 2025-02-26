@@ -141,23 +141,27 @@ const loadAccountTable = () => {
         upgrade.addEventListener('click', async (e) => {
           const targetId = e.target.getAttribute('data-upgrade')
   
-          const res = await fetch(`/accountList${targetId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              upGrade:true,
-              is_admin:true
+          try {
+            const res = await fetch(`/accountList${targetId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                upGrade:true,
+                is_admin:true
+              })
             })
-          })
-          await res.json()
-      
-          document.querySelector('#id_change_pw').textContent = ''
-          document.querySelector('#newPassword').value = ''
-          document.querySelector('#cfmNewPassword').value = ''
-      
-          getAccountData()
+            await res.json()
+        
+            document.querySelector('#id_change_pw').textContent = ''
+            document.querySelector('#newPassword').value = ''
+            document.querySelector('#cfmNewPassword').value = ''
+        
+            getAccountData()
+          } catch (err) {
+            console.log(err)
+          }
         })
       })
       document.querySelectorAll('[data-edit]')?.forEach(edit => {
@@ -210,14 +214,19 @@ const getAccountData = async () => {
     loadAccountTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 const delFtn = async (e) => {
-  await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-  getAccountData()
+  try {
+    await fetch(`/accountList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    getAccountData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const editFtn = async (e) => {
@@ -226,18 +235,22 @@ const editFtn = async (e) => {
   const username = document.querySelector(`[data-username="${currentTarget}"]`).value
   const email = document.querySelector(`[data-email="${currentTarget}"]`).value
 
-  await fetch(`/accountList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id:currentTarget,
-      username: username,
-      email: email
+  try {
+    await fetch(`/accountList${e.target.getAttribute('data-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:currentTarget,
+        username: username,
+        email: email
+      })
     })
-  })
-  getAccountData()
+    getAccountData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 let path = window.location.pathname
@@ -322,26 +335,30 @@ if(path === '/account') {
       let rUserName = form.rUserName.value
       let email = form.email.value
       let rPassWord = form.rPassWord.value
-  
-      const res = await fetch('/accountList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: rUserName,
-          email:email,
-          password: rPassWord
+      try {
+        const res = await fetch('/accountList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: rUserName,
+            email:email,
+            password: rPassWord
+          })
         })
-      })
-      const result = await res.json()
-  
-      alert(result)
-      document.querySelector('#rUserName').value = ''
-      document.querySelector('#rPassWord').value = ''
-      document.querySelector('#cfmRPassWord').value = ''
-  
-      getAccountData()
+        const result = await res.json()
+    
+        alert(result)
+        document.querySelector('#rUserName').value = ''
+        document.querySelector('#rPassWord').value = ''
+        document.querySelector('#cfmRPassWord').value = ''
+    
+        getAccountData()
+      } catch (err) {
+        console.log(err)
+        alert('Please try again.')
+      }
     })
   
   // for change password
@@ -352,23 +369,28 @@ if(path === '/account') {
       const form = event.target
       
       let newPassWord = form.newPassword.value
-      const res = await fetch(`/accountList${form.id_change_pw.value}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          changePW: true,
-          password: newPassWord
+      try {
+        const res = await fetch(`/accountList${form.id_change_pw.value}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            changePW: true,
+            password: newPassWord
+          })
         })
-      })
-      const result = await res.json()
-  
-      alert(result)
-  
-      document.querySelector('#id_change_pw').value = ''
-      document.querySelector('#newPassword').value = ''
-      document.querySelector('#cfmNewPassword').value = ''
+        const result = await res.json()
+    
+        alert(result)
+    
+        document.querySelector('#id_change_pw').value = ''
+        document.querySelector('#newPassword').value = ''
+        document.querySelector('#cfmNewPassword').value = ''
+      } catch (err) {
+        console.log(err)
+        alert('Please try again.')
+      }
     })
   
   document.querySelector('#rpw_visibility')?.addEventListener('click',() => {

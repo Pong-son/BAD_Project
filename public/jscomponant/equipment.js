@@ -246,12 +246,16 @@ const getParameterData = async () => {
 }
 
 const delFtn = async (e) => {
-  const res = await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-  const result = await res.json()
-  alert(result)
-  getEquipmentData()
+  try {
+    const res = await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    const result = await res.json()
+    alert(result)
+    getEquipmentData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const editFtn = async (e) => {
@@ -268,51 +272,55 @@ const editFtn = async (e) => {
     return Number(item.id) === Number(currentTarget)
   })
 
-  if(filterData.length !== 0){
-    let calDate = new Date(filterData[0].calibration_date).getDate()
-    calDate < 10? calDate = '0'+calDate:calDate
-    let calMonth = new Date(filterData[0].calibration_date).getMonth()+1
-    calMonth < 10? calMonth = '0'+calMonth:calMonth
-    let calYear = new Date(filterData[0].calibration_date).getFullYear()
-    let oldCalDateData = `${calYear}-${calMonth}-${calDate}`
-
-    let exp_date = new Date(filterData[0].expiry_date).getDate()
-    exp_date < 10? exp_date = '0'+exp_date:exp_date
-    let expMonth = new Date(filterData[0].expiry_date).getMonth()+1
-    expMonth < 10? expMonth = '0'+expMonth:expMonth
-    let expYear = new Date(filterData[0].expiry_date).getFullYear()
-    let oldExpiryDateData = `${expYear}-${expMonth}-${exp_date}`
-    if(oldCalDateData !== calibrationDate) {
-      console.log('change')
-      await fetch('/historyList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id: filterData[0].id, 
-          calibrationDate: oldCalDateData,
-          expiryDate: oldExpiryDateData
+  try {
+    if(filterData.length !== 0){
+      let calDate = new Date(filterData[0].calibration_date).getDate()
+      calDate < 10? calDate = '0'+calDate:calDate
+      let calMonth = new Date(filterData[0].calibration_date).getMonth()+1
+      calMonth < 10? calMonth = '0'+calMonth:calMonth
+      let calYear = new Date(filterData[0].calibration_date).getFullYear()
+      let oldCalDateData = `${calYear}-${calMonth}-${calDate}`
+  
+      let exp_date = new Date(filterData[0].expiry_date).getDate()
+      exp_date < 10? exp_date = '0'+exp_date:exp_date
+      let expMonth = new Date(filterData[0].expiry_date).getMonth()+1
+      expMonth < 10? expMonth = '0'+expMonth:expMonth
+      let expYear = new Date(filterData[0].expiry_date).getFullYear()
+      let oldExpiryDateData = `${expYear}-${expMonth}-${exp_date}`
+      if(oldCalDateData !== calibrationDate) {
+        console.log('change')
+        await fetch('/historyList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: filterData[0].id, 
+            calibrationDate: oldCalDateData,
+            expiryDate: oldExpiryDateData
+          })
         })
-      })
+      }
     }
+    await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:currentTarget,
+        name: name,
+        brand: brand,
+        model: model, 
+        parameter: parameter, 
+        calibrationDate: calibrationDate
+      })
+    })
+    getEquipmentData()
+  } catch (err) {
+    console.log(err)
   }
 
-  await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id:currentTarget,
-      name: name,
-      brand: brand,
-      model: model, 
-      parameter: parameter, 
-      calibrationDate: calibrationDate
-    })
-  })
-  getEquipmentData()
 }
 
 let path = window.location.pathname
@@ -340,30 +348,35 @@ if(path === '/equipment') {
       let parameter = form.parameter.value
       let calibrationDate = form.calibrationDate.value
   
-      const res = await fetch('/equipmentList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name,
-          brand: brand,
-          model: model, 
-          parameter: parameter, 
-          calibrationDate: calibrationDate
+      try {
+        const res = await fetch('/equipmentList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            brand: brand,
+            model: model, 
+            parameter: parameter, 
+            calibrationDate: calibrationDate
+          })
         })
-      })
-      const result = await res.json()
-  
-      alert(result)
-      document.querySelector('#name').value = ''
-      document.querySelector('#brand').value = ''
-      document.querySelector('#model').value = ''
-      document.querySelector('#parameter').value = ''
-      document.querySelector('#calibrationDate').value = ''
-  
-      getEquipmentData()
-      loadEquipmentTable()
+        const result = await res.json()
+    
+        alert(result)
+        document.querySelector('#name').value = ''
+        document.querySelector('#brand').value = ''
+        document.querySelector('#model').value = ''
+        document.querySelector('#parameter').value = ''
+        document.querySelector('#calibrationDate').value = ''
+    
+        getEquipmentData()
+        loadEquipmentTable()
+      } catch (err) {
+        console.log(err)
+        alert('Please try again')
+      }
     })
   
   document.querySelectorAll('[data-th]')?.forEach(sort => {

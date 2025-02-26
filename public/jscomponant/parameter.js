@@ -154,16 +154,21 @@ const getParameterData = async () => {
     loadParameterTable()
   } catch (err) {
     console.log(err)
+    alert('Please refresh page')
   }
 }
 
 const delFtn = async (e) => {
-  const res = await fetch(`/parameterList${e.target.getAttribute('data-delete')}`, {
-    method: 'DELETE'
-  })
-  const result = await res.json()
-  alert(result)
-  getParameterData()
+  try {
+    const res = await fetch(`/parameterList${e.target.getAttribute('data-delete')}`, {
+      method: 'DELETE'
+    })
+    const result = await res.json()
+    alert(result)
+    getParameterData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const editFtn = async (e) => {
@@ -171,19 +176,22 @@ const editFtn = async (e) => {
   
   const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
   const calibrationPeriod = document.querySelector(`[data-calibration-period="${currentTarget}"]`).value
-
-  await fetch(`/parameterList${e.target.getAttribute('data-done')}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id:currentTarget,
-      parameter: parameter,
-      calibrationPeriod: calibrationPeriod
+  try {
+    await fetch(`/parameterList${e.target.getAttribute('data-done')}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:currentTarget,
+        parameter: parameter,
+        calibrationPeriod: calibrationPeriod
+      })
     })
-  })
-  getParameterData()
+    getParameterData()
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 let path = window.location.pathname
@@ -219,24 +227,28 @@ if(path === '/parameter') {
       const form = event.target
       let parameter = form.parameter.value
       let calibrationPeriod = form.calibrationPeriod.value
-  
-      const res = await fetch('/parameterList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          parameter: parameter,
-          calibrationPeriod:calibrationPeriod
+      try {
+        const res = await fetch('/parameterList', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            parameter: parameter,
+            calibrationPeriod:calibrationPeriod
+          })
         })
-      })
-      const result = await res.json()
-  
-      alert(result)
-      document.querySelector('#parameter').value = ''
-      document.querySelector('#calibrationPeriod').value = ''
-  
-      getParameterData()
+        const result = await res.json()
+    
+        alert(result)
+        document.querySelector('#parameter').value = ''
+        document.querySelector('#calibrationPeriod').value = ''
+    
+        getParameterData()
+      } catch (err) {
+        console.log(err)
+        alert('Please try again')
+      }
     })
   
   document.querySelectorAll('[data-th]')?.forEach(sort => {
