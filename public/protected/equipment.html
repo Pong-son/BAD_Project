@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <!-- form for create new user -->
+      <!-- form for create new equipment -->
       <div class="modal fade" tabindex="-1" id="equipmentModal" aria-labelledby="equipmentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -40,7 +40,7 @@
             <div class="modal-body">
               <form id="addEquipmentFrom">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="name">Equipment Name</label>
+                  <label class="input-group-text" for="name">* Equipment Name</label>
                   <input type="text" class="form-control" id="name" data_form="name">
                 </div>
                 <div class="input-group mb-3">
@@ -52,13 +52,14 @@
                   <input type="text" class="form-control" id="model" data_form="model">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="parameter">Parameter</label>
+                  <label class="input-group-text" for="parameter">* Parameter</label>
                   <select class="form-control" id="parameter" data_form="parameter"></select>
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="calibrationDate">Calibration Date</label>
                   <input type="date" class="form-control" id="calibrationDate" data_form="calibrationDate">
                 </div>
+                <div>*: Required Field</div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                 <button type="reset" id="reset_btn" class="btn btn-primary">Reset</button>

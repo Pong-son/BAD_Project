@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <!-- form for create new user -->
+      <!-- form for create new parameter -->
       <div class="modal fade" tabindex="-1" id="parameterModal" aria-labelledby="parameterModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -40,13 +40,14 @@
             <div class="modal-body">
               <form id="addParameterFrom">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="parameter">Parameter</label>
+                  <label class="input-group-text" for="parameter">* Parameter</label>
                   <input type="text" class="form-control" id="parameter" data_form="parameter">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="calibrationPeriod">Calibration Period</label>
+                  <label class="input-group-text" for="calibrationPeriod">* Calibration Period</label>
                   <input type="text" class="form-control" id="calibrationPeriod" data_form="calibrationPeriod">
                 </div>
+                <div>*: Required Field</div>
                 <br />
                 <div id="warn_notice" class="text-warning-emphasis"></div>
                 <button type="submit" disabled id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>

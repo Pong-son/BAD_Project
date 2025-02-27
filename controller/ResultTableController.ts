@@ -33,7 +33,7 @@ export class ResultTableController {
   addResultTable = async (req: express.Request, res: express.Response) => {
     const { fields, files } = await parseForm(req)
     try {
-      if(files) {
+      if(files.photo) {
         const photo = (files.photo as formidable.File)
         newFileName = await faceDetection(photo.filepath, photo.newFilename, newFileName)
         await this.resultTableService.addResultTable(Number(fields.jobId), fields.point, fields.description, fields.samplingDate, Number(fields.co2Result), fields.co2Equipment, Number(fields.pm10Result), fields.pm10Equipment, Number(fields.rhResult), fields.rhEquipment, photo.newFilename, newFileName)

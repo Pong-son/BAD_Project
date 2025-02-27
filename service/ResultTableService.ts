@@ -30,11 +30,11 @@ export class ResultTableService {
       description: description,
       sampling_date: samplingDate,
       carbon_dioxide: co2Result,
-      co2_equipment_id: co2Equipment,
+      co2_equipment_id: this.knex('equipment').select('id').where('name', co2Equipment),
       pm10: pm10Result,
-      pm10_equipment_id: pm10Equipment,
+      pm10_equipment_id: this.knex('equipment').select('id').where('name', pm10Equipment),
       humidity: rhResult,
-      rh_equipment_id: rhEquipment
+      rh_equipment_id: this.knex('equipment').select('id').where('name', rhEquipment),
     }).where('id',id);
   }
 

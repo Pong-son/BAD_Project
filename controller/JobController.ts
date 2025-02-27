@@ -36,16 +36,8 @@ export class JobController {
   
   updateJob = async (req: express.Request, res: express.Response) => {
     try {
-      if (req.body.er){
-
-        res.json('Changed')
-      } else if (req.body.up) {
- 
-        res.json('Upgraded')
-      } else {
-        await this.jobService.updateJob(Number(req.params.id),req.body.client, req.body.location, req.body.walkthroughDate, req.body.startDate, req.body.endDate, req.body.totalPoint)
-        res.json('Edited')
-      }
+      await this.jobService.updateJob(Number(req.params.id),req.body.client, req.body.location, req.body.walkthroughDate, req.body.startDate, req.body.endDate, req.body.totalPoint)
+      res.json('Edited')
     } catch (err) {
       console.log(err)
     }

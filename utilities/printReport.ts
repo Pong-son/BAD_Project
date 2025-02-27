@@ -42,8 +42,26 @@ export const exportPDF = (data:any[]) => {
   let endDateData = `${endYear}-${endMonth}-${endDate}`
   pdfDoc.text(`Sampling Period: ${startDateData} - ${endDateData}`, 10, 100);
   pdfDoc.text(`Total Sampling Point: ${data[0].no_of_sampling_point}`, 10, 110);
-  pdfDoc.text(`Result Table:`, 10, 120);
-  let heightOfY = 130
+
+  let co2EquipmentList:any = []
+  let pm10EquipmentList:any = []
+  let rhEquipmentList:any = []
+  data.forEach(data => {
+    co2EquipmentList.push(data.co2Equipment)
+    pm10EquipmentList.push(data.pm10Equipment)
+    rhEquipmentList.push(data.rhEquipment)
+  })
+  let newco2EquipmentList = [...new Set(co2EquipmentList)]
+  pdfDoc.text(`CO2 Equipment List: ${newco2EquipmentList}`, 10, 120);
+
+  let newpm10EquipmentList = [...new Set(pm10EquipmentList)]
+  pdfDoc.text(`Pm10 Equipment List: ${newpm10EquipmentList}`, 10, 130);
+
+  let newrhEquipmentList = [...new Set(rhEquipmentList)]
+  pdfDoc.text(`Humidity Equipment List: ${newrhEquipmentList}`, 10, 140);
+
+  pdfDoc.text(`Result Table:`, 10, 150);
+  let heightOfY = 160
   let newHeightOfY:number
   const headers = ['Point No.', 'Description','Sampling Date', 'CO2', 'PM10', 'Humidity']
   let dataBody:any[] = []
@@ -103,6 +121,18 @@ export const exportDocx = (data:any[]) => {
   let endYear = new Date(data[0].sampling_end_date).getFullYear()
   let endDateData = `${endYear}-${endMonth}-${endDate}`
 
+  let co2EquipmentList:any = []
+  let pm10EquipmentList:any = []
+  let rhEquipmentList:any = []
+  data.forEach(data => {
+    co2EquipmentList.push(data.co2Equipment)
+    pm10EquipmentList.push(data.pm10Equipment)
+    rhEquipmentList.push(data.rhEquipment)
+  })
+  let newco2EquipmentList = [...new Set(co2EquipmentList)]
+  let newpm10EquipmentList = [...new Set(pm10EquipmentList)]
+  let newrhEquipmentList = [...new Set(rhEquipmentList)]
+
   const headers = ['Point No.', 'Description','Sampling Date', 'CO2', 'PM10', 'Humidity']
   const headerRow = new TableRow({
       children: headers.map((cellText:any) => {
@@ -138,7 +168,7 @@ export const exportDocx = (data:any[]) => {
 
     body.push([data.point_no, data.description, samplingDateData, data.carbon_dioxide.toString(), data.pm10.toString(), data.humidity.toString()])
   })
-  
+
   const dataRows = body.map((row) => {
     return new TableRow({
       children: row.map((cellText:any) => {
@@ -241,7 +271,13 @@ const photoTableRows = new Table({rows:[...photoRows]});
                   text:`Total Sampling Point: ${data[0].no_of_sampling_point}`
                 }), 
                 new Paragraph({
-                  text:`Result Table:`
+                  text:`CO2 Equipment List: ${newco2EquipmentList}`
+                }), 
+                new Paragraph({
+                  text:`PM10 Equipment List: ${newpm10EquipmentList}`
+                }), 
+                new Paragraph({
+                  text:`Humidity Equipment List: ${newrhEquipmentList}`
                 }), 
                 new Paragraph({text:'Result Table'}),
                 tableRows,

@@ -22,4 +22,16 @@ export class ReportController {
       res.json([])
     }
   }
+
+  getReportData = async (req: express.Request, res: express.Response) => {
+    try {
+      let reportList:any = []
+      reportList = await this.reportService.getReport(Number(req.params.jobId))
+
+      res.json(reportList)
+    } catch (err) {
+      console.log(err)
+      res.json([])
+    }
+  }
 }

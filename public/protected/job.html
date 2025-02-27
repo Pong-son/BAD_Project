@@ -40,15 +40,15 @@
             <div class="modal-body">
               <form id="addJobFrom">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="client">Client</label>
+                  <label class="input-group-text" for="client">* Client</label>
                   <select class="form-control" id="client" data_form="client"></select>
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="location">Location</label>
+                  <label class="input-group-text" for="location">* Location</label>
                   <input type="text" class="form-control" id="location" data_form="location">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="jobReceiveDate">Job Receive Date</label>
+                  <label class="input-group-text" for="jobReceiveDate">* Job Receive Date</label>
                   <input type="date" class="form-control" id="jobReceiveDate" data_form="jobReceiveDate">
                 </div>
                 <div class="input-group mb-3">
@@ -67,6 +67,7 @@
                   <label class="input-group-text" for="totalPoint">Total Point</label>
                   <input type="number" class="form-control" id="totalPoint" data_form="totalPoint"></input>
                 </div>
+                <div>*: Required Field</div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                 <button type="reset" id="reset_btn" class="btn btn-primary">Reset</button>
@@ -89,45 +90,46 @@
             <div class="modal-body">
               <form id="addPointFrom" enctype="multipart/form-data">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="point">Point</label>
+                  <label class="input-group-text" for="point">* Point</label>
                   <input type="text" class="form-control" id="point" data_form="point"></input>
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="description">Description</label>
+                  <label class="input-group-text" for="description">* Description</label>
                   <input type="text" class="form-control" id="description" data_form="description">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="samplingDate">Sampling Date</label>
+                  <label class="input-group-text" for="samplingDate">* Sampling Date</label>
                   <input type="date" class="form-control" id="samplingDate" data_form="samplingDate">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="co2Result">CO2 (in ppm)</label>
+                  <label class="input-group-text" for="co2Result">* CO2 (in ppm)</label>
                   <input type="number" class="form-control" id="co2Result" data_form="co2Result">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="co2Equipment">CO2 Equipment No.</label>
+                  <label class="input-group-text" for="co2Equipment">* CO2 Equipment No.</label>
                   <select class="form-control" id="co2Equipment" data_form="co2Equipment"></select>
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="pm10Result">PM10 (in ug/m3)</label>
+                  <label class="input-group-text" for="pm10Result">* PM10 (in ug/m3)</label>
                   <input type="number" class="form-control" id="pm10Result" data_form="pm10Result">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="pm10Equipment">PM10 Equipment No.</label>
+                  <label class="input-group-text" for="pm10Equipment">* PM10 Equipment No.</label>
                   <select class="form-control" id="pm10Equipment" data_form="pm10Equipment"></select>
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="rhResult">Humidity (in %)</label>
+                  <label class="input-group-text" for="rhResult">* Humidity (in %)</label>
                   <input type="number" class="form-control" id="rhResult" step="0.1" data_form="rhResult">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="rhEquipment">Humidity Equipment No.</label>
+                  <label class="input-group-text" for="rhEquipment">* Humidity Equipment No.</label>
                   <select class="form-control" id="rhEquipment" data_form="rhEquipment"></select>
                 </div>
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="photo">Photo</label>
                   <input type="file" class="form-control" id="photo" data_form="photo">
                 </div>
+                <div>*: Required Field</div>
                 <br />
                 <button type="submit" id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                 <button type="reset" id="reset_btn" class="btn btn-primary">Reset</button>
@@ -140,6 +142,7 @@
           </div>
         </div>
       </div>
+      <!-- for preview treated photo -->
       <div class="modal fade" tabindex="-1" id="photoModal" aria-labelledby="photoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
@@ -158,6 +161,7 @@
           </div>
         </div>
       </div>
+      <!-- preview report info -->
       <div class="modal fade" tabindex="-1" id="reportModal" aria-labelledby="reportModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
@@ -174,11 +178,16 @@
                 </div>
                 <div>
                   <div>Client Info:</div>
-                  <div id="reportClientInfo"></div>
+                  <div id="reportClientInfo">
+                    <div>Client Address: <span id="reportClientAddress"></span></div>
+                    <div>ContactName: <span id="reportClientContactName"></span></div>
+                    <div>Phone No. <span id="reportClientPhoneNo"></span></div>
+                    <div>E-mail: <span id="reportClientEmail"></span></div>
+                  </div>
                 </div>
                 <div>
                   <span>Sampling Location:</span>
-                  <span id="reportlocation"></span>
+                  <span id="reportLocation"></span>
                 </div>
                 <div>
                   <span>Walkthrough Date:</span>
@@ -193,8 +202,16 @@
                   <span id="reportTotalPoint"></span>
                 </div>
                 <div>
+                  <span>Equipment List:</span>
+                  <span>
+                    <div>CO2 List: <span id="co2EquipmentList"></span></div>
+                    <div>PM10 List: <span id="pm10EquipmentList"></span></div>
+                    <div>Humidity List: <span id="rhEquipmentList"></span></div>
+                  </span>
+                </div>
+                <div>
                   <div>Result Table:</div>
-                  <div id="resultResultTablr">Result Table:</div>
+                  <div id="resultResultTable"></div>
                 </div>
                 <div>
                   <div>Photo:</div>
@@ -205,6 +222,7 @@
                   <span id="reportIssueDate"></span>
                 </div>
               </div>
+              <hr>
               <div>
                 <button id="exportWord">Export Word</button>
                 <button id="exportPDF">Export PDF</button>

@@ -76,6 +76,7 @@ const checkLogin = async (login) => {
 			})
 		}
 	} else {
+		window.sessionStorage.clear()
 		document.querySelector('#loginBtn').textContent = "Login"
 		document.querySelector('#loginBtn').setAttribute('data-bs-toggle',"modal")
 		if (window.location.pathname === '/') {

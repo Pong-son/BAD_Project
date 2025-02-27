@@ -4,7 +4,7 @@ export class ParameterService {
   constructor(private knex: Knex){}
 
   async getParameter() {
-    return await this.knex.select('id','parameter','calibration_period').from("parameter");
+    return await this.knex.select('id','parameter','calibration_period').from("parameter").orderBy('id', 'asc');
   }
 
   async addParameter(parameter:string, calibrationPeriod:string) {

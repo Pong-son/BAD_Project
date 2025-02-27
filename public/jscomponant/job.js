@@ -89,12 +89,17 @@ const loadJobTable = () => {
           locationTag.appendChild(location)
           trTag.appendChild(locationTag)
 
-          let wtDate = new Date(job.walkthrough_date).getDate()
-          wtDate < 10? wtDate = '0'+wtDate:wtDate
-          let wtMonth = new Date(job.walkthrough_date).getMonth()+1
-          wtMonth < 10? wtMonth = '0'+wtMonth:wtMonth
-          let wtYear = new Date(job.walkthrough_date).getFullYear()
-          let wtDateData = `${wtYear}-${wtMonth}-${wtDate}`
+          let wtDateData
+          if(job.walkthrough_date) {
+            let wtDate = new Date(job.walkthrough_date).getDate()
+            wtDate < 10? wtDate = '0'+wtDate:wtDate
+            let wtMonth = new Date(job.walkthrough_date).getMonth()+1
+            wtMonth < 10? wtMonth = '0'+wtMonth:wtMonth
+            let wtYear = new Date(job.walkthrough_date).getFullYear()
+            wtDateData = `${wtYear}-${wtMonth}-${wtDate}`
+          } else {
+            wtDateData = ''
+          }
   
           let walkthroughDateTag = document.createElement('td')
           let walkthroughDate = document.createElement('input')
@@ -106,13 +111,17 @@ const loadJobTable = () => {
           trTag.appendChild(walkthroughDateTag)
           
           let samplingPeriodTag = document.createElement('td')
-
-          let startDate = new Date(job.sampling_start_date).getDate()
-          startDate < 10? startDate = '0'+startDate:startDate
-          let startMonth = new Date(job.sampling_start_date).getMonth()+1
-          startMonth < 10? startMonth = '0'+startMonth:startMonth
-          let startYear = new Date(job.sampling_start_date).getFullYear()
-          let startDateData = `${startYear}-${startMonth}-${startDate}`
+          let startDateData
+          if (job.sampling_start_date) {
+            let startDate = new Date(job.sampling_start_date).getDate()
+            startDate < 10? startDate = '0'+startDate:startDate
+            let startMonth = new Date(job.sampling_start_date).getMonth()+1
+            startMonth < 10? startMonth = '0'+startMonth:startMonth
+            let startYear = new Date(job.sampling_start_date).getFullYear()
+            startDateData = `${startYear}-${startMonth}-${startDate}`
+          } else {
+            startDateData = ''
+          }
 
           let startDateTag = document.createElement('div')
           startDateTag.setAttribute('data-start-date-tag', job.id)
@@ -130,12 +139,18 @@ const loadJobTable = () => {
           startDateLabel.appendChild(start)
           samplingPeriodTag.appendChild(startDateTag)
 
-          let endDate = new Date(job.sampling_end_date).getDate()
-          endDate < 10? endDate = '0'+endDate:endDate
-          let endMonth = new Date(job.sampling_end_date).getMonth()+1
-          endMonth < 10? endMonth = '0'+endMonth:endMonth
-          let endYear = new Date(job.sampling_end_date).getFullYear()
-          let endDateData = `${endYear}-${endMonth}-${endDate}`
+          let endDateData
+          if(job.sampling_end_date) {
+
+            let endDate = new Date(job.sampling_end_date).getDate()
+            endDate < 10? endDate = '0'+endDate:endDate
+            let endMonth = new Date(job.sampling_end_date).getMonth()+1
+            endMonth < 10? endMonth = '0'+endMonth:endMonth
+            let endYear = new Date(job.sampling_end_date).getFullYear()
+            endDateData = `${endYear}-${endMonth}-${endDate}`
+          } else {
+            endDateData = ''
+          }
 
           let endDateTag = document.createElement('div')
           endDateTag.setAttribute('data-end-date-tag', job.id)
@@ -157,7 +172,7 @@ const loadJobTable = () => {
           samplingPeriod.setAttribute('disabled','')
           samplingPeriod.setAttribute('type', 'text')
           samplingPeriod.setAttribute('data-sampling-period', job.id)
-          samplingPeriod.value = `${startDateData} - ${endDateData}`
+          samplingPeriod.value = startDateData ==='' | endDateData === ''?'':`${startDateData} - ${endDateData}`
           samplingPeriodTag.appendChild(samplingPeriod)
           trTag.appendChild(samplingPeriodTag)
 
@@ -715,11 +730,15 @@ const editFtn = async (e) => {
 
   const client = document.querySelector(`[data-client="${currentTarget}"]`).value
   const location = document.querySelector(`[data-location="${currentTarget}"]`).value
-  const walkthroughDate = document.querySelector(`[data-walkthrough-date="${currentTarget}"]`).value
-  const startDate = document.querySelector(`[data-start-date="${currentTarget}"]`).value
-  const endDate = document.querySelector(`[data-end-date="${currentTarget}"]`).value
-  const totalPoint = document.querySelector(`[data-total-point="${currentTarget}"]`).value
+  let walkthroughDate = document.querySelector(`[data-walkthrough-date="${currentTarget}"]`).value
+  let startDate = document.querySelector(`[data-start-date="${currentTarget}"]`).value
+  let endDate = document.querySelector(`[data-end-date="${currentTarget}"]`).value
+  let totalPoint = document.querySelector(`[data-total-point="${currentTarget}"]`).value
 
+  walkthroughDate === ''?walkthroughDate = null: walkthroughDate
+  startDate === ''? startDate = null: startDate
+  endDate === ''? endDate = null: endDate
+  totalPoint === ''? totalPoint = 0: totalPoint
   try {
     await fetch(`/jobList${e.target.getAttribute('data-done')}`, {
       method: 'PUT',
@@ -747,7 +766,6 @@ const detailFtn = (e) => {
   document.querySelector('#resultTableModalLabel').textContent = location
   targetJobId = currentTarget
   targetJobName = location
-  console.log(targetJobName)
   getResultData(targetJobId)
   loadResultTable()
 }
@@ -756,6 +774,165 @@ const reportFtn = async (e) => {
   const location = document.querySelector(`[data-location="${currentTarget}"]`).value
   document.querySelector('#reportModalLabel').textContent = `Report Review (For ${location} [Job Id: ${currentTarget}]`
   targetJobId = currentTarget
+  const res = await fetch(`/reviewReport${targetJobId}`)
+  const data = await res.json()
+  console.log(data)
+  if(data.length !== 0) {
+    document.querySelector('#reportClient').textContent = data[0].company_name
+    document.querySelector('#reportClientAddress').textContent = data[0].address
+    document.querySelector('#reportClientContactName').textContent = data[0].contact
+    document.querySelector('#reportClientPhoneNo').textContent = data[0].phone_no
+    document.querySelector('#reportClientEmail').textContent = data[0].email
+    document.querySelector('#reportLocation').textContent = data[0].location
+
+    let wtDate = new Date(data[0].walkthrough_date).getDate()
+    wtDate < 10? wtDate = 0+wtDate:wtDate
+    let wtMonth = new Date(data[0].walkthrough_date).getMonth()+1
+    wtMonth < 10? wtMonth = 0+wtMonth:wtMonth
+    let wtYear = new Date(data[0].walkthrough_date).getFullYear()
+    let wtDateData = `${wtYear}-${wtMonth}-${wtDate}`
+    document.querySelector('#reportWTDate').textContent = wtDateData
+
+    let startDate = new Date(data[0].sampling_start_date).getDate()
+    startDate < 10? startDate = 0+startDate:startDate
+    let startMonth = new Date(data[0].sampling_start_date).getMonth()+1
+    startMonth < 10? startMonth = 0+startMonth:startMonth
+    let startYear = new Date(data[0].sampling_start_date).getFullYear()
+    let startDateData = `${startYear}-${startMonth}-${startDate}`
+
+    let endDate = new Date(data[0].sampling_end_date).getDate()
+    endDate < 10? endDate = 0+endDate:endDate
+    let endMonth = new Date(data[0].sampling_end_date).getMonth()+1
+    endMonth < 10? endMonth = 0+endMonth:endMonth
+    let endYear = new Date(data[0].sampling_end_date).getFullYear()
+    let endDateData = `${endYear}-${endMonth}-${endDate}`
+    document.querySelector('#reportSamplingPeriod').textContent = `${startDateData} - ${endDateData}`
+    
+    document.querySelector('#reportTotalPoint').textContent = data[0].no_of_sampling_point
+    
+    let co2EquipmentListTag = document.querySelector('#co2EquipmentList')
+    let pm10EquipmentListTag = document.querySelector('#pm10EquipmentList')
+    let rhEquipmentListTag = document.querySelector('#rhEquipmentList')
+
+    let co2EquipmentList = []
+    let pm10EquipmentList = []
+    let rhEquipmentList = []
+    data.forEach(data => {
+      co2EquipmentList.push(data.co2Equipment)
+      pm10EquipmentList.push(data.pm10Equipment)
+      rhEquipmentList.push(data.rhEquipment)
+    })
+    let newco2EquipmentList = [...new Set(co2EquipmentList)]
+    newco2EquipmentList.forEach(item=>{
+      co2EquipmentListTag.textContent += item
+    })
+    let newpm10EquipmentList = [...new Set(pm10EquipmentList)]
+    newpm10EquipmentList.forEach(item=>{
+      pm10EquipmentListTag.textContent += item
+    })
+    let newrhEquipmentList = [...new Set(rhEquipmentList)]
+    newrhEquipmentList.forEach(item=>{
+      rhEquipmentListTag.textContent += item
+    })
+
+    let resultTable = document.querySelector('#resultResultTable')
+    let line = document.createElement('hr')
+    resultTable.appendChild(line)
+    data.forEach(data => {
+      let samplingDate = new Date(data.sampling_date).getDate()
+      samplingDate < 10? samplingDate = 0+samplingDate:samplingDate
+      let samplingMonth = new Date(data.sampling_date).getMonth()+1
+      samplingMonth < 10? samplingMonth = 0+samplingMonth:samplingMonth
+      let samplingYear = new Date(data.sampling_date).getFullYear()
+      let samplingDateData = `${samplingYear}-${samplingMonth}-${samplingDate}`
+  
+      let pointTag = document.createElement('div')
+
+      let pointNoTag = document.createElement('div')
+      let pointNoNameTag = document.createElement('span')
+      pointNoNameTag.textContent = 'Pont No.:'
+      let pointNoDataTag = document.createElement('span')
+      pointNoDataTag.textContent = data.point_no
+      pointNoTag.appendChild(pointNoNameTag)
+      pointNoTag.appendChild(pointNoDataTag)
+
+      let descriptionTag = document.createElement('div')
+      let descriptionNameTag = document.createElement('span')
+      descriptionNameTag.textContent = 'Description:'
+      let descriptionDataTag = document.createElement('span')
+      descriptionDataTag.textContent = data.description
+      descriptionTag.appendChild(descriptionNameTag)
+      descriptionTag.appendChild(descriptionDataTag)
+
+      let samplingDateTag = document.createElement('div')
+      let samplingDateNameTag = document.createElement('span')
+      samplingDateNameTag.textContent = 'Sampling Date:'
+      let samplingDateDataTag = document.createElement('span')
+      samplingDateDataTag.textContent = samplingDateData
+      samplingDateTag.appendChild(samplingDateNameTag)
+      samplingDateTag.appendChild(samplingDateDataTag)
+
+      let co2ResultTag = document.createElement('div')
+      let co2ResultNameTag = document.createElement('span')
+      co2ResultNameTag.textContent = 'CO2:'
+      let co2ResultDataTag = document.createElement('span')
+      co2ResultDataTag.textContent = data.carbon_dioxide
+      co2ResultTag.appendChild(co2ResultNameTag)
+      co2ResultTag.appendChild(co2ResultDataTag)
+
+      let pm10ResultTag = document.createElement('div')
+      let pm10ResultNameTag = document.createElement('span')
+      pm10ResultNameTag.textContent = 'PM10:'
+      let pm10ResultDataTag = document.createElement('span')
+      pm10ResultDataTag.textContent = data.pm10
+      pm10ResultTag.appendChild(pm10ResultNameTag)
+      pm10ResultTag.appendChild(pm10ResultDataTag)
+
+      let rhResultTag = document.createElement('div')
+      let rhResultNameTag = document.createElement('span')
+      rhResultNameTag.textContent = 'Humidity:'
+      let rhResultDataTag = document.createElement('span')
+      rhResultDataTag.textContent = data.humidity
+      rhResultTag.appendChild(rhResultNameTag)
+      rhResultTag.appendChild(rhResultDataTag)
+
+      let line = document.createElement('hr')
+      pointTag.appendChild(pointNoTag)
+      pointTag.appendChild(descriptionTag)
+      pointTag.appendChild(samplingDateTag)
+      pointTag.appendChild(co2ResultTag)
+      pointTag.appendChild(pm10ResultTag)
+      pointTag.appendChild(rhResultTag)
+      pointTag.appendChild(line)
+      resultTable.appendChild(pointTag)
+    })
+
+    let resultPhoto = document.querySelector('#reportPhoto')
+    data.forEach(data => {
+      let divTag = document.createElement('div')
+      let photoNameTag = document.createElement('span')
+      photoNameTag.textContent = `Point ${data.point_no}`
+      let photoTag = document.createElement('img')
+      photoTag.setAttribute('src',`../treatedPhoto/${data.processed_photo}`)
+      photoTag.classList.add('reviewPhoto')
+      
+      let line = document.createElement('hr')
+
+      divTag.appendChild(photoNameTag)
+      divTag.appendChild(photoTag)
+      resultPhoto.appendChild(divTag)
+      resultPhoto.appendChild(line)
+    })
+
+    let todayDate = new Date().getDate()
+    todayDate < 10? todayDate = 0+todayDate:todayDate
+    let todayMonth = new Date().getMonth()+1
+    todayMonth < 10? todayMonth = 0+todayMonth:todayMonth
+    let todayYear = new Date().getFullYear()
+    let todayDateData = `${todayYear}-${todayMonth}-${todayDate}`
+    document.querySelector('#reportIssueDate').textContent = todayDateData
+
+  }
 }
 
 // function for result table
@@ -764,7 +941,8 @@ const resultDelFtn = async (e) => {
     await fetch(`/resultTableList${e.target.getAttribute('data-result-delete')}`, {
       method: 'DELETE'
     })
-    getResultData()
+    getResultData(targetJobId)
+    loadResultTable()
   } catch (err) {
     console.log(err)
   }
@@ -828,6 +1006,9 @@ const photoReuploadFtn = async () => {
         const form = event.target
         const formData = new FormData()
 
+        if(form.reuploadPhoto.files[0] === undefined){
+          alert('Please upload a photo')
+        }
         if (form.reuploadPhoto.files[0] !== undefined) {
           formData.append('photo', form.reuploadPhoto.files[0])
           const res = await fetch(`/photoUploadList/${targetPointId}/${targetJobName}`, {
@@ -889,10 +1070,10 @@ if(path === '/job') {
       let client = form.client.value
       let location = form.location.value
       let jobReceiveDate = form.jobReceiveDate.value
-      let walkthroughDate = form.walkthroughDate.value === ''?null:form.walkthroughDate.value
-      let startDate = form.startDate.value === ''?null:form.startDate.value
-      let endDate = form.endDate.value === ''?null:form.endDate.value
-      let totalPoint = form.totalPoint.value
+      let walkthroughDate = form.walkthroughDate.value === ''? null: form.walkthroughDate.value
+      let startDate = form.startDate.value === ''? null: form.startDate.value
+      let endDate = form.endDate.value === ''? null: form.endDate.value
+      let totalPoint = form.totalPoint.value === ''? 0: form.totalPoint.value
   
       try{
         const res = await fetch('/jobList', {
@@ -939,7 +1120,6 @@ if(path === '/job') {
         alert('Please fill all the information')
         return
       }
-      console.log('test')
       const formData = new FormData()
       formData.append('jobId', targetJobId)
       formData.append('point', form.point.value)

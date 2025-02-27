@@ -4,7 +4,7 @@ export class HistoryService {
   constructor(private knex: Knex){}
 
   async getHistory() {
-    return await this.knex('history').join('equipment','history.equipment_id','equipment.id').select('history.id', 'equipment.name', 'history.calibration_date', 'history.expiry_date');
+    return await this.knex('history').join('equipment','history.equipment_id','equipment.id').select('history.id', 'equipment.name', 'history.calibration_date', 'history.expiry_date').orderBy('history.id', 'asc');
   }
 
   async addHistory(id:number, calibrationDate:Date, expiryDate: Date) {

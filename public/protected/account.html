@@ -40,27 +40,28 @@
             <div class="modal-body">
               <form id="regisForm">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="rUserName">User Name</label>
+                  <label class="input-group-text" for="rUserName">* User Name</label>
                   <input type="text" class="form-control" id="rUserName" data_form="rUserName">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="email">E-mail</label>
+                  <label class="input-group-text" for="email">* E-mail</label>
                   <input type="text" class="form-control" id="email" data_form="email">
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="rPassWord">Password</label>
+                  <label class="input-group-text" for="rPassWord">* Password</label>
                   <input type="password" class="form-control" id="rPassWord" data_form="rPassWord">
                   <span class="input-group-text material-symbols-outlined" id="rpw_visibility">
                     visibility
                   </span>
                 </div>
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="cfmRPassWord">Confirm Password</label>
+                  <label class="input-group-text" for="cfmRPassWord">* Confirm Password</label>
                   <input type="password" class="form-control" id="cfmRPassWord">
                   <span class="input-group-text material-symbols-outlined" id="cfmRpw_visibility">
                     visibility
                   </span>
                 </div>
+                <div>*: Required Field</div>
                 <br />
                 <div id="warn_notice" class="text-warning-emphasis"></div>
                 <button type="submit" disabled id="submit_btn" class="btn btn-primary" data-bs-dismiss="modal">Register</button>

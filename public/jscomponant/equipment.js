@@ -103,12 +103,17 @@ const loadEquipmentTable = () => {
           parameterTag.appendChild(parameterSelect)
           trTag.appendChild(parameterTag)
 
-          let calDate = new Date(equipment.calibration_date).getDate()
-          calDate < 10? calDate = '0'+calDate:calDate
-          let calMonth = new Date(equipment.calibration_date).getMonth()+1
-          calMonth < 10? calMonth = '0'+calMonth:calMonth
-          let calYear = new Date(equipment.calibration_date).getFullYear()
-          let calDateData = `${calYear}-${calMonth}-${calDate}`
+          let calDateData
+          if(equipment.calibration_date){
+            let calDate = new Date(equipment.calibration_date).getDate()
+            calDate < 10? calDate = '0'+calDate:calDate
+            let calMonth = new Date(equipment.calibration_date).getMonth()+1
+            calMonth < 10? calMonth = '0'+calMonth:calMonth
+            let calYear = new Date(equipment.calibration_date).getFullYear()
+            calDateData = `${calYear}-${calMonth}-${calDate}`
+          } else {
+            calDateData = ''
+          }
   
           let calibrationDateTag = document.createElement('td')
           let calibrationDate = document.createElement('input')
@@ -119,12 +124,17 @@ const loadEquipmentTable = () => {
           calibrationDateTag.appendChild(calibrationDate)
           trTag.appendChild(calibrationDateTag)
 
-          let exp_date = new Date(equipment.expiry_date).getDate()
-          exp_date < 10? exp_date = '0'+exp_date:exp_date
-          let expMonth = new Date(equipment.expiry_date).getMonth()+1
-          expMonth < 10? expMonth = '0'+expMonth:expMonth
-          let expYear = new Date(equipment.expiry_date).getFullYear()
-          let expiryDateData = `${expYear}-${expMonth}-${exp_date}`
+          let expiryDateData
+          if(equipment.expiry_date){
+            let exp_date = new Date(equipment.expiry_date).getDate()
+            exp_date < 10? exp_date = '0'+exp_date:exp_date
+            let expMonth = new Date(equipment.expiry_date).getMonth()+1
+            expMonth < 10? expMonth = '0'+expMonth:expMonth
+            let expYear = new Date(equipment.expiry_date).getFullYear()
+            expiryDateData = `${expYear}-${expMonth}-${exp_date}`
+          } else {
+            expiryDateData = ''
+          }
 
           let expiryDateTag = document.createElement('td')
           let expiryDate = document.createElement('input')
@@ -221,7 +231,6 @@ const loadEquipmentTable = () => {
     console.log(err)
   }
 }
-
 const getEquipmentData = async () => {
   try {
     let data = await fetch('/equipmentList')
@@ -232,7 +241,6 @@ const getEquipmentData = async () => {
     console.log(err)
   }
 }
-
 const getParameterData = async () => {
   try {
     if(!JSON.parse(sessionStorage.getItem('parameterData'))) {
@@ -244,7 +252,6 @@ const getParameterData = async () => {
     console.log(err)
   }
 }
-
 const delFtn = async (e) => {
   try {
     const res = await fetch(`/equipmentList${e.target.getAttribute('data-delete')}`, {
@@ -265,43 +272,47 @@ const editFtn = async (e) => {
   const brand = document.querySelector(`[data-brand="${currentTarget}"]`).value
   const model = document.querySelector(`[data-model="${currentTarget}"]`).value
   const parameter = document.querySelector(`[data-parameter="${currentTarget}"]`).value
-  const calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
-
+  let calibrationDate = document.querySelector(`[data-calibration-date="${currentTarget}"]`).value
+  console.log(calibrationDate)
   let data = JSON.parse(sessionStorage.getItem('equipmentData'))
   let filterData = data.filter(item => {
     return Number(item.id) === Number(currentTarget)
   })
-
   try {
-    if(filterData.length !== 0){
-      let calDate = new Date(filterData[0].calibration_date).getDate()
-      calDate < 10? calDate = '0'+calDate:calDate
-      let calMonth = new Date(filterData[0].calibration_date).getMonth()+1
-      calMonth < 10? calMonth = '0'+calMonth:calMonth
-      let calYear = new Date(filterData[0].calibration_date).getFullYear()
-      let oldCalDateData = `${calYear}-${calMonth}-${calDate}`
-  
-      let exp_date = new Date(filterData[0].expiry_date).getDate()
-      exp_date < 10? exp_date = '0'+exp_date:exp_date
-      let expMonth = new Date(filterData[0].expiry_date).getMonth()+1
-      expMonth < 10? expMonth = '0'+expMonth:expMonth
-      let expYear = new Date(filterData[0].expiry_date).getFullYear()
-      let oldExpiryDateData = `${expYear}-${expMonth}-${exp_date}`
-      if(oldCalDateData !== calibrationDate) {
-        console.log('change')
-        await fetch('/historyList', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: filterData[0].id, 
-            calibrationDate: oldCalDateData,
-            expiryDate: oldExpiryDateData
+    if(calibrationDate === '') {
+      calibrationDate = null
+    } else {
+      if(filterData.length !== 0){
+        let calDate = new Date(filterData[0].calibration_date).getDate()
+        calDate < 10? calDate = '0'+calDate:calDate
+        let calMonth = new Date(filterData[0].calibration_date).getMonth()+1
+        calMonth < 10? calMonth = '0'+calMonth:calMonth
+        let calYear = new Date(filterData[0].calibration_date).getFullYear()
+        let oldCalDateData = `${calYear}-${calMonth}-${calDate}`
+    
+        let exp_date = new Date(filterData[0].expiry_date).getDate()
+        exp_date < 10? exp_date = '0'+exp_date:exp_date
+        let expMonth = new Date(filterData[0].expiry_date).getMonth()+1
+        expMonth < 10? expMonth = '0'+expMonth:expMonth
+        let expYear = new Date(filterData[0].expiry_date).getFullYear()
+        let oldExpiryDateData = `${expYear}-${expMonth}-${exp_date}`
+        if(oldCalDateData !== calibrationDate) {
+          console.log('change')
+          await fetch('/historyList', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: filterData[0].id, 
+              calibrationDate: oldCalDateData,
+              expiryDate: oldExpiryDateData
+            })
           })
-        })
+        }
       }
     }
+
     await fetch(`/equipmentList${e.target.getAttribute('data-done')}`, {
       method: 'PUT',
       headers: {
@@ -327,26 +338,23 @@ let path = window.location.pathname
 if(path === '/equipment') {
   getEquipmentData()
   getParameterData()
-
-  document.querySelector('#reset_btn').addEventListener('click', () => {
-    document.querySelector('#name').value = ''
-    document.querySelector('#brand').value = ''
-    document.querySelector('#model').value = ''
-    document.querySelector('#parameter').value = ''
-    document.querySelector('#calibrationDate').value = ''
-  })
   
   // add new data
   document
     .querySelector('#addEquipmentFrom')
     ?.addEventListener('submit', async (event) => {
-      event.preventDefault() // To prevent the form from submitting synchronously
+      event.preventDefault()
+
       const form = event.target
+      if(form.name.value === '' | form.parameter.value === '') {
+        alert("Equipment name/Parameter can't be blank")
+        return
+      }
       let name = form.name.value
       let brand = form.brand.value
       let model = form.model.value
       let parameter = form.parameter.value
-      let calibrationDate = form.calibrationDate.value
+      let calibrationDate = form.calibrationDate.value === ''?null:form.calibrationDate.value
   
       try {
         const res = await fetch('/equipmentList', {

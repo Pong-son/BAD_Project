@@ -11,7 +11,7 @@ export class EquipmentService {
       let dateDifference = Math.ceil((itemDate.getTime() - today.getTime())/(1000*60*60*24))
       if(dateDifference > 0 && dateDifference < 30){
         let items = await this.knex.select('title','finish').from('notice_board').where({'title':item.name,'finish':false});
-        if(items) {
+        if(items.length === 0) {
           await this.knex('notice_board').where('title',item.name).del();
           await this.knex.insert({
             title: item.name,
@@ -21,7 +21,7 @@ export class EquipmentService {
         }
       } else if (dateDifference < 0) {
         let items = await this.knex.select('title','finish').from('notice_board').where({'title':item.name,'finish':false});
-        if(items) {
+        if(items.length === 0) {
           await this.knex('notice_board').where('title',item.name).del();
           await this.knex.insert({
             title: item.name,
@@ -31,15 +31,19 @@ export class EquipmentService {
         }
       }
     })
-    return await this.knex('equipment').join('parameter','equipment.parameter_id','parameter.id').select('equipment.id', 'equipment.name', 'equipment.brand', 'equipment.model', 'parameter.parameter', 'equipment.calibration_date', 'equipment.expiry_date');
+    return await this.knex('equipment').join('parameter','equipment.parameter_id','parameter.id').select('equipment.id', 'equipment.name', 'equipment.brand', 'equipment.model', 'parameter.parameter', 'equipment.calibration_date', 'equipment.expiry_date').orderBy('equipment.id', 'asc');
   }
 
-  async addEquipment(name:string, brand:string, model:string, parameter:string, calibrationDate:Date) {
-    let expiryDate = new Date(calibrationDate)
-    let calibrationPeriod = await this.knex('parameter').select('calibration_period').where('parameter',parameter)
-    expiryDate.setMonth(expiryDate.getMonth() +  Number(calibrationPeriod[0].calibration_period))
-    expiryDate.setDate(expiryDate.getDate() - 1)
-    console.log(calibrationDate, expiryDate)
+  async addEquipment(name:string, brand:string, model:string, parameter:string, calibrationDate:Date|null) {
+    let expiryDate:Date|null
+    if(calibrationDate){
+      expiryDate = new Date(calibrationDate)
+      let calibrationPeriod = await this.knex('parameter').select('calibration_period').where('parameter',parameter)
+      expiryDate.setMonth(expiryDate.getMonth() +  Number(calibrationPeriod[0].calibration_period))
+      expiryDate.setDate(expiryDate.getDate() - 1)
+    } else {
+      expiryDate = null
+    }
     return await this.knex.insert({
       name: name,
       brand: brand,
@@ -50,11 +54,17 @@ export class EquipmentService {
     }).into('equipment');
   }
 
-  async updateEquipment(id:number, name:string, brand:string, model:string, parameter:string, calibrationDate:Date) {
-    let expiryDate = new Date(calibrationDate)
-    let calibrationPeriod = await this.knex('parameter').select('calibration_period').where('parameter',parameter)
-    expiryDate.setMonth(expiryDate.getMonth() + Number(calibrationPeriod[0].calibration_period))
-    expiryDate.setDate(expiryDate.getDate() - 1)
+  async updateEquipment(id:number, name:string, brand:string, model:string, parameter:string, calibrationDate:Date|null) {
+    let expiryDate:Date|null
+    if(calibrationDate){
+      expiryDate = new Date(calibrationDate)
+      let calibrationPeriod = await this.knex('parameter').select('calibration_period').where('parameter',parameter)
+      expiryDate.setMonth(expiryDate.getMonth() + Number(calibrationPeriod[0].calibration_period))
+      expiryDate.setDate(expiryDate.getDate() - 1)
+    } else {
+      expiryDate = null
+    }
+   
     return await this.knex('equipment').update({
       name: name,
       brand: brand,
