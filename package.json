@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "test": "jest"
+    "start": "ts-node index.ts"
   },
   "author": "Pong-son <lelouchui127@yahoo.com.hk>",
   "license": "ISC",
